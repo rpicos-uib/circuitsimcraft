@@ -469,5 +469,7 @@ repository" button.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The license permits reuse without attribution; the citation request
-above is a courtesy ask on top of that, not an added legal restriction.
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — see [LICENSE](LICENSE). Unlike a
+permissive software license (MIT, Apache, etc.), CC BY requires attribution as a legal
+condition of reuse, not just a courtesy — the citation above is exactly what satisfies that
+requirement for academic use; a link back to this repository is enough for informal use.
