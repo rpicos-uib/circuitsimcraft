@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": "minecraft:redstone",
+    "G": "minecraft:glowstone_dust",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    " R ",
+    " G ",
+    " S "
+  ],
+  "result": {
+    "id": "circuitsimcraft:ac_probe",
+    "count": 1
+  }
+}

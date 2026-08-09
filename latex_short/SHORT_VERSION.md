@@ -1,4 +1,4 @@
-# CircuitCraft — short version
+# CircuitSimCraft — short version
 
 An 8-page-target companion to the full paper in `../latex/`, both using the IEEEtran journal
 class (target: IEEE Transactions on Education). This directory is a separate set of files,

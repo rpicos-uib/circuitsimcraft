@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": "minecraft:iron_nugget",
+    "X": "#circuitsimcraft:resistor_body"
+  },
+  "pattern": [
+    "IXI"
+  ],
+  "result": {
+    "id": "circuitsimcraft:resistor",
+    "count": 2
+  }
+}

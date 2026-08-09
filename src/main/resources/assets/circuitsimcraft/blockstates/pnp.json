@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "circuitsimcraft:block/pnp",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "circuitsimcraft:block/pnp",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "circuitsimcraft:block/pnp"
+    },
+    "facing=south": {
+      "model": "circuitsimcraft:block/pnp",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "circuitsimcraft:block/pnp",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "circuitsimcraft:block/pnp",
+      "y": 90
+    }
+  }
+}

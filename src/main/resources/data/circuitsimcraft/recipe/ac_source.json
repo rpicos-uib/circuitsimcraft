@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:redstone",
+    "minecraft:glowstone_dust",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "id": "circuitsimcraft:ac_source",
+    "count": 1
+  }
+}

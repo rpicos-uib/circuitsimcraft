@@ -1,7 +1,7 @@
 \section{System Architecture}
 \label{sec:architecture}
 
-CircuitCraft is built on Fabric, a lightweight, widely used modding toolchain for
+CircuitSimCraft is built on Fabric, a lightweight, widely used modding toolchain for
 Minecraft. The codebase is organized into five packages, shown in
 Figure~\ref{fig:architecture}: a solver package with no dependency on any Minecraft class at
 all, a pair of packages describing the in-world blocks and their per-block simulation
@@ -228,13 +228,13 @@ rather than requiring a player to compare two scrolling traces by eye.
 
 A learner cannot wire a circuit with components they do not yet possess, and the nineteen
 blocks and items above are otherwise obtained the same way as any other vanilla item --
-crafted by hand from a recipe, or found. CircuitCraft adds one further, twentieth block, the
+crafted by hand from a recipe, or found. CircuitSimCraft adds one further, twentieth block, the
 Breadboard, whose sole purpose is to let a villager claim it as a job site and become an
 \emph{Electrician}, a new villager profession that both sells a subset of the mod's own
 components and buys back the raw crafting materials those components are made from, all for
 emeralds, instead of any vanilla trade. Figure~\ref{fig:workshop} shows a complete Electrician's
 Workshop, itself generated on demand by a bundled world-generation function
-(\texttt{/function circuitcraft:electrician\_shop}) that clears its own footprint, pours its
+(\texttt{/function circuitsimcraft:electrician\_shop}) that clears its own footprint, pours its
 own foundation, and places a Breadboard inside regardless of the underlying terrain, so an
 instructor can seed a classroom world with a working shop in one command rather than building
 one by hand.

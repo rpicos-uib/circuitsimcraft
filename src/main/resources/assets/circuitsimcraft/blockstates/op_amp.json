@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "circuitsimcraft:block/op_amp", "x": 90 },
+    "facing=up":    { "model": "circuitsimcraft:block/op_amp", "x": 270 },
+    "facing=north": { "model": "circuitsimcraft:block/op_amp" },
+    "facing=south": { "model": "circuitsimcraft:block/op_amp", "y": 180 },
+    "facing=west":  { "model": "circuitsimcraft:block/op_amp", "y": 270 },
+    "facing=east":  { "model": "circuitsimcraft:block/op_amp", "y": 90 }
+  }
+}

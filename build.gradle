@@ -16,7 +16,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"circuitcraft" {
+		"circuitsimcraft" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}

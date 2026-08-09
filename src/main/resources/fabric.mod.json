@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "circuitcraft",
+	"id": "circuitsimcraft",
 	"version": "${version}",
-	"name": "CircuitCraft",
+	"name": "CircuitSimCraft",
 	"description": "Teach analog electronics in Minecraft: resistors, capacitors, inductors, memristors, sources and an oscilloscope probe, all backed by a real circuit solver - plus an Electrician villager who sells them.",
 	"authors": [
 		"rpicos"
@@ -10,17 +10,17 @@
 	"contact": {
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/circuitcraft/icon.png",
+	"icon": "assets/circuitsimcraft/icon.png",
 	"environment": "*",
 	"mixins": [
-		"circuitcraft.mixins.json"
+		"circuitsimcraft.mixins.json"
 	],
 	"entrypoints": {
 		"main": [
-			"com.rpicos.circuitcraft.CircuitCraft"
+			"com.rpicos.circuitsimcraft.CircuitSimCraft"
 		],
 		"client": [
-			"com.rpicos.circuitcraft.client.CircuitCraftClient"
+			"com.rpicos.circuitsimcraft.client.CircuitSimCraftClient"
 		]
 	},
 	"depends": {

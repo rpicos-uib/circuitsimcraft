@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "circuitsimcraft:block/workbench_top",
+    "bottom": "circuitsimcraft:block/workbench_side",
+    "side": "circuitsimcraft:block/workbench_side"
+  }
+}

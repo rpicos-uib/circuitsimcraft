@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "circuitsimcraft:block/resistor", "x": 90 },
+    "facing=up":    { "model": "circuitsimcraft:block/resistor", "x": 270 },
+    "facing=north": { "model": "circuitsimcraft:block/resistor" },
+    "facing=south": { "model": "circuitsimcraft:block/resistor", "y": 180 },
+    "facing=west":  { "model": "circuitsimcraft:block/resistor", "y": 270 },
+    "facing=east":  { "model": "circuitsimcraft:block/resistor", "y": 90 }
+  }
+}

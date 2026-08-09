@@ -1,0 +1,17 @@
+package com.rpicos.circuitsimcraft.blockentity;
+
+import com.rpicos.circuitsimcraft.ModBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class WireBlockEntity extends SingleNodeBlockEntity {
+
+	public WireBlockEntity(BlockPos pos, BlockState state) {
+		super(ModBlockEntities.WIRE, pos, state);
+	}
+
+	@Override
+	public String probeSummary() {
+		return String.format("Wire node: %.2f V", probeVoltage());
+	}
+}

@@ -11,7 +11,7 @@ reactive elements replaced by companion resistive/source models derived from a n
 integration rule. Educational tools such as the Falstad circuit simulator and PhET's Circuit
 Construction Kit lower the barrier to entry by replacing SPICE's netlist syntax with direct
 schematic manipulation and are widely used in introductory courses. All three tools,
-however, present the circuit as a two-dimensional schematic. CircuitCraft uses the same
+however, present the circuit as a two-dimensional schematic. CircuitSimCraft uses the same
 underlying numerical technique (Sections~\ref{sec:architecture}
 and~\ref{sec:circuit-solver} describe an MNA solver employing trapezoidal-integration
 companion models for reactive elements, the family of technique SPICE itself uses) but
@@ -47,7 +47,7 @@ classrooms identifies a theme common to each of the studies above: teachers repo
 engagement and motivation fairly consistently, whereas rigorously measured gains in specific
 learning outcomes are reported less often and less consistently, a caveat also present in
 the general simulation-games literature~\cite{sitzmann2011meta} and one this paper does not
-claim to have resolved for CircuitCraft specifically (Section~\ref{sec:limitations}).
+claim to have resolved for CircuitSimCraft specifically (Section~\ref{sec:limitations}).
 
 Within that broader literature, the subset closest to the present paper's subject concerns
 Minecraft's native redstone subsystem, already a common entry point for teaching digital
@@ -60,7 +60,7 @@ Section~\ref{sec:minecraft-mechanics}). Faust~\cite{faust2024minecraft} goes fur
 developing a set of redstone-based laboratory exercises that teach combinational digital
 logic directly within an introductory electronics course, with students building logic gates
 in Minecraft before encountering the same designs in physical hardware. This is the
-literature to which CircuitCraft is
+literature to which CircuitSimCraft is
 closest, and from which it departs most directly: the case studies cited above use
 Minecraft's existing mechanics, redstone included, as the vehicle for a lesson, whereas Mine
 Memristors introduces an entirely new, continuous-time simulation layer, because redstone's
@@ -68,7 +68,7 @@ discrete signal cannot represent voltage, current, or reactive state at all.
 
 Beyond that academic literature, several existing Minecraft \emph{mods} -- as opposed to
 case studies built on the base game -- add circuit-building mechanics of their own, and are
-worth situating CircuitCraft against directly. Create: Circuits~\cite{chocoboyy2026createcircuits}
+worth situating CircuitSimCraft against directly. Create: Circuits~\cite{chocoboyy2026createcircuits}
 and ProjectRed~\cite{mrtjp2026projectred} both extend the redstone subsystem with more
 compact logic-gate, arithmetic, and memory-latch blocks than vanilla redstone alone provides
 -- ProjectRed as a modular suite (its Integration module specifically supplies the logic
@@ -85,7 +85,7 @@ diodes, transistors, and op-amps among its components. It does so, however, by e
 player's in-world circuit as a netlist and invoking an external ngspice~\cite{nagel1973spice}
 process, installed separately on the host system and on the system \texttt{PATH}, each time a
 player right-clicks a dedicated ``simulate'' block, rather than solving the circuit natively
-inside the mod itself. CircuitCraft's solver, by contrast, has no external dependency of any
+inside the mod itself. CircuitSimCraft's solver, by contrast, has no external dependency of any
 kind, is embedded directly in the mod, and runs every game tick as an intrinsic part of the
 running world -- driving the oscilloscope HUDs and the memristor's own evolving state live,
 rather than producing a report a player consults after invoking a separate tool. To the
@@ -120,7 +120,7 @@ Tetzlaff~\cite{alchawa2020simple} present a simplified compact model aimed speci
 neuromorphic ReRAM applications, where computational efficiency across large device arrays
 is often prioritized over matching any single device's measured characteristics exactly.
 
-CircuitCraft implements Strukov et al.'s original linear-drift formulation specifically,
+CircuitSimCraft implements Strukov et al.'s original linear-drift formulation specifically,
 rather than any of the refinements above, because the priorities of a teaching tool differ
 from those of a circuit designer or device physicist: the model must be simple enough to
 verify in closed form (Section~\ref{sec:validation}) and traceable, step by step, to the

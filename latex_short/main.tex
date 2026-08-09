@@ -24,7 +24,7 @@
 % membership grades are filled in (Rodrigo Picos and Stavros G. Stavrinides are both Senior
 % Members, IEEE); George Stavrinides, Ariadna Picos, and Gerard Picos have none on record here.
 % Kept identical to the long version's author block.
-\title{CircuitCraft: An Open-Source Minecraft Mod to Teach Analog Circuit Theory using a Real Nodal Analysis Solver}
+\title{CircuitSimCraft: An Open-Source Minecraft Mod to Teach Analog Circuit Theory using a Real Nodal Analysis Solver}
 
 \author{Rodrigo~Picos,~\IEEEmembership{Senior~Member,~IEEE,}
         Stavros~G.~Stavrinides,~\IEEEmembership{Senior~Member,~IEEE,}
@@ -37,14 +37,14 @@
 \maketitle
 
 \begin{abstract}
-This paper presents CircuitCraft, an open-source modification (``mod'') for the sandbox
+This paper presents CircuitSimCraft, an open-source modification (``mod'') for the sandbox
 game Minecraft that transforms the game world into an analog electronics laboratory. Players
 place resistor, capacitor, inductor, memristor, diode, and ideal op-amp blocks, wire them
 together using conductive blocks, drive them with DC and time-varying sources, and probe the
 resulting voltages and currents with a pair of handheld oscilloscope probes -- one
 time-domain, one X-Y -- all rendered as ordinary game objects placed and manipulated with the
 same mechanics used to construct anything else within the game. In contrast to scripted or
-table-driven approximations of circuit behavior, every electrical quantity in CircuitCraft
+table-driven approximations of circuit behavior, every electrical quantity in CircuitSimCraft
 is produced by a genuine modified nodal analysis (MNA) solver of the kind
 employed in SPICE-family simulators, including a charge-controlled linear-drift memristor
 model, a linearized diode, and an ideal op-amp modeled as a nullor. A separate, complex-valued

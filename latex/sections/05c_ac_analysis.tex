@@ -14,7 +14,7 @@ $\omega$ and solves directly for each phasor's complex amplitude, using exactly 
 node/branch structure as the transient MNA formulation but with every real-valued conductance,
 capacitance-derived companion model, and source replaced by its frequency-domain counterpart.
 
-CircuitCraft implements this as an entirely separate solver, \texttt{AcCircuit}, alongside
+CircuitSimCraft implements this as an entirely separate solver, \texttt{AcCircuit}, alongside
 \texttt{Circuit} rather than as a mode of it: the two share the same node-numbering topology
 (Section~\ref{sec:architecture}'s union--find partition is computed once and reused by both,
 guaranteeing they agree on which physical position corresponds to which node index) but operate

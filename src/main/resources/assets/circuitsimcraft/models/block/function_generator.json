@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "circuitsimcraft:block/function_generator",
+    "north": "circuitsimcraft:block/terminal",
+    "south": "circuitsimcraft:block/terminal",
+    "east": "circuitsimcraft:block/function_generator",
+    "west": "circuitsimcraft:block/function_generator",
+    "up": "circuitsimcraft:block/function_generator",
+    "down": "circuitsimcraft:block/function_generator"
+  }
+}

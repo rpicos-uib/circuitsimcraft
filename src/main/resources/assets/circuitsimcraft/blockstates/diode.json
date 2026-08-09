@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "circuitsimcraft:block/diode", "x": 90 },
+    "facing=up":    { "model": "circuitsimcraft:block/diode", "x": 270 },
+    "facing=north": { "model": "circuitsimcraft:block/diode" },
+    "facing=south": { "model": "circuitsimcraft:block/diode", "y": 180 },
+    "facing=west":  { "model": "circuitsimcraft:block/diode", "y": 270 },
+    "facing=east":  { "model": "circuitsimcraft:block/diode", "y": 90 }
+  }
+}

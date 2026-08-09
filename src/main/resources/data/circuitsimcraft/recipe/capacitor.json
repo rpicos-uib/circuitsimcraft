@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": "minecraft:iron_nugget",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "IPI"
+  ],
+  "result": {
+    "id": "circuitsimcraft:capacitor",
+    "count": 2
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": "minecraft:iron_nugget",
+    "X": "#circuitsimcraft:inductor_core"
+  },
+  "pattern": [
+    "IXI"
+  ],
+  "result": {
+    "id": "circuitsimcraft:inductor",
+    "count": 2
+  }
+}

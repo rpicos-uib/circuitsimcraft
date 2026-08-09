@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "circuitsimcraft:memristor"
+  },
+  "max_uses": 15.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 10,
+    "id": "minecraft:emerald"
+  },
+  "xp": 15.0
+}

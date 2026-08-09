@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "circuitsimcraft:block/cccs"
+    },
+    "facing=down": {
+      "model": "circuitsimcraft:block/cccs"
+    },
+    "facing=north": {
+      "model": "circuitsimcraft:block/cccs"
+    },
+    "facing=south": {
+      "model": "circuitsimcraft:block/cccs"
+    },
+    "facing=east": {
+      "model": "circuitsimcraft:block/cccs"
+    },
+    "facing=west": {
+      "model": "circuitsimcraft:block/cccs"
+    }
+  }
+}

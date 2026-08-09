@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "circuitsimcraft:block/ammeter",
+    "north": "circuitsimcraft:block/terminal",
+    "south": "circuitsimcraft:block/terminal",
+    "east": "circuitsimcraft:block/ammeter",
+    "west": "circuitsimcraft:block/ammeter",
+    "up": "circuitsimcraft:block/ammeter",
+    "down": "circuitsimcraft:block/ammeter"
+  }
+}

@@ -9,7 +9,7 @@ technique underlying every Bode plot in an electronics textbook: every node volt
 branch current is assumed already varying sinusoidally at a single angular frequency
 $\omega$, and the solver solves directly for each phasor's complex amplitude, using the same
 node/branch structure as the transient MNA formulation but with every conductance,
-companion model, and source replaced by its frequency-domain counterpart. CircuitCraft
+companion model, and source replaced by its frequency-domain counterpart. CircuitSimCraft
 implements this as an entirely separate solver, \texttt{AcCircuit}, sharing the transient
 solver's node-numbering topology (Section~\ref{sec:architecture}) but operating on disjoint,
 complex-valued representations solved fresh at each swept frequency. Following the standard

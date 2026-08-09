@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "circuitsimcraft:block/voltmeter",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "circuitsimcraft:block/voltmeter",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "circuitsimcraft:block/voltmeter"
+    },
+    "facing=south": {
+      "model": "circuitsimcraft:block/voltmeter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "circuitsimcraft:block/voltmeter",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "circuitsimcraft:block/voltmeter",
+      "y": 90
+    }
+  }
+}

@@ -1,4 +1,4 @@
-# CircuitCraft
+# CircuitSimCraft
 
 A Fabric mod that turns Minecraft into an analog electronics lab. Place resistors, capacitors,
 inductors and memristors as blocks, wire them up, drive them with power supplies and function
@@ -36,7 +36,7 @@ Resistor, each with their own color-coded trace and live V/I readout:
 2. Download the **Fabric API** jar for 26.2 from [Modrinth](https://modrinth.com/mod/fabric-api) or
    [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and drop it in your
    `mods` folder.
-3. Grab `circuitcraft-<version>.jar` from this repo's [Releases](../../releases) page and drop
+3. Grab `circuitsimcraft-<version>.jar` from this repo's [Releases](../../releases) page and drop
    it in the same `mods` folder.
 4. Make sure the profile you launch with is on Java 25+ (recent launchers that auto-manage a JVM
    per Minecraft version will already do this once you select 26.2).
@@ -45,12 +45,12 @@ Resistor, each with their own color-coded trace and live V/I readout:
 ### Option B — build from source
 
 ```bash
-git clone https://github.com/rpicos-uib/circuitcraft.git
+git clone https://github.com/rpicos-uib/circuitsimcraft.git
 cd mine-memristors
 ./gradlew build
 ```
 
-The mod jar comes out at `build/libs/circuitcraft-<version>.jar`. You need a JDK 25 available;
+The mod jar comes out at `build/libs/circuitsimcraft-<version>.jar`. You need a JDK 25 available;
 either make it your default `java`, or point Gradle at it explicitly:
 
 ```bash
@@ -197,7 +197,7 @@ None of these have recipe-book unlock advancements yet, so they won't show a "ne
 but they're fully craftable by hand right now. See [Contributing](#contributing) if you want to add
 those.
 
-All items are also available in their own **CircuitCraft** creative-inventory tab.
+All items are also available in their own **CircuitSimCraft** creative-inventory tab.
 
 ## The Electrician villager
 
@@ -232,7 +232,7 @@ Frequency Module, and the X-Y Oscilloscope Probe were trimmed out to keep to the
 cap (all six are still simple, cheap crafting-table recipes, unaffected). The Diode isn't trimmed,
 just relocated - it's sold by the **Electronics Engineer** instead (see below), not the
 Electrician. Trades are entirely
-data-driven (`data/circuitcraft/{villager_trade,tags/villager_trade,trade_set}/electrician/`)
+data-driven (`data/circuitsimcraft/{villager_trade,tags/villager_trade,trade_set}/electrician/`)
 rather than hardcoded in Java - this Minecraft version's `VillagerProfession` only points at
 `TradeSet` resource keys per level, so rebalancing prices or adding trades is a JSON edit, no
 rebuild required. Each level's `trade_set` `amount` is set equal to its trade pool's size, so
@@ -258,7 +258,7 @@ where you want it (any terrain: it clears its own footprint and pours its own fo
 so uneven ground, slopes, or ungenerated chunks are all fine) and run:
 
 ```
-/function circuitcraft:electrician_shop
+/function circuitsimcraft:electrician_shop
 ```
 
 This builds a small oak-and-copper workshop with a slab roof, a lightning rod finial (the most
@@ -270,7 +270,7 @@ walk in and take the job:
 
 <img src="docs/screenshots/electrician_workshop_interior.png" width="500">
 
-The function's source (`data/circuitcraft/function/electrician_shop.mcfunction`) is plain
+The function's source (`data/circuitsimcraft/function/electrician_shop.mcfunction`) is plain
 `/fill`/`/setblock` commands if you want to reskin it - see
 [`MOD_ARCHITECTURE.md`](MOD_ARCHITECTURE.md) for how it was built and verified.
 
@@ -308,13 +308,13 @@ professions' buildings read as distinct at a glance — a stone-brick-and-polish
 with iron bars and a quartz finial, instead of the Electrician's oak-and-copper cabin:
 
 ```
-/function circuitcraft:engineer_workshop
+/function circuitsimcraft:engineer_workshop
 ```
 
 This places a Workbench against the back wall with a small stock shelf (a Diode and an NPN
 Transistor) next to it, exactly like the Electrician's own shop places a Breadboard and starter
 stock. The function's source is
-`data/circuitcraft/function/engineer_workshop.mcfunction` — plain `/fill`/`/setblock` commands,
+`data/circuitsimcraft/function/engineer_workshop.mcfunction` — plain `/fill`/`/setblock` commands,
 same as the Electrician's.
 
 ## Worked-example circuits
@@ -324,12 +324,12 @@ approach as the two workshops above — no manual wiring required to get started
 you want the bench's southwest corner and run one:
 
 ```
-/function circuitcraft:voltage_divider        # Experiment 1: basic voltage divider
-/function circuitcraft:rc_lowpass             # Experiment 2: RC low-pass Bode plot
-/function circuitcraft:rlc_resonance          # Experiment 3: RLC resonance Bode plot
-/function circuitcraft:half_wave_rectifier    # Experiment 4: half-wave rectifier
-/function circuitcraft:memristor_hysteresis   # Experiment 5: memristor pinched hysteresis loop
-/function circuitcraft:opamp_bode             # Experiment 6: op-amp open-loop Bode plot
+/function circuitsimcraft:voltage_divider        # Experiment 1: basic voltage divider
+/function circuitsimcraft:rc_lowpass             # Experiment 2: RC low-pass Bode plot
+/function circuitsimcraft:rlc_resonance          # Experiment 3: RLC resonance Bode plot
+/function circuitsimcraft:half_wave_rectifier    # Experiment 4: half-wave rectifier
+/function circuitsimcraft:memristor_hysteresis   # Experiment 5: memristor pinched hysteresis loop
+/function circuitsimcraft:opamp_bode             # Experiment 6: op-amp open-loop Bode plot
 ```
 
 Each clears its own space, pours its own foundation, wires up the circuit at every
@@ -341,19 +341,19 @@ right-clicks needed to reach each experiment's intended component values and the
 result — these are the same six worked experiments described in full (derivations, predicted
 numbers, and the physics behind each) in the mod's companion paper,
 `latex_mod/sections/07_results_experiments.tex`, reproduced here as buildable structures rather
-than left as a diagram. Their sources live in `data/circuitcraft/function/`, plain text like
+than left as a diagram. Their sources live in `data/circuitsimcraft/function/`, plain text like
 every other function in the mod.
 
 ## Architecture, for anyone extending this
 
 ```
-src/main/java/com/rpicos/circuitcraft/
+src/main/java/com/rpicos/circuitsimcraft/
   sim/            Pure-Java circuit solver — zero Minecraft dependency, unit-testable standalone
   block/          Block classes (placement, orientation, right-click interactions)
   blockentity/    BlockEntity classes (the actual sim state + circuit wiring per component)
   network/        World-side wire connectivity graph + the client<->server probe protocol
   item/           The probe item
-src/client/java/com/rpicos/circuitcraft/client/   HUD rendering, client-side networking
+src/client/java/com/rpicos/circuitsimcraft/client/   HUD rendering, client-side networking
 ```
 
 ### The solver (`sim` package)
@@ -399,7 +399,7 @@ references (a resistive divider's flat response, an RC/RL divider's -3dB/45° cu
    shared `terminal.png` lead texture, so you only need the body texture for the other four
    faces), a `blockstates/your_component.json` and `models/block/your_component.json` (copy an
    existing pair — they're generic besides the texture path), and a lang entry.
-6. Optionally add a `data/circuitcraft/recipe/your_component.json`.
+6. Optionally add a `data/circuitsimcraft/recipe/your_component.json`.
 
 If your component has 3+ terminals, extend `NetworkBlockEntity` directly instead of
 `ComponentBlockEntity` (see `OpAmpBlockEntity`, `NpnBlockEntity`, or the `Vcvs`/`Vccs`/`Cccs`/`Ccvs`
@@ -442,15 +442,15 @@ actually correct, not just plausible-looking.
 
 ## Citation
 
-If you use CircuitCraft — in a classroom, a paper, a demo, a derivative mod, anywhere — please
+If you use CircuitSimCraft — in a classroom, a paper, a demo, a derivative mod, anywhere — please
 credit the authors: Rodrigo Picos, Stavros G. Stavrinides, George Stavrinides, Ariadna Picos,
 and Gerard Picos. A link back to this repository is enough for informal use; for academic
 work, please cite it as:
 
 ```
 Rodrigo Picos, Stavros G. Stavrinides, George Stavrinides, Ariadna Picos, and Gerard Picos.
-CircuitCraft: a Fabric mod for teaching analog electronics in Minecraft.
-https://github.com/rpicos-uib/circuitcraft, 2026.
+CircuitSimCraft: a Fabric mod for teaching analog electronics in Minecraft.
+https://github.com/rpicos-uib/circuitsimcraft, 2026.
 ```
 
 BibTeX:
@@ -458,8 +458,8 @@ BibTeX:
 ```bibtex
 @software{picos_mine_memristors,
   author = {Picos, Rodrigo and Stavrinides, Stavros G. and Stavrinides, George and Picos, Ariadna and Picos, Gerard},
-  title  = {CircuitCraft: a Fabric mod for teaching analog electronics in Minecraft},
-  url    = {https://github.com/rpicos-uib/circuitcraft},
+  title  = {CircuitSimCraft: a Fabric mod for teaching analog electronics in Minecraft},
+  url    = {https://github.com/rpicos-uib/circuitsimcraft},
   year   = {2026}
 }
 ```

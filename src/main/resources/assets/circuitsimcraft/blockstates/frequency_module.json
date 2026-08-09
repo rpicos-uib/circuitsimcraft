@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "circuitsimcraft:block/frequency_module" }
+  }
+}

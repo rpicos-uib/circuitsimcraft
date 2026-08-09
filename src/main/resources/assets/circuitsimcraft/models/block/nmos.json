@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "circuitsimcraft:block/nmos",
+    "north": "circuitsimcraft:block/terminal",
+    "south": "circuitsimcraft:block/terminal",
+    "up": "circuitsimcraft:block/nmos_top",
+    "down": "circuitsimcraft:block/nmos",
+    "east": "circuitsimcraft:block/nmos",
+    "west": "circuitsimcraft:block/nmos"
+  }
+}

@@ -39,3 +39,7 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# local secrets - never commit (see .claude/modrinth_pat.local, read by run_claude.bash)
+
+.claude/*.local

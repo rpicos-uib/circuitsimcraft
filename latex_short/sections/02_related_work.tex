@@ -5,7 +5,7 @@ SPICE and its descendants~\cite{nagel1973spice} remain the reference implementat
 circuit simulation, built around modified nodal analysis~\cite{ho1975mna}. Educational tools
 such as the Falstad circuit simulator and PhET's Circuit Construction Kit lower the barrier
 to entry by replacing SPICE's netlist syntax with direct schematic manipulation, but all
-three still present the circuit as a two-dimensional schematic. CircuitCraft uses the same
+three still present the circuit as a two-dimensional schematic. CircuitSimCraft uses the same
 underlying numerical technique (Sections~\ref{sec:architecture}--\ref{sec:circuit-solver})
 but embeds it in a three-dimensional, first-person, block-based world instead.
 
@@ -19,9 +19,9 @@ al.~\cite{dezuanni2015redstone} document children reasoning about redstone circu
 explicitly electrical language, notwithstanding that the underlying mechanic is a discrete,
 boolean signal rather than a continuous one; Faust~\cite{faust2024minecraft} develops a set of
 redstone-based laboratory exercises teaching combinational digital logic directly within an
-introductory electronics course. This is the literature CircuitCraft is closest
+introductory electronics course. This is the literature CircuitSimCraft is closest
 to, and departs from most directly: those case studies use Minecraft's existing mechanics,
-redstone included, as the vehicle for a lesson, whereas CircuitCraft introduces an entirely
+redstone included, as the vehicle for a lesson, whereas CircuitSimCraft introduces an entirely
 new, continuous-time simulation layer, because redstone's discrete signal cannot represent
 voltage, current, or reactive state at all.
 
@@ -36,7 +36,7 @@ CircuitSim~\cite{dankov2026circuitsim} is, to the authors' knowledge, the only p
 Minecraft mod simulating genuinely analog circuits (resistors, capacitors, diodes,
 transistors, op-amps), but it does so by exporting a player's circuit as a netlist and
 invoking an external ngspice process installed separately on the host system, rather than
-solving it natively. CircuitCraft's solver has no external dependency, is embedded directly
+solving it natively. CircuitSimCraft's solver has no external dependency, is embedded directly
 in the mod, and runs every game tick as an intrinsic part of the running world; to the
 authors' knowledge it is the first Minecraft modification to embed a native, continuous-time
 circuit solver for this purpose.
@@ -50,7 +50,7 @@ large-scale design or device-matching purposes -- a windowed variant addressing 
 pinning~\cite{biolek2009spice}, a threshold-based model trading physical detail for
 simulation speed~\cite{kvatinsky2013team}, a physics-based compact model of filament
 formation~\cite{guan2012compact}, a charge--flux-domain formulation~\cite{picos2015chargeflux},
-and a simplified neuromorphic-ReRAM model~\cite{alchawa2020simple}. CircuitCraft implements
+and a simplified neuromorphic-ReRAM model~\cite{alchawa2020simple}. CircuitSimCraft implements
 Strukov et al.'s original formulation specifically because it is simple enough to verify in
 closed form (Section~\ref{sec:validation}) and traceable to the historically foundational
 definition a student is most likely to encounter first, rather than optimized for matching a
