@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:ammeter",
+    "circuitsimcraft:ammeter",
+    "circuitsimcraft:ammeter"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_ammeter",
+    "count": 1
+  }
+}

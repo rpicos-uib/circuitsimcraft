@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:capacitor",
+    "circuitsimcraft:capacitor",
+    "circuitsimcraft:capacitor"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_capacitor",
+    "count": 1
+  }
+}

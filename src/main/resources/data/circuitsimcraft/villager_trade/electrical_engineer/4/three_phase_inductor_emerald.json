@@ -1,0 +1,7 @@
+{
+  "gives": { "id": "circuitsimcraft:three_phase_inductor" },
+  "max_uses": 15.0,
+  "reputation_discount": 0.05,
+  "wants": { "count": 9, "id": "minecraft:emerald" },
+  "xp": 10.0
+}

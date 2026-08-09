@@ -20,6 +20,14 @@ import com.rpicos.circuitsimcraft.blockentity.PnpBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.PowerSupplyBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.R2VConverterBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.ResistorBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseAmmeterBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseBundlerBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseCapacitorBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseInductorBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseResistorBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseSourceBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseUnbundlerBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseWireBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.V2RConverterBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VccsBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VcvsBlockEntity;
@@ -89,6 +97,22 @@ public final class ModBlockEntities {
 			register("cccs", CccsBlockEntity::new, ModBlocks.CCCS);
 	public static final BlockEntityType<CcvsBlockEntity> CCVS =
 			register("ccvs", CcvsBlockEntity::new, ModBlocks.CCVS);
+	public static final BlockEntityType<ThreePhaseWireBlockEntity> THREE_PHASE_WIRE =
+			register("three_phase_wire", ThreePhaseWireBlockEntity::new, ModBlocks.THREE_PHASE_WIRE);
+	public static final BlockEntityType<ThreePhaseSourceBlockEntity> THREE_PHASE_SOURCE =
+			register("three_phase_source", ThreePhaseSourceBlockEntity::new, ModBlocks.THREE_PHASE_SOURCE);
+	public static final BlockEntityType<ThreePhaseAmmeterBlockEntity> THREE_PHASE_AMMETER =
+			register("three_phase_ammeter", ThreePhaseAmmeterBlockEntity::new, ModBlocks.THREE_PHASE_AMMETER);
+	public static final BlockEntityType<ThreePhaseBundlerBlockEntity> THREE_PHASE_BUNDLER =
+			register("three_phase_bundler", ThreePhaseBundlerBlockEntity::new, ModBlocks.THREE_PHASE_BUNDLER);
+	public static final BlockEntityType<ThreePhaseUnbundlerBlockEntity> THREE_PHASE_UNBUNDLER =
+			register("three_phase_unbundler", ThreePhaseUnbundlerBlockEntity::new, ModBlocks.THREE_PHASE_UNBUNDLER);
+	public static final BlockEntityType<ThreePhaseResistorBlockEntity> THREE_PHASE_RESISTOR =
+			register("three_phase_resistor", ThreePhaseResistorBlockEntity::new, ModBlocks.THREE_PHASE_RESISTOR);
+	public static final BlockEntityType<ThreePhaseInductorBlockEntity> THREE_PHASE_INDUCTOR =
+			register("three_phase_inductor", ThreePhaseInductorBlockEntity::new, ModBlocks.THREE_PHASE_INDUCTOR);
+	public static final BlockEntityType<ThreePhaseCapacitorBlockEntity> THREE_PHASE_CAPACITOR =
+			register("three_phase_capacitor", ThreePhaseCapacitorBlockEntity::new, ModBlocks.THREE_PHASE_CAPACITOR);
 
 	private static <T extends BlockEntity> BlockEntityType<T> register(
 			String path, BlockEntityType.BlockEntitySupplier<T> factory, Block block) {

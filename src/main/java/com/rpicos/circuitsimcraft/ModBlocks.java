@@ -20,6 +20,14 @@ import com.rpicos.circuitsimcraft.block.PnpBlock;
 import com.rpicos.circuitsimcraft.block.PowerSupplyBlock;
 import com.rpicos.circuitsimcraft.block.R2VConverterBlock;
 import com.rpicos.circuitsimcraft.block.ResistorBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseAmmeterBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseBundlerBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseCapacitorBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseInductorBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseResistorBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseSourceBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseUnbundlerBlock;
+import com.rpicos.circuitsimcraft.block.ThreePhaseWireBlock;
 import com.rpicos.circuitsimcraft.block.V2RConverterBlock;
 import com.rpicos.circuitsimcraft.block.VccsBlock;
 import com.rpicos.circuitsimcraft.block.VcvsBlock;
@@ -64,12 +72,27 @@ public final class ModBlocks {
 	public static final Block CCCS = register("cccs", CccsBlock::new, componentProperties());
 	public static final Block CCVS = register("ccvs", CcvsBlock::new, componentProperties());
 
+	// Three-phase electricity (step 1: bundled-node network primitive verification slice - only
+	// the wire, source, and ammeter exist so far; resistor/inductor/capacitor/bundler/unbundler
+	// come once this slice is verified end-to-end, see SESSION_NOTES.md).
+	public static final Block THREE_PHASE_WIRE = register("three_phase_wire", ThreePhaseWireBlock::new, componentProperties());
+	public static final Block THREE_PHASE_SOURCE = register("three_phase_source", ThreePhaseSourceBlock::new, componentProperties());
+	public static final Block THREE_PHASE_AMMETER = register("three_phase_ammeter", ThreePhaseAmmeterBlock::new, componentProperties());
+	public static final Block THREE_PHASE_BUNDLER = register("three_phase_bundler", ThreePhaseBundlerBlock::new, componentProperties());
+	public static final Block THREE_PHASE_UNBUNDLER = register("three_phase_unbundler", ThreePhaseUnbundlerBlock::new, componentProperties());
+	public static final Block THREE_PHASE_RESISTOR = register("three_phase_resistor", ThreePhaseResistorBlock::new, componentProperties());
+	public static final Block THREE_PHASE_INDUCTOR = register("three_phase_inductor", ThreePhaseInductorBlock::new, componentProperties());
+	public static final Block THREE_PHASE_CAPACITOR = register("three_phase_capacitor", ThreePhaseCapacitorBlock::new, componentProperties());
+
 	/** Plain block, no facing/block-entity: the Electrician's job site, not a circuit
 	 *  participant, so it doesn't extend ComponentBlock or implement EntityBlock. */
 	public static final Block BREADBOARD = register("breadboard", Block::new, breadboardProperties());
 
 	/** The Electronics Engineer's job site - same shape as the Breadboard above. */
 	public static final Block WORKBENCH = register("workbench", Block::new, breadboardProperties());
+
+	/** The Electrical Engineer's job site - same shape as the Breadboard/Workbench above. */
+	public static final Block SWITCHBOARD = register("switchboard", Block::new, breadboardProperties());
 
 	private static BlockBehaviour.Properties componentProperties() {
 		return BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.METAL);

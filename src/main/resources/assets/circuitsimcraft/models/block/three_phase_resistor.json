@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "circuitsimcraft:block/three_phase_resistor",
+    "north": "circuitsimcraft:block/terminal",
+    "south": "circuitsimcraft:block/terminal",
+    "east": "circuitsimcraft:block/three_phase_resistor",
+    "west": "circuitsimcraft:block/three_phase_resistor",
+    "up": "circuitsimcraft:block/three_phase_resistor",
+    "down": "circuitsimcraft:block/three_phase_resistor"
+  }
+}

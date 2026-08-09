@@ -10,6 +10,8 @@ import com.rpicos.circuitsimcraft.network.ComponentValueUpdatePayload;
 import com.rpicos.circuitsimcraft.network.OpenValueEditorPayload;
 import com.rpicos.circuitsimcraft.network.ProbeDataPayload;
 import com.rpicos.circuitsimcraft.network.ProbeWatchManager;
+import com.rpicos.circuitsimcraft.network.ThreePhaseProbeDataPayload;
+import com.rpicos.circuitsimcraft.network.ThreePhaseProbeWatchManager;
 import com.rpicos.circuitsimcraft.network.XyProbeDataPayload;
 import com.rpicos.circuitsimcraft.network.XyProbeManager;
 import net.fabricmc.api.ModInitializer;
@@ -41,6 +43,7 @@ public class CircuitSimCraft implements ModInitializer {
 		ModVillagers.init();
 
 		PayloadTypeRegistry.clientboundPlay().register(ProbeDataPayload.TYPE, ProbeDataPayload.STREAM_CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ThreePhaseProbeDataPayload.TYPE, ThreePhaseProbeDataPayload.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(XyProbeDataPayload.TYPE, XyProbeDataPayload.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(OpenValueEditorPayload.TYPE, OpenValueEditorPayload.STREAM_CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ComponentValueUpdatePayload.TYPE, ComponentValueUpdatePayload.STREAM_CODEC);
@@ -71,6 +74,7 @@ public class CircuitSimCraft implements ModInitializer {
 
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
 			ProbeWatchManager.clear(handler.getPlayer().getUUID());
+			ThreePhaseProbeWatchManager.clear(handler.getPlayer().getUUID());
 			XyProbeManager.clear(handler.getPlayer().getUUID());
 			AcProbeManager.clear(handler.getPlayer().getUUID());
 		});
@@ -78,6 +82,7 @@ public class CircuitSimCraft implements ModInitializer {
 		ServerTickEvents.END_LEVEL_TICK.register(level -> {
 			CircuitNetworkManager.forLevel(level).tick(level);
 			ProbeWatchManager.tick(level);
+			ThreePhaseProbeWatchManager.tick(level);
 			XyProbeManager.tick(level);
 		});
 	}

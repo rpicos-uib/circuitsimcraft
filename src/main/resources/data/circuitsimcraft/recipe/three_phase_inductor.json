@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:inductor",
+    "circuitsimcraft:inductor",
+    "circuitsimcraft:inductor"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_inductor",
+    "count": 1
+  }
+}

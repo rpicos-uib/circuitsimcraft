@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "circuitsimcraft:block/three_phase_resistor", "x": 90 },
+    "facing=up":    { "model": "circuitsimcraft:block/three_phase_resistor", "x": 270 },
+    "facing=north": { "model": "circuitsimcraft:block/three_phase_resistor" },
+    "facing=south": { "model": "circuitsimcraft:block/three_phase_resistor", "y": 180 },
+    "facing=west":  { "model": "circuitsimcraft:block/three_phase_resistor", "y": 270 },
+    "facing=east":  { "model": "circuitsimcraft:block/three_phase_resistor", "y": 90 }
+  }
+}

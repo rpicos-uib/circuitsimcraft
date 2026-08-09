@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "circuitsimcraft:item/three_phase_probe"
+  }
+}

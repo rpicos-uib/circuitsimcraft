@@ -2,6 +2,7 @@ package com.rpicos.circuitsimcraft;
 
 import com.rpicos.circuitsimcraft.item.AcProbeItem;
 import com.rpicos.circuitsimcraft.item.ProbeItem;
+import com.rpicos.circuitsimcraft.item.ThreePhaseProbeItem;
 import com.rpicos.circuitsimcraft.item.XyProbeItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -40,12 +41,22 @@ public final class ModItems {
 	public static final Item VCCS = registerBlockItem("vccs", ModBlocks.VCCS);
 	public static final Item CCCS = registerBlockItem("cccs", ModBlocks.CCCS);
 	public static final Item CCVS = registerBlockItem("ccvs", ModBlocks.CCVS);
+	public static final Item THREE_PHASE_WIRE = registerBlockItem("three_phase_wire", ModBlocks.THREE_PHASE_WIRE);
+	public static final Item THREE_PHASE_SOURCE = registerBlockItem("three_phase_source", ModBlocks.THREE_PHASE_SOURCE);
+	public static final Item THREE_PHASE_AMMETER = registerBlockItem("three_phase_ammeter", ModBlocks.THREE_PHASE_AMMETER);
+	public static final Item THREE_PHASE_BUNDLER = registerBlockItem("three_phase_bundler", ModBlocks.THREE_PHASE_BUNDLER);
+	public static final Item THREE_PHASE_UNBUNDLER = registerBlockItem("three_phase_unbundler", ModBlocks.THREE_PHASE_UNBUNDLER);
+	public static final Item THREE_PHASE_RESISTOR = registerBlockItem("three_phase_resistor", ModBlocks.THREE_PHASE_RESISTOR);
+	public static final Item THREE_PHASE_INDUCTOR = registerBlockItem("three_phase_inductor", ModBlocks.THREE_PHASE_INDUCTOR);
+	public static final Item THREE_PHASE_CAPACITOR = registerBlockItem("three_phase_capacitor", ModBlocks.THREE_PHASE_CAPACITOR);
 	public static final Item BREADBOARD = registerBlockItem("breadboard", ModBlocks.BREADBOARD);
 	public static final Item WORKBENCH = registerBlockItem("workbench", ModBlocks.WORKBENCH);
+	public static final Item SWITCHBOARD = registerBlockItem("switchboard", ModBlocks.SWITCHBOARD);
 
 	public static final Item PROBE = registerItem("probe", ProbeItem::new);
 	public static final Item XY_PROBE = registerItem("xy_probe", XyProbeItem::new);
 	public static final Item AC_PROBE = registerItem("ac_probe", AcProbeItem::new);
+	public static final Item THREE_PHASE_PROBE = registerItem("three_phase_probe", ThreePhaseProbeItem::new);
 
 	private static Item registerBlockItem(String path, Block block) {
 		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, CircuitSimCraft.id(path));

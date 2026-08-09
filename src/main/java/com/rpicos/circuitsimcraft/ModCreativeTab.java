@@ -54,6 +54,18 @@ public final class ModCreativeTab {
 						output.accept(ModItems.CCCS);
 						output.accept(ModItems.CCVS);
 						output.accept(ModItems.WORKBENCH);
+						output.accept(ModItems.SWITCHBOARD);
+						// Three-phase electricity, work in progress (step 1 verification slice
+						// only - see SESSION_NOTES.md).
+						output.accept(ModItems.THREE_PHASE_WIRE);
+						output.accept(ModItems.THREE_PHASE_SOURCE);
+						output.accept(ModItems.THREE_PHASE_AMMETER);
+						output.accept(ModItems.THREE_PHASE_BUNDLER);
+						output.accept(ModItems.THREE_PHASE_UNBUNDLER);
+						output.accept(ModItems.THREE_PHASE_RESISTOR);
+						output.accept(ModItems.THREE_PHASE_INDUCTOR);
+						output.accept(ModItems.THREE_PHASE_CAPACITOR);
+						output.accept(ModItems.THREE_PHASE_PROBE);
 					})
 					.build()
 	);

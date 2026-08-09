@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "circuitsimcraft:block/three_phase_ammeter", "x": 90 },
+    "facing=up":    { "model": "circuitsimcraft:block/three_phase_ammeter", "x": 270 },
+    "facing=north": { "model": "circuitsimcraft:block/three_phase_ammeter" },
+    "facing=south": { "model": "circuitsimcraft:block/three_phase_ammeter", "y": 180 },
+    "facing=west":  { "model": "circuitsimcraft:block/three_phase_ammeter", "y": 270 },
+    "facing=east":  { "model": "circuitsimcraft:block/three_phase_ammeter", "y": 90 }
+  }
+}

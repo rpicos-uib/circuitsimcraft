@@ -14,6 +14,10 @@ import com.rpicos.circuitsimcraft.blockentity.NpnBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.OpAmpBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.Probeable;
 import com.rpicos.circuitsimcraft.blockentity.SingleNodeBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseComponentBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseProbeable;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseSourceBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.ThreePhaseWireBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.V2RConverterBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VccsBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VcvsBlockEntity;
@@ -50,6 +54,16 @@ import java.util.WeakHashMap;
  * (Bode-plot) sweep in {@link #computeAcSweep}: that method just builds a separate,
  * complex-valued {@link AcCircuit} on top of the identical node numbering rather than the
  * transient {@link Circuit} the regular per-tick simulation uses.
+ *
+ * <p>A second, structurally distinct union-find graph - the "bundle" graph, for three-phase
+ * wiring - lives in the same {@code parent} map alongside the graph described above, gated
+ * behind {@link BundleParticipant} instead of {@link NetworkParticipant}. {@link PhaseNodeKey}/
+ * {@link BundleBodyKey} can never {@code .equals()} a {@link NodeKey} or a bare {@link BlockPos}
+ * (different record types), so the two graphs coexist with no risk of cross-talk despite sharing
+ * one union-find structure; an ordinary wire/component face is never bundle-conductive and a
+ * bundle face is never ordinary-conductive, so the two graphs never merge just by two blocks
+ * touching - only a Bundler/Unbundler (not yet implemented) deliberately bridges them, via an
+ * explicit same-position union rather than an adjacency one.
  */
 public class CircuitNetworkManager {
 	private static final Map<ServerLevel, CircuitNetworkManager> INSTANCES = new WeakHashMap<>();
@@ -110,6 +124,9 @@ public class CircuitNetworkManager {
 				if (entity instanceof Probeable probeable) {
 					probeable.recordSample();
 				}
+				if (entity instanceof ThreePhaseProbeable threePhaseProbeable) {
+					threePhaseProbeable.recordSample();
+				}
 				if (entity instanceof V2RConverterBlockEntity v2r) {
 					v2r.refreshRedstoneOutput();
 				}
@@ -137,6 +154,16 @@ public class CircuitNetworkManager {
 	private record NodeKey(BlockPos pos, Direction side) {
 	}
 
+	/** Per-lead bundle key - a component/ammeter/source's bundled face, one per phase (0=A,
+	 *  1=B, 2=C). The bundle analog of {@link NodeKey}. */
+	private record PhaseNodeKey(BlockPos pos, Direction side, int phase) {
+	}
+
+	/** Whole-body bundle key - a {@link ThreePhaseWireBlockEntity}'s single electrical identity
+	 *  per phase, conductive on all six faces. The bundle analog of a bare {@link BlockPos}. */
+	private record BundleBodyKey(BlockPos pos, int phase) {
+	}
+
 	/** The union-find's resolved node-id assignment, decoupled from any particular {@link Circuit}
 	 *  or {@link AcCircuit} instance so both solvers can share exactly the same topology and node
 	 *  numbering rather than each recomputing (and potentially disagreeing on) it independently. */
@@ -145,6 +172,10 @@ public class CircuitNetworkManager {
 
 	private static Object keyFor(BlockPos pos, NetworkBlockEntity entity, Direction side) {
 		return entity instanceof SingleNodeBlockEntity ? pos : new NodeKey(pos, side);
+	}
+
+	private static Object bundleKeyFor(BlockPos pos, BundleParticipant entity, Direction side, int phase) {
+		return entity instanceof ThreePhaseWireBlockEntity ? new BundleBodyKey(pos, phase) : new PhaseNodeKey(pos, side, phase);
 	}
 
 	private NodeAssignment computeNodeAssignment() {
@@ -171,6 +202,55 @@ public class CircuitNetworkManager {
 					Object neighborKey = keyFor(neighborPos, neighbor, direction.getOpposite());
 					union(parent, myKey, neighborKey);
 				}
+			}
+		}
+
+		// Bundle graph (three-phase wiring) - same shape as the two loops above, gated behind
+		// BundleParticipant instead of NetworkParticipant, looped once per phase. See this class's
+		// own doc comment for why this can safely share the same `parent` map.
+		for (Map.Entry<BlockPos, NetworkBlockEntity> entry : participants.entrySet()) {
+			BlockPos pos = entry.getKey();
+			if (!(entry.getValue() instanceof BundleParticipant bundle)) continue;
+			for (Direction direction : Direction.values()) {
+				if (!bundle.isBundleConductiveTowards(direction)) continue;
+				for (int phase = 0; phase < 3; phase++) {
+					Object key = bundleKeyFor(pos, bundle, direction, phase);
+					parent.putIfAbsent(key, key);
+				}
+			}
+		}
+		for (Map.Entry<BlockPos, NetworkBlockEntity> entry : participants.entrySet()) {
+			BlockPos pos = entry.getKey();
+			if (!(entry.getValue() instanceof BundleParticipant bundle)) continue;
+			for (Direction direction : Direction.values()) {
+				if (!bundle.isBundleConductiveTowards(direction)) continue;
+				BlockPos neighborPos = pos.relative(direction);
+				NetworkBlockEntity neighbor = participants.get(neighborPos);
+				if (neighbor instanceof BundleParticipant neighborBundle
+						&& neighborBundle.isBundleConductiveTowards(direction.getOpposite())) {
+					for (int phase = 0; phase < 3; phase++) {
+						Object myKey = bundleKeyFor(pos, bundle, direction, phase);
+						Object neighborKey = bundleKeyFor(neighborPos, neighborBundle, direction.getOpposite(), phase);
+						union(parent, myKey, neighborKey);
+					}
+				}
+			}
+		}
+
+		// Bundler/Unbundler: the one place a union happens at the SAME position rather than across
+		// an adjacency - phase 0/1/2's mono lead is deliberately aliased directly onto the bundle's
+		// corresponding phase sub-node. Both keys are guaranteed already present in `parent` by
+		// this point (the mono and bundle init loops above already added them, since a
+		// BundleBridge is simultaneously a real NetworkParticipant on its mono faces and a real
+		// BundleParticipant on its bundle face).
+		for (Map.Entry<BlockPos, NetworkBlockEntity> entry : participants.entrySet()) {
+			BlockPos pos = entry.getKey();
+			if (!(entry.getValue() instanceof BundleBridge bridge)) continue;
+			BundleParticipant bundle = (BundleParticipant) bridge;
+			for (int phase = 0; phase < 3; phase++) {
+				Object monoKey = keyFor(pos, entry.getValue(), bridge.monoFace(phase));
+				Object bundleKey = bundleKeyFor(pos, bundle, bridge.bundleFace(), phase);
+				union(parent, monoKey, bundleKey);
 			}
 		}
 
@@ -249,6 +329,30 @@ public class CircuitNetworkManager {
 				int nodeControlOut = assignment.nodeIdByKey().get(new NodeKey(pos, Direction.SOUTH));
 				int nodeOutput = assignment.nodeIdByKey().get(new NodeKey(pos, Direction.UP));
 				ccvs.addToCircuit(circuit, nodeControlIn, nodeControlOut, nodeOutput);
+			} else if (entity instanceof ThreePhaseSourceBlockEntity source) {
+				int nodeNeutral = assignment.nodeIdByKey().get(new NodeKey(pos, source.getFacing().getOpposite()));
+				int[] nodesPhase = new int[3];
+				for (int phase = 0; phase < 3; phase++) {
+					nodesPhase[phase] = assignment.nodeIdByKey().get(new PhaseNodeKey(pos, source.getFacing(), phase));
+				}
+				source.addToCircuit(circuit, nodeNeutral, nodesPhase);
+			} else if (entity instanceof ThreePhaseComponentBlockEntity threePhaseComponent) {
+				// Covers the 3-phase Ammeter/Resistor/Inductor/Capacitor uniformly - all four share
+				// this base's "two bundled leads along FACING" shape, the bundle analog of how the
+				// generic ComponentBlockEntity branch above covers every mono 2-lead part at once.
+				int[] nodesA = new int[3];
+				int[] nodesB = new int[3];
+				for (int phase = 0; phase < 3; phase++) {
+					nodesA[phase] = assignment.nodeIdByKey().get(new PhaseNodeKey(pos, threePhaseComponent.getFacing(), phase));
+					nodesB[phase] = assignment.nodeIdByKey().get(new PhaseNodeKey(pos, threePhaseComponent.getFacing().getOpposite(), phase));
+				}
+				threePhaseComponent.addToCircuit(circuit, nodesA, nodesB);
+			} else if (entity instanceof ThreePhaseWireBlockEntity wire) {
+				int[] nodeIds = new int[3];
+				for (int phase = 0; phase < 3; phase++) {
+					nodeIds[phase] = assignment.nodeIdByKey().get(new BundleBodyKey(pos, phase));
+				}
+				wire.bindBundleNode(circuit, nodeIds);
 			} else if (entity instanceof SingleNodeBlockEntity singleNode) {
 				singleNode.bindNode(circuit, assignment.nodeIdByKey().get(pos));
 			}

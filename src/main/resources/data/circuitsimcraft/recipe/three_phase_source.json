@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:power_supply",
+    "circuitsimcraft:power_supply",
+    "circuitsimcraft:power_supply"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_source",
+    "count": 1
+  }
+}

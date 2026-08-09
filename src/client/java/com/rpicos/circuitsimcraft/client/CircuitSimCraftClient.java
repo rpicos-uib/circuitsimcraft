@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.network.AcBodePayload;
 import com.rpicos.circuitsimcraft.network.AcHintPayload;
 import com.rpicos.circuitsimcraft.network.OpenValueEditorPayload;
 import com.rpicos.circuitsimcraft.network.ProbeDataPayload;
+import com.rpicos.circuitsimcraft.network.ThreePhaseProbeDataPayload;
 import com.rpicos.circuitsimcraft.network.XyProbeDataPayload;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -16,15 +17,19 @@ public class CircuitSimCraftClient implements ClientModInitializer {
 	private static final Identifier OSCILLOSCOPE_HUD_ID = CircuitSimCraft.id("oscilloscope");
 	private static final Identifier XY_OSCILLOSCOPE_HUD_ID = CircuitSimCraft.id("xy_oscilloscope");
 	private static final Identifier AC_OSCILLOSCOPE_HUD_ID = CircuitSimCraft.id("ac_oscilloscope");
+	private static final Identifier THREE_PHASE_OSCILLOSCOPE_HUD_ID = CircuitSimCraft.id("three_phase_oscilloscope");
 
 	@Override
 	public void onInitializeClient() {
 		HudElementRegistry.addLast(OSCILLOSCOPE_HUD_ID, new OscilloscopeHud());
 		HudElementRegistry.addLast(XY_OSCILLOSCOPE_HUD_ID, new XyOscilloscopeHud());
 		HudElementRegistry.addLast(AC_OSCILLOSCOPE_HUD_ID, new AcOscilloscopeHud());
+		HudElementRegistry.addLast(THREE_PHASE_OSCILLOSCOPE_HUD_ID, new ThreePhaseOscilloscopeHud());
 
 		ClientPlayNetworking.registerGlobalReceiver(ProbeDataPayload.TYPE,
 				(payload, context) -> ProbeClientState.update(payload));
+		ClientPlayNetworking.registerGlobalReceiver(ThreePhaseProbeDataPayload.TYPE,
+				(payload, context) -> ThreePhaseProbeClientState.update(payload));
 		ClientPlayNetworking.registerGlobalReceiver(XyProbeDataPayload.TYPE,
 				(payload, context) -> XyProbeClientState.update(payload));
 		ClientPlayNetworking.registerGlobalReceiver(OpenValueEditorPayload.TYPE,

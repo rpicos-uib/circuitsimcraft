@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "circuitsimcraft:item/three_phase_bundler"
+  }
+}

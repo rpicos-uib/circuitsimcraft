@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:resistor",
+    "circuitsimcraft:resistor",
+    "circuitsimcraft:resistor"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_resistor",
+    "count": 1
+  }
+}

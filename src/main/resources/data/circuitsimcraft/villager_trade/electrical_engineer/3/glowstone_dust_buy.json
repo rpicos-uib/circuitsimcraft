@@ -1,0 +1,7 @@
+{
+  "gives": { "count": 1, "id": "minecraft:emerald" },
+  "max_uses": 15.0,
+  "reputation_discount": 0.05,
+  "wants": { "count": 4, "id": "minecraft:glowstone_dust" },
+  "xp": 10.0
+}

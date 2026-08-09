@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:probe",
+    "circuitsimcraft:probe",
+    "circuitsimcraft:probe"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_probe",
+    "count": 1
+  }
+}

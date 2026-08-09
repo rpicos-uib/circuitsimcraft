@@ -152,6 +152,34 @@ without any change to `Circuit`'s core solve loop (aside from one new stamping h
 | <img src="docs/icons/ccvs.png" width="32"> **CCVS** (current-controlled voltage source) | Same 4-face shape as the CCCS, driving a voltage (transresistance × sensed current) instead of a current. Shift+right-click edits the transresistance, 1–1,000 Ω. |
 | <img src="docs/icons/workbench.png" width="32"> **Workbench** | Not a circuit component - it has no leads and takes no part in the solver. It's the **Electronics Engineer** villager's job site block (see below): place one, let an unemployed villager claim it, and it starts selling the rest of this table. |
 
+## Three-Phase Components
+
+A whole second electrical "world" living alongside the mono one above — every component here has
+a **single bundled lead** carrying all three phases (A/B/C) at once, rather than three separate
+physical connections. A dedicated bundle wire lets you route that bundle anywhere (it merges with
+any touching bundle wire or bundled lead, exactly like the mono Wire does for a single node), and
+a Bundler/Unbundler pair crosses between the two worlds when you need to. Sold by the **Electrical
+Engineer** villager (see below), not the Electrician or Electronics Engineer.
+
+| Block/Item | What it is |
+|---|---|
+| <img src="docs/icons/three_phase_wire.png" width="32"> **3-Phase Wire** | The bundle equivalent of Wire — paints freely in any direction, merges with any touching 3-phase wire or bundled lead. Carries phase A/B/C together as one connection; a plain mono Wire touching it simply doesn't connect (you need a Bundler/Unbundler to cross between the two worlds). |
+| <img src="docs/icons/three_phase_source.png" width="32"> **3-Phase Source** | The facing direction is the bundled 3-phase output (three internal sinusoidal sources at the same frequency/amplitude, 120° apart — standard A/B/C phase rotation); the opposite face is an ordinary single neutral lead, wired to a Ground block the same way every other source's "back" lead works. Shift+right-click edits amplitude (12–400 V) and frequency (0.5–5 Hz). Redstone-gated like the Power Supply. |
+| <img src="docs/icons/three_phase_ammeter.png" width="32"> **3-Phase Ammeter** | Three independent ideal ammeters in series, one per phase — both leads bundled, in-line like the mono Ammeter. |
+| <img src="docs/icons/three_phase_resistor.png" width="32"> **3-Phase Resistor** | Three ordinary resistors in parallel, one per phase, sharing one editable resistance (10–10,000 Ω) — a balanced resistive load/bank. |
+| <img src="docs/icons/three_phase_inductor.png" width="32"> **3-Phase Inductor** | Same idea, three inductors sharing one editable inductance (0.01–5 H). |
+| <img src="docs/icons/three_phase_capacitor.png" width="32"> **3-Phase Capacitor** | Same idea, three capacitors sharing one editable capacitance (1–1,000 µF). |
+| <img src="docs/icons/three_phase_bundler.png" width="32"> **Phase Bundler** | Fixed, non-rotatable faces: the bundled lead is always Up, phase A/B/C are always North/East/South. Purely topological — no impedance added, exactly like a plain wire itself — takes three separate mono connections and aliases them directly onto the matching bundle sub-node. |
+| <img src="docs/icons/three_phase_unbundler.png" width="32"> **Phase Unbundler** | Electrically identical to the Bundler (same fixed faces, same zero-impedance aliasing) — a separate block purely so "bundle → three wires" and "three wires → bundle" read as distinct pieces when you're wiring a bench. |
+| <img src="docs/icons/three_phase_probe.png" width="32"> **3-Phase Oscilloscope Probe** | Right-click a bundled component to pin it (shift+right-click unpins) — up to 3 channels at once, same as the regular Probe, except each channel now overlays all three phases on one graph in the standard red/yellow/blue phase-color convention, instead of one trace per channel. |
+| <img src="docs/icons/switchboard.png" width="32"> **Switchboard** | Not a circuit component — the **Electrical Engineer** villager's job site block (see below). |
+
+Every 3-phase part is built from **three of its mono equivalent** — `3× Wire → 1× 3-Phase Wire`,
+`3× Power Supply → 1× 3-Phase Source`, `3× Ammeter → 1× 3-Phase Ammeter`, `3× Resistor/Inductor/
+Capacitor → 1×` the matching 3-phase part, `3× Probe → 1× 3-Phase Probe` — all shapeless. The
+Bundler/Unbundler are each `3× Wire + 1 iron ingot`, also shapeless. (Dedicated recipe-diagram
+images for this table, matching the style above, are a follow-up — not generated yet.)
+
 ## Crafting recipes
 
 All vanilla ingredients, no dependency on any other mod. Shapeless recipes are shown as a loose set
@@ -317,10 +345,46 @@ stock. The function's source is
 `data/circuitsimcraft/function/engineer_workshop.mcfunction` — plain `/fill`/`/setblock` commands,
 same as the Electrician's.
 
+## The Electrical Engineer villager
+
+Place a **Switchboard** (crafted the same way as the Workbench and Breadboard — see
+[Crafting recipes](#crafting-recipes)) and let an unemployed villager claim it as a job site; it
+becomes an **Electrical Engineer** and sells/buys the [Three-Phase Components](#three-phase-components)
+table above — a third profession, alongside the Electrician (basic mono components) and the
+Electronics Engineer (advanced mono components), this time for the bundled 3-phase world. Same
+leveling (Novice → Master), same pricing/restock conventions as the other two:
+
+| Level | Sells | Buys |
+|---|---|---|
+| 1 — Novice | 3-Phase Wire, 3-Phase Ammeter | Copper Ingot ×8 |
+| 2 — Apprentice | 3-Phase Source, 3-Phase Probe | Iron Nugget ×12 |
+| 3 — Journeyman | Phase Bundler, Phase Unbundler | Glowstone Dust ×4 |
+| 4 — Expert | 3-Phase Resistor, 3-Phase Inductor | Gold Ingot ×4 |
+| 5 — Master | 3-Phase Capacitor | Redstone Block ×1 |
+
+Same trading terms as the other two villagers: every trade allows **15** uses before restocking,
+and sell prices scale up with tier — 2 emeralds each at Novice, up to 8–9 emeralds at Expert/
+Master for the priciest bundle-graph parts (Bundler/Unbundler at 8, Inductor/Capacitor at 9).
+
+### Electrical Engineer's Workshop
+
+Same idea as the other two workshops, in its own distinct palette so all three professions'
+buildings read apart at a glance — a deepslate-brick-and-copper "substation" with a lightning
+rod finial, instead of the Electrician's oak cabin or the Electronics Engineer's stone lab:
+
+```
+/function circuitsimcraft:electrical_engineer_workshop
+```
+
+This places a Switchboard against the back wall, ready for a villager to walk in and take the
+job. The function's source is
+`data/circuitsimcraft/function/electrical_engineer_workshop.mcfunction` — plain
+`/fill`/`/setblock` commands, same as the other two.
+
 ## Worked-example circuits
 
-Six ready-made circuits, one datapack function each, the same `/fill`/`/setblock`-based
-approach as the two workshops above — no manual wiring required to get started. Stand where
+Seven ready-made circuits, one datapack function each, the same `/fill`/`/setblock`-based
+approach as the three workshops above — no manual wiring required to get started. Stand where
 you want the bench's southwest corner and run one:
 
 ```
@@ -330,6 +394,7 @@ you want the bench's southwest corner and run one:
 /function circuitsimcraft:half_wave_rectifier    # Experiment 4: half-wave rectifier
 /function circuitsimcraft:memristor_hysteresis   # Experiment 5: memristor pinched hysteresis loop
 /function circuitsimcraft:opamp_bode             # Experiment 6: op-amp open-loop Bode plot
+/function circuitsimcraft:three_phase_load       # Experiment 7: balanced three-phase resistive load
 ```
 
 Each clears its own space, pours its own foundation, wires up the circuit at every
@@ -338,10 +403,11 @@ across a save/reload, so a freshly-placed one always starts at its default regar
 an experiment calls for), places an unflipped lever on top of the source, and gives you the
 right oscilloscope probe for the job. The function's own header comment states the exact
 right-clicks needed to reach each experiment's intended component values and the expected
-result — these are the same six worked experiments described in full (derivations, predicted
-numbers, and the physics behind each) in the mod's companion paper,
-`latex_mod/sections/07_results_experiments.tex`, reproduced here as buildable structures rather
-than left as a diagram. Their sources live in `data/circuitsimcraft/function/`, plain text like
+result. The first six are described in full (derivations, predicted numbers, and the physics
+behind each) in the mod's companion paper, `latex_mod/sections/07_results_experiments.tex`,
+reproduced here as buildable structures rather than left as a diagram — Experiment 7 (the
+three-phase bench) postdates that writeup and isn't in the paper yet. Their sources live in
+`data/circuitsimcraft/function/`, plain text like
 every other function in the mod.
 
 ## Architecture, for anyone extending this

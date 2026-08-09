@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "circuitsimcraft:wire",
+    "circuitsimcraft:wire",
+    "circuitsimcraft:wire",
+    "minecraft:iron_ingot"
+  ],
+  "result": {
+    "id": "circuitsimcraft:three_phase_unbundler",
+    "count": 1
+  }
+}

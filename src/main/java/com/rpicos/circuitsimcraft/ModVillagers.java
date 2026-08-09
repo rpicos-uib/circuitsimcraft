@@ -18,9 +18,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Set;
 
-/** Both of the mod's villager professions: the Electrician (basic components, job site {@link
- *  ModBlocks#BREADBOARD}) and the Electronics Engineer (advanced components - transistors,
- *  controlled sources, the diode - job site {@link ModBlocks#WORKBENCH}). Unlike vanilla trades
+/** All three of the mod's villager professions: the Electrician (basic components, job site
+ *  {@link ModBlocks#BREADBOARD}), the Electronics Engineer (advanced components - transistors,
+ *  controlled sources, the diode - job site {@link ModBlocks#WORKBENCH}), and the Electrical
+ *  Engineer (three-phase components, job site {@link ModBlocks#SWITCHBOARD}). Unlike vanilla trades
  *  (hardcoded Java factories), this MC version's VillagerProfession only carries {@link
  *  ResourceKey}s pointing at data-driven TradeSet entries per level - the actual offers live
  *  under data/circuitsimcraft/{villager_trade,tags/villager_trade,trade_set}/&lt;profession&gt;/. */
@@ -34,6 +35,11 @@ public final class ModVillagers {
 			ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, CircuitSimCraft.id("electronics_engineer"));
 	public static final ResourceKey<VillagerProfession> ENGINEER =
 			ResourceKey.create(Registries.VILLAGER_PROFESSION, CircuitSimCraft.id("electronics_engineer"));
+
+	public static final ResourceKey<PoiType> ELECTRICAL_ENGINEER_POI =
+			ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, CircuitSimCraft.id("electrical_engineer"));
+	public static final ResourceKey<VillagerProfession> ELECTRICAL_ENGINEER =
+			ResourceKey.create(Registries.VILLAGER_PROFESSION, CircuitSimCraft.id("electrical_engineer"));
 
 	private static ResourceKey<TradeSet> tradeSetLevel(String profession, int level) {
 		return ResourceKey.create(Registries.TRADE_SET, CircuitSimCraft.id(profession + "/level_" + level));
@@ -75,5 +81,7 @@ public final class ModVillagers {
 				"entity.circuitsimcraft.villager.electrician");
 		registerProfession(ENGINEER_POI, ENGINEER, ModBlocks.WORKBENCH, "electronics_engineer",
 				"entity.circuitsimcraft.villager.electronics_engineer");
+		registerProfession(ELECTRICAL_ENGINEER_POI, ELECTRICAL_ENGINEER, ModBlocks.SWITCHBOARD, "electrical_engineer",
+				"entity.circuitsimcraft.villager.electrical_engineer");
 	}
 }

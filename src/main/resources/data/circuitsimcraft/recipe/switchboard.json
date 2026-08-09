@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": "minecraft:smooth_stone",
+    "N": "minecraft:copper_ingot",
+    "R": "minecraft:redstone_block"
+  },
+  "pattern": [
+    "PPP",
+    "NRN",
+    "PPP"
+  ],
+  "result": {
+    "id": "circuitsimcraft:switchboard",
+    "count": 1
+  }
+}
