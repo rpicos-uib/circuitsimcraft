@@ -389,18 +389,19 @@ job. The function's source is
 
 ## Worked-example circuits
 
-Seven ready-made circuits, one datapack function each, the same `/fill`/`/setblock`-based
+Eight ready-made circuits, one datapack function each, the same `/fill`/`/setblock`-based
 approach as the three workshops above — no manual wiring required to get started. Stand where
 you want the bench's southwest corner and run one:
 
 ```
-/function circuitsimcraft:voltage_divider        # Experiment 1: basic voltage divider
-/function circuitsimcraft:rc_lowpass             # Experiment 2: RC low-pass Bode plot
-/function circuitsimcraft:rlc_resonance          # Experiment 3: RLC resonance Bode plot
-/function circuitsimcraft:half_wave_rectifier    # Experiment 4: half-wave rectifier
-/function circuitsimcraft:memristor_hysteresis   # Experiment 5: memristor pinched hysteresis loop
-/function circuitsimcraft:opamp_bode             # Experiment 6: op-amp open-loop Bode plot
-/function circuitsimcraft:three_phase_load       # Experiment 7: balanced three-phase resistive load
+/function circuitsimcraft:voltage_divider           # Experiment 1: basic voltage divider
+/function circuitsimcraft:rc_lowpass                # Experiment 2: RC low-pass Bode plot
+/function circuitsimcraft:rlc_resonance             # Experiment 3: RLC resonance Bode plot
+/function circuitsimcraft:half_wave_rectifier       # Experiment 4: half-wave rectifier
+/function circuitsimcraft:memristor_hysteresis      # Experiment 5: memristor pinched hysteresis loop
+/function circuitsimcraft:opamp_bode                # Experiment 6: op-amp open-loop Bode plot
+/function circuitsimcraft:three_phase_load          # Experiment 7: balanced three-phase resistive load
+/function circuitsimcraft:three_phase_bundle_unbundle  # Experiment 8: bundle/unbundle round trip
 ```
 
 Each clears its own space, pours its own foundation, wires up the circuit at every
@@ -411,10 +412,13 @@ right oscilloscope probe for the job. The function's own header comment states t
 right-clicks needed to reach each experiment's intended component values and the expected
 result. The first six are described in full (derivations, predicted numbers, and the physics
 behind each) in the mod's companion paper, `latex_mod/sections/07_results_experiments.tex`,
-reproduced here as buildable structures rather than left as a diagram — Experiment 7 (the
-three-phase bench) postdates that writeup and isn't in the paper yet. Their sources live in
-`data/circuitsimcraft/function/`, plain text like
-every other function in the mod.
+reproduced here as buildable structures rather than left as a diagram — Experiments 7 and 8 (the
+three-phase benches) postdate that writeup and aren't in the paper yet. Experiment 8 is also the
+mod's reference build for the Bundler/Unbundler pair: a 3-Phase Source feeds an Unbundler, three
+separate mono Resistors (one per phase leg), a Bundler recombining them, a 3-Phase Resistor, and
+straight into Ground — demonstrating both directions of the bundle/mono crossing in one bench,
+and that Ground closes a bundle run directly with no second Unbundler needed. Their sources live
+in `data/circuitsimcraft/function/`, plain text like every other function in the mod.
 
 ## Architecture, for anyone extending this
 
