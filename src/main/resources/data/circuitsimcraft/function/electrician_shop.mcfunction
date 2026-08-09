@@ -18,8 +18,11 @@ fill ~-5 ~-3 ~-5 ~5 ~6 ~5 minecraft:air
 # doesn't get left as an open-air trench with nothing under it.
 fill ~-5 ~-3 ~-5 ~5 ~-2 ~5 minecraft:stone
 
-# Floor.
-fill ~-3 ~-1 ~-3 ~3 ~-1 ~3 minecraft:stone_bricks
+# Floor. Matches the footing's full x/z extent (not just the walls' footprint), same reasoning
+# as the footing's own comment above - otherwise the ring between the walls and the footing's
+# edge is left as an empty, un-filled gap right at walking level, most noticeable right outside
+# the door.
+fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 minecraft:stone_bricks
 
 # Walls (oak plank ring, 3 tall).
 fill ~-3 ~0 ~-3 ~3 ~2 ~-3 minecraft:oak_planks

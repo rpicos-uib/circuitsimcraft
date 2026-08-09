@@ -20,8 +20,11 @@ fill ~-5 ~-3 ~-5 ~5 ~6 ~5 minecraft:air
 # doesn't get left as an open-air trench with nothing under it.
 fill ~-5 ~-3 ~-5 ~5 ~-2 ~5 minecraft:stone
 
-# Floor.
-fill ~-3 ~-1 ~-3 ~3 ~-1 ~3 minecraft:polished_andesite
+# Floor. Matches the footing's full x/z extent (not just the walls' footprint), same reasoning
+# as the footing's own comment above - otherwise the ring between the walls and the footing's
+# edge is left as an empty, un-filled gap right at walking level, most noticeable right outside
+# the door.
+fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 minecraft:polished_andesite
 
 # Walls (stone brick ring, 3 tall).
 fill ~-3 ~0 ~-3 ~3 ~2 ~-3 minecraft:stone_bricks
@@ -42,9 +45,10 @@ setblock ~2 ~1 ~3 minecraft:iron_bars
 setblock ~-3 ~1 ~0 minecraft:iron_bars
 setblock ~3 ~1 ~0 minecraft:iron_bars
 
-# Door, centered on the south wall.
-setblock ~0 ~0 ~3 minecraft:iron_door[facing=south,half=lower,hinge=left,open=false,powered=false]
-setblock ~0 ~1 ~3 minecraft:iron_door[facing=south,half=upper,hinge=left,open=false,powered=false]
+# Door, centered on the south wall. Spruce, not iron - a wood door opens with a plain
+# right-click; an iron door needs a redstone signal, which nothing here provides.
+setblock ~0 ~0 ~3 minecraft:spruce_door[facing=south,half=lower,hinge=left,open=false,powered=false]
+setblock ~0 ~1 ~3 minecraft:spruce_door[facing=south,half=upper,hinge=left,open=false,powered=false]
 
 # Roof: a single overhanging slab cap.
 fill ~-4 ~3 ~-4 ~4 ~3 ~4 minecraft:smooth_stone_slab[type=top]

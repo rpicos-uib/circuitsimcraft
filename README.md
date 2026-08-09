@@ -482,7 +482,7 @@ See [`COMPONENT_ADD.md`](COMPONENT_ADD.md) and [`MOD_ARCHITECTURE.md`](MOD_ARCHI
 the full walkthrough, including the second-villager-profession pattern if your component should be
 sold by a new profession rather than an existing one.
 
-### Known limitations (v0.8)
+### Known limitations
 
 - **Component state resets on circuit rebuild.** `CircuitNetworkManager` rebuilds the whole
   `Circuit` from scratch whenever wiring changes anywhere in that network, so a capacitor's charge
@@ -491,20 +491,25 @@ sold by a new profession rather than an existing one.
   of a memristor. Making the others persist too is a good first contribution.
 - **No recipe-book unlock advancements** — recipes work but won't appear highlighted/toast when
   first available.
-- **AC analysis is small-signal only, and doesn't cover the Advanced Components at all yet.** Every
-  independent source other than the pinned AC Source is always stamped at 0V during a sweep,
-  regardless of its own redstone-activated state; the op-amp's two-pole gain (100dB DC gain, poles
-  at 20Hz/3MHz) is a fixed constant, not yet exposed through the value editor; and the memristor's
-  AC case is simply a frozen resistor with no frequency dependence of its own modeled yet. The
-  transistors and the four controlled sources simply have no `AcStampable` implementation at all,
-  so they behave as an open circuit during a Bode-plot sweep by omission rather than by any
-  deliberate small-signal model — a real next contribution, not a design choice.
+- **AC analysis is small-signal only, and doesn't cover the Advanced Components or the
+  Three-Phase Components at all yet.** Every independent source other than the pinned AC Source
+  is always stamped at 0V during a sweep, regardless of its own redstone-activated state; the
+  op-amp's two-pole gain (100dB DC gain, poles at 20Hz/3MHz) is a fixed constant, not yet exposed
+  through the value editor; and the memristor's AC case is simply a frozen resistor with no
+  frequency dependence of its own modeled yet. The transistors, the four controlled sources, and
+  every three-phase component simply have no `AcStampable` implementation at all, so they behave
+  as an open circuit during a Bode-plot sweep by omission rather than by any deliberate
+  small-signal model — a real next contribution, not a design choice.
 - **The base/gate badge texture on a vertically-placed transistor is unverified.** The Java
   electrical model is orientation-correct regardless (base/gate is always the block's north face
   when placed facing up/down, per the wiring rules above) — what's untested is only whether the
   *texture* painted on that literal north face reads correctly to the player when the block itself
   is lying on its side. Confirmed correct for all four horizontal orientations; not yet visually
   checked for facing up/down.
+- **The 3-Phase Oscilloscope's actual on-screen rendering, and the Electrical Engineer's trade
+  offers, haven't been visually confirmed in a real connected client** — both were only verified
+  via server-side headless testing (real solved circuit values, checked by log) rather than by
+  looking at the rendered game.
 
 ## Contributing
 
