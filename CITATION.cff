@@ -17,7 +17,7 @@ authors:
   - family-names: "Picos"
     given-names: "Gerard"
     affiliation: "Universitat de les Illes Balears"
-version: 0.8.5
+version: 0.8.6
 date-released: 2026-08-09
 url: "https://github.com/rpicos-uib/circuitsimcraft"
 repository-code: "https://github.com/rpicos-uib/circuitsimcraft"
