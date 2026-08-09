@@ -23,7 +23,7 @@ import java.util.List;
 public class ThreePhaseOscilloscopeHud implements HudElement {
 
 	private static final int WIDTH = 118;
-	private static final int HEIGHT = 74;
+	private static final int HEIGHT = 84;
 	private static final int MARGIN = 6;
 	private static final int GAP = 4;
 	private static final int HIGHLIGHT_COLOR = 0xFFFFD060;
@@ -72,7 +72,7 @@ public class ThreePhaseOscilloscopeHud implements HudElement {
 		int graphX0 = x0 + 4;
 		int graphY0 = y0 + 4;
 		int graphX1 = x1 - 4;
-		int graphY1 = y0 + HEIGHT - 24;
+		int graphY1 = y0 + HEIGHT - 34;
 		int graphHeight = graphY1 - graphY0;
 		int midY = graphY0 + graphHeight / 2;
 
@@ -96,10 +96,16 @@ public class ThreePhaseOscilloscopeHud implements HudElement {
 			drawTrace(extractor, histories.get(phase), graphX0, graphX1, midY, graphHeight, maxAbs, PHASE_COLORS[phase]);
 		}
 
-		String reading = String.format("A%.1f B%.1f C%.1f V", data.voltageA(), data.voltageB(), data.voltageC());
-		extractor.text(font, reading, x0 + 4, graphY1 + 2, 0xFFDDDDDD, false);
+		// Both voltage and current, always - matching OscilloscopeHud's own mono convention. Showing
+		// only voltage here would be actively misleading for a component like the 3-Phase Ammeter:
+		// an ideal ammeter is a 0V source by construction (see ThreePhaseAmmeterBlockEntity), so its
+		// voltage reading is always ~0 regardless of how much current is actually flowing through it.
+		String voltageReading = String.format("A%.1f B%.1f C%.1f V", data.voltageA(), data.voltageB(), data.voltageC());
+		String currentReading = String.format("A%.3f B%.3f C%.3f A", data.currentA(), data.currentB(), data.currentC());
+		extractor.text(font, voltageReading, x0 + 4, graphY1 + 2, 0xFFDDDDDD, false);
+		extractor.text(font, currentReading, x0 + 4, graphY1 + 12, 0xFFDDDDDD, false);
 		String summary = data.willBeReplacedNext() ? data.summary() + " (next)" : data.summary();
-		extractor.text(font, summary, x0 + 4, graphY1 + 12, 0xFFDDDDDD, false);
+		extractor.text(font, summary, x0 + 4, graphY1 + 22, 0xFFDDDDDD, false);
 	}
 
 	private static void drawTrace(GuiGraphicsExtractor extractor, List<Float> history,

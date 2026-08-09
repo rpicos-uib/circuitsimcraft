@@ -175,7 +175,11 @@ public class CircuitNetworkManager {
 	}
 
 	private static Object bundleKeyFor(BlockPos pos, BundleParticipant entity, Direction side, int phase) {
-		return entity instanceof ThreePhaseWireBlockEntity ? new BundleBodyKey(pos, phase) : new PhaseNodeKey(pos, side, phase);
+		// Wire and Ground are both whole-body bundle participants (one shared identity per phase
+		// across all six faces), exactly matching how keyFor() already treats them in the mono
+		// graph via SingleNodeBlockEntity - everything else keys per-lead instead.
+		return entity instanceof ThreePhaseWireBlockEntity || entity instanceof GroundBlockEntity
+				? new BundleBodyKey(pos, phase) : new PhaseNodeKey(pos, side, phase);
 	}
 
 	private NodeAssignment computeNodeAssignment() {
@@ -256,10 +260,20 @@ public class CircuitNetworkManager {
 
 		Map<Object, Integer> nodeIdByRoot = new HashMap<>();
 		// Any network a Ground block touches gets anchored to node 0 (always exactly 0V) instead
-		// of an arbitrary freshly-allocated node - see rebuild()'s original comment for why.
+		// of an arbitrary freshly-allocated node - see rebuild()'s original comment for why. A
+		// Ground is bundle-conductive too (see GroundBlockEntity's own doc comment), so its three
+		// per-phase bundle identities need the exact same anchoring as its one mono identity -
+		// otherwise a bundle wire run ending at a Ground would just get its own arbitrary
+		// unreferenced node instead of the real 0V anchor.
 		for (Map.Entry<BlockPos, NetworkBlockEntity> entry : participants.entrySet()) {
 			if (entry.getValue() instanceof GroundBlockEntity) {
 				nodeIdByRoot.put(find(parent, entry.getKey()), 0);
+				for (int phase = 0; phase < 3; phase++) {
+					Object bundleKey = new BundleBodyKey(entry.getKey(), phase);
+					if (parent.containsKey(bundleKey)) {
+						nodeIdByRoot.put(find(parent, bundleKey), 0);
+					}
+				}
 			}
 		}
 

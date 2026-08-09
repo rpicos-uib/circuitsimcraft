@@ -163,7 +163,7 @@ Engineer** villager (see below), not the Electrician or Electronics Engineer.
 
 | Block/Item | What it is |
 |---|---|
-| <img src="docs/icons/three_phase_wire.png" width="32"> **3-Phase Wire** | The bundle equivalent of Wire — paints freely in any direction, merges with any touching 3-phase wire or bundled lead. Carries phase A/B/C together as one connection; a plain mono Wire touching it simply doesn't connect (you need a Bundler/Unbundler to cross between the two worlds). |
+| <img src="docs/icons/three_phase_wire.png" width="32"> **3-Phase Wire** | The bundle equivalent of Wire — paints freely in any direction, merges with any touching 3-phase wire or bundled lead. Carries phase A/B/C together as one connection; a plain mono Wire touching it simply doesn't connect (you need a Bundler/Unbundler to cross between the two worlds) — **except Ground**, which closes either world directly (see below). |
 | <img src="docs/icons/three_phase_source.png" width="32"> **3-Phase Source** | The facing direction is the bundled 3-phase output (three internal sinusoidal sources at the same frequency/amplitude, 120° apart — standard A/B/C phase rotation); the opposite face is an ordinary single neutral lead, wired to a Ground block the same way every other source's "back" lead works. Shift+right-click edits amplitude (12–400 V) and frequency (0.5–5 Hz). Redstone-gated like the Power Supply. |
 | <img src="docs/icons/three_phase_ammeter.png" width="32"> **3-Phase Ammeter** | Three independent ideal ammeters in series, one per phase — both leads bundled, in-line like the mono Ammeter. |
 | <img src="docs/icons/three_phase_resistor.png" width="32"> **3-Phase Resistor** | Three ordinary resistors in parallel, one per phase, sharing one editable resistance (10–10,000 Ω) — a balanced resistive load/bank. |
@@ -179,6 +179,12 @@ Every 3-phase part is built from **three of its mono equivalent** — `3× Wire 
 Capacitor → 1×` the matching 3-phase part, `3× Probe → 1× 3-Phase Probe` — all shapeless. The
 Bundler/Unbundler are each `3× Wire + 1 iron ingot`, also shapeless. (Dedicated recipe-diagram
 images for this table, matching the style above, are a follow-up — not generated yet.)
+
+**Ground works in both worlds** — a `circuitsimcraft:ground` block is bundle-conductive as well as
+its usual mono conductivity, so a 3-Phase Wire run can end directly at a Ground with no Bundler/
+Unbundler needed, exactly like a mono Wire run already could. You only need an Unbundler when you
+actually want the three phases split out to separate mono destinations (three individual gauges,
+three individual loads, etc.) — not just to close a loop back to 0V.
 
 ## Crafting recipes
 
