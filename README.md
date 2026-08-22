@@ -8,7 +8,7 @@ scripted approximation.
 
 This is a teaching tool: the goal is for the in-game behavior to actually match what you'd see on
 a real bench (RC charge curves, RL transients, a memristor's resistance drifting with accumulated
-charge), just at Minecraft-tick timescales instead of real-world ones.
+charge), just at Minecraft-tick timescales instead of real-world ones. 
 
 ## Screenshots
 
