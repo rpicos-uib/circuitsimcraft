@@ -177,8 +177,9 @@ Engineer** villager (see below), not the Electrician or Electronics Engineer.
 Every 3-phase part is built from **three of its mono equivalent** — `3× Wire → 1× 3-Phase Wire`,
 `3× Power Supply → 1× 3-Phase Source`, `3× Ammeter → 1× 3-Phase Ammeter`, `3× Resistor/Inductor/
 Capacitor → 1×` the matching 3-phase part, `3× Probe → 1× 3-Phase Probe` — all shapeless. The
-Bundler/Unbundler are each `3× Wire + 1 iron ingot`, also shapeless. See the
-[Crafting recipes](#crafting-recipes) table below for the recipe diagrams.
+Bundler/Unbundler are each `3× Wire + 1 iron ingot`, shaped (an iron ingot centered above vs.
+below the row of wire, mirroring each other). See the [Crafting recipes](#crafting-recipes)
+table below for the recipe diagrams.
 
 **Ground works in both worlds** — a `circuitsimcraft:ground` block is bundle-conductive as well as
 its usual mono conductivity, so a 3-Phase Wire run can end directly at a Ground with no Bundler/
@@ -232,8 +233,8 @@ same result, rather than merged into one image.
 | <img src="docs/recipes/three_phase_resistor.png"> | **3-Phase Resistor ×1** — 3× Resistor (shapeless). |
 | <img src="docs/recipes/three_phase_inductor.png"> | **3-Phase Inductor ×1** — 3× Inductor (shapeless). |
 | <img src="docs/recipes/three_phase_capacitor.png"> | **3-Phase Capacitor ×1** — 3× Capacitor (shapeless). |
-| <img src="docs/recipes/three_phase_bundler.png"> | **Phase Bundler ×1** — 3× Wire + 1 iron ingot (shapeless). |
-| <img src="docs/recipes/three_phase_unbundler.png"> | **Phase Unbundler ×1** — 3× Wire + 1 iron ingot (shapeless). |
+| <img src="docs/recipes/three_phase_bundler.png"> | **Phase Bundler ×1** — iron ingot centered above a row of 3 Wire, shaped. |
+| <img src="docs/recipes/three_phase_unbundler.png"> | **Phase Unbundler ×1** — iron ingot centered below a row of 3 Wire, shaped — the mirror of the Bundler's own recipe. |
 | <img src="docs/recipes/three_phase_probe.png"> | **3-Phase Oscilloscope Probe ×1** — 3× Probe (shapeless). |
 
 None of these have recipe-book unlock advancements yet, so they won't show a "new recipe" toast —
