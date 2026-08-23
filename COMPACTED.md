@@ -45,8 +45,32 @@ same rule `SESSION_NOTES.md` already follows for itself.
   `./gradlew build` + a headless `runServer` boot reaching `Done` with zero datapack/recipe
   errors (grepped the full log). Shipped everywhere: GitHub `main`/tagged Release `v0.9.4.1`
   (jar sha256 `e6d1ec85059f9e7ea0294cd0087cdc0821f4ca210f091042d04761ae4042d820`), Modrinth version
-  `116Z5c0T`, CurseForge file id `8719040`. **Not yet deployed to the live server or
-  `~/.minecraft`** - only asked to update Modrinth/CurseForge this round.
+  `116Z5c0T`, CurseForge file id `8719184`, and `~/.minecraft` (old jar removed, new one copied
+  in and sha256-verified; not yet restarted to pick it up as of this writing). **Not deployed to
+  the live server this round** - only Modrinth/CurseForge/local-client were asked for.
+  **CurseForge project id correction, worth getting right next time**: the actual live
+  "circuitsimcraft" project is id **`1645525`**, not `1645342` - `1645342` (the number this file
+  itself had recorded since the 2026-08-09 rename entry below) 404s on `curseforge.com/projects/
+  1645342` and, when used against the legacy upload API, silently returns a normal-looking
+  `{"id":<n>}` HTTP 200 anyway (a real file id was returned, but a browser check of the actual
+  project's Files page never showed it - almost certainly landed on some other/orphaned project
+  the token also happens to have access to, not a visible error, so **the 200 response alone does
+  not prove the upload reached the right project** - always cross-check the project id against
+  the live page, e.g. `curseforge.com/minecraft/mc-mods/circuitsimcraft` -> "Project ID", before
+  trusting a past session's recorded number). Separately, uploading to the *correct* project
+  (`1645525`) 500'd ("An unhandled exception occurred") until `gameVersions` also included the
+  **environment** version-type's ids, not just the Minecraft-version (`16498`) and loader
+  (`7499`) ones already known - `GET .../api/game/version-types` has an `id 75208`/slug
+  `environment` bucket with two entries, `9638` (Client) and `9639` (Server); this project's page
+  shows "Environment: Client & Server", and including both ids (`gameVersions: [16498, 7499,
+  9638, 9639]`) is what finally got a real `200`/`{"id":8719184}` verified as actually appearing
+  on the live Files page. **Full correct recipe for any future CircuitSimCraft CurseForge
+  upload**: `POST https://minecraft.curseforge.com/api/projects/1645525/upload-file` with
+  `X-Api-Token` from `.claude/curseforge_token.local`, multipart `metadata` (JSON: `changelog`,
+  `changelogType`, `displayName`, `gameVersions: [16498, 7499, 9638, 9639]`, `releaseType`,
+  `featured: true`) + `file` (the jar) - and always verify afterward via the actual public Files
+  page, not just the API's HTTP status, since this API has now been seen returning a
+  misleadingly-successful `200` for at least one wrong-project case.
 - **v0.9.4, 2026-08-09**: new worked-example bench, Experiment 8
   (`three_phase_bundle_unbundle.mcfunction`) - 3-Phase Source -> Unbundler -> three mono
   Resistors (one per split-out phase leg) -> Bundler -> 3-Phase Resistor -> Ground directly (no

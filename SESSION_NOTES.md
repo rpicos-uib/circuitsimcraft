@@ -2399,8 +2399,58 @@ call blocks until the still-running reader consumes it, which is fine), or bette
 entire launch-wait-command-stop sequence inside a single Bash call's own polling loop. Used the
 latter for this session's later verification runs.
 
-Version bumped **0.9.4 -> 0.9.4.1** (patch, gradle.properties + CITATION.cff). Shipped
-everywhere: GitHub `main` (gradle.properties/CITATION.cff commit `1e1bf9b`), tagged Release
-`v0.9.4.1` (jar sha256 `e6d1ec85059f9e7ea0294cd0087cdc0821f4ca210f091042d04761ae4042d820`),
-Modrinth version `116Z5c0T`, CurseForge file id `8719040`. **Not deployed to the live server or
-`~/.minecraft` this round** - only GitHub/Modrinth/CurseForge were requested.
+Version bumped **0.9.4 -> 0.9.4.1** (patch, gradle.properties + CITATION.cff). Shipped to GitHub
+`main` (gradle.properties/CITATION.cff commit `1e1bf9b`), tagged Release `v0.9.4.1` (jar sha256
+`e6d1ec85059f9e7ea0294cd0087cdc0821f4ca210f091042d04761ae4042d820`), and Modrinth (version
+`116Z5c0T`) cleanly on the first try. **CurseForge was not this clean - a real mistake made and
+caught within the same session**:
+
+The first upload used project id `1645342`, the number this very file had recorded since the
+2026-08-09 rename entry. It returned a normal-looking `{"id":8719040}` / HTTP 200 - by every
+signal this API gives, that's a successful upload. **It wasn't.** Asked to visually confirm via
+browser (the user's own suggestion, after being told the legacy API has no authenticated
+read-back), the actual project's Files page (`curseforge.com/minecraft/mc-mods/circuitsimcraft/
+files/all`) still showed 0.9.4 as the latest file, and the page's own "Project ID" field read
+**`1645525`**, not `1645342`. Confirmed `curseforge.com/projects/1645342` 404s ("no one around")
+while the same URL shape for `1645525` correctly resolves to the real project (control-tested
+both ways, so it wasn't just a URL-pattern quirk) - `1645342` is either a stale/orphaned/
+never-published project from before the CircuitCraft->CircuitSimCraft rename, or something else
+entirely; either way it is *not* this mod's real CurseForge listing, despite having been recorded
+in this project's own notes as if it were, since the 0.8.5/0.8.6 uploads earlier this project's
+history.
+
+**Lesson**: this legacy upload API returning `HTTP 200` + a plausible-looking file id is *not*
+proof the upload reached the intended project - it apparently accepts uploads against a project
+id the token has stale/incidental access to without any error, silently. Always cross-check the
+actual project id against the live page (`curseforge.com/minecraft/mc-mods/<slug>` -> "Project
+ID" field) before trusting a previously-recorded number, and always verify a real upload by
+loading the public Files page afterward, not just by trusting the API response.
+
+Re-uploading to the *correct* project id (`1645525`) then hit a second, separate problem: `HTTP
+500 "An unhandled exception occurred while processing the request"`, repeatably, regardless of
+retrying or waiting out a possible rate limit. Stripping the metadata down to find the actual
+cause surfaced a real (if oddly generic-500-first) validation error: `errorCode 1021, "You must
+select at least one version from the environment group of versions"`. The stored `gameVersions`
+list (`[16498, 7499]` - Minecraft 26.2 and Fabric) had always been missing a third bucket this
+particular project apparently requires: **environment** (`GET .../api/game/version-types` has an
+id `75208`/slug `environment` type; its two entries are id `9638` = Client and id `9639` =
+Server - the project's own page shows "Environment: Client & Server", meaning both ids together).
+Adding both fixed it: `gameVersions: [16498, 7499, 9638, 9639]` got a real `200`/
+`{"id":8719184}`, and this time a browser check of the live Files page (after a short delay -
+the user reported "it's there" a couple minutes later; a same-second automated recheck still
+404'd on the direct file URL, so there's a real, if short, propagation/scan delay before a fresh
+upload appears publicly) confirmed it for real. **This is now the confirmed-correct recipe for
+any future CircuitSimCraft CurseForge upload** - see the corrected entry in `COMPACTED.md`'s
+current-state bullet for the exact request shape; use `1645525` and all four `gameVersions` ids
+every time, and don't trust the old `1645342`/`8719040` numbers anywhere else in this file's
+older entries.
+
+Also updated the local client this same round (separately requested, after "update also the
+local server" was clarified via `AskUserQuestion` to mean `~/.minecraft`, not the live
+production server): removed `~/.minecraft/mods/circuitsimcraft-0.9.4.jar`, copied in the freshly
+built `circuitsimcraft-0.9.4.1.jar`, sha256-verified against the release build, left the other
+three unrelated mods (Fabric API, Sodium, LambDynamicLights, QuantumCraft) untouched. The real
+client process was running at the time (checked narrowly via `pgrep -f KnotClient`, not a broad
+`ps aux` - see this file's earlier credential-exposure entry for why) - swapping the jar on disk
+is safe regardless, but it won't take effect until the user restarts. **Not deployed to the live
+server this round** - only GitHub/Modrinth/CurseForge/local-client were ever requested.
