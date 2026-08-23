@@ -8,7 +8,7 @@ scripted approximation.
 
 This is a teaching tool: the goal is for the in-game behavior to actually match what you'd see on
 a real bench (RC charge curves, RL transients, a memristor's resistance drifting with accumulated
-charge), just at Minecraft-tick timescales instead of real-world ones. 
+charge), just at Minecraft-tick timescales instead of real-world ones.
 
 ## Screenshots
 
@@ -177,8 +177,8 @@ Engineer** villager (see below), not the Electrician or Electronics Engineer.
 Every 3-phase part is built from **three of its mono equivalent** — `3× Wire → 1× 3-Phase Wire`,
 `3× Power Supply → 1× 3-Phase Source`, `3× Ammeter → 1× 3-Phase Ammeter`, `3× Resistor/Inductor/
 Capacitor → 1×` the matching 3-phase part, `3× Probe → 1× 3-Phase Probe` — all shapeless. The
-Bundler/Unbundler are each `3× Wire + 1 iron ingot`, also shapeless. (Dedicated recipe-diagram
-images for this table, matching the style above, are a follow-up — not generated yet.)
+Bundler/Unbundler are each `3× Wire + 1 iron ingot`, also shapeless. See the
+[Crafting recipes](#crafting-recipes) table below for the recipe diagrams.
 
 **Ground works in both worlds** — a `circuitsimcraft:ground` block is bundle-conductive as well as
 its usual mono conductivity, so a 3-Phase Wire run can end directly at a Ground with no Bundler/
@@ -226,6 +226,15 @@ same result, rather than merged into one image.
 | <img src="docs/recipes/cccs.png"> | **CCCS ×1** — 3×3 gold/copper shell around a Comparator core. |
 | <img src="docs/recipes/ccvs.png"> | **CCVS ×1** — 3×3 gold/iron shell around a Comparator core. |
 | <img src="docs/recipes/workbench.png"> | **Workbench ×1** — 3×3, smooth stone frame around a redstone-and-iron-nugget core (the Breadboard's own job-site pattern, restyled in stone). |
+| <img src="docs/recipes/three_phase_wire.png"> | **3-Phase Wire ×1** — 3× Wire (shapeless). |
+| <img src="docs/recipes/three_phase_source.png"> | **3-Phase Source ×1** — 3× Power Supply (shapeless). |
+| <img src="docs/recipes/three_phase_ammeter.png"> | **3-Phase Ammeter ×1** — 3× Ammeter (shapeless). |
+| <img src="docs/recipes/three_phase_resistor.png"> | **3-Phase Resistor ×1** — 3× Resistor (shapeless). |
+| <img src="docs/recipes/three_phase_inductor.png"> | **3-Phase Inductor ×1** — 3× Inductor (shapeless). |
+| <img src="docs/recipes/three_phase_capacitor.png"> | **3-Phase Capacitor ×1** — 3× Capacitor (shapeless). |
+| <img src="docs/recipes/three_phase_bundler.png"> | **Phase Bundler ×1** — 3× Wire + 1 iron ingot (shapeless). |
+| <img src="docs/recipes/three_phase_unbundler.png"> | **Phase Unbundler ×1** — 3× Wire + 1 iron ingot (shapeless). |
+| <img src="docs/recipes/three_phase_probe.png"> | **3-Phase Oscilloscope Probe ×1** — 3× Probe (shapeless). |
 
 None of these have recipe-book unlock advancements yet, so they won't show a "new recipe" toast —
 but they're fully craftable by hand right now. See [Contributing](#contributing) if you want to add
