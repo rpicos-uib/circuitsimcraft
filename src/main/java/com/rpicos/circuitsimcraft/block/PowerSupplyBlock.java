@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.PowerSupplyBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -12,15 +11,8 @@ import net.minecraft.world.level.redstone.Orientation;
 import org.jspecify.annotations.Nullable;
 
 public class PowerSupplyBlock extends ComponentBlock {
-	public static final MapCodec<PowerSupplyBlock> CODEC = simpleCodec(PowerSupplyBlock::new);
-
 	public PowerSupplyBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<PowerSupplyBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

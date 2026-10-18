@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.PmosBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -9,15 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 public class PmosBlock extends ComponentBlock {
-	public static final MapCodec<PmosBlock> CODEC = simpleCodec(PmosBlock::new);
-
 	public PmosBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<PmosBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

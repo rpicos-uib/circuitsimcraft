@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.ThreePhaseSourceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -18,15 +17,8 @@ import org.jspecify.annotations.Nullable;
  *  resolved by its own dedicated branch in {@code CircuitNetworkManager.rebuild()} rather than
  *  the generic {@code ComponentBlockEntity} one. */
 public class ThreePhaseSourceBlock extends ComponentBlock {
-	public static final MapCodec<ThreePhaseSourceBlock> CODEC = simpleCodec(ThreePhaseSourceBlock::new);
-
 	public ThreePhaseSourceBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<ThreePhaseSourceBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

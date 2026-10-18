@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.CccsBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,15 +12,8 @@ import org.jspecify.annotations.Nullable;
  *  isConductiveTowards}) - it only enforces the pinned-FACING/must-sit-on-Ground placement
  *  rule, which a CCCS needs exactly as much as a two- or three-face grounded component does. */
 public class CccsBlock extends GroundedComponentBlock {
-	public static final MapCodec<CccsBlock> CODEC = simpleCodec(CccsBlock::new);
-
 	public CccsBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<CccsBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

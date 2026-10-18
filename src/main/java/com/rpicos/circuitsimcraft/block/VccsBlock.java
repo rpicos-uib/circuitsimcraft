@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.VccsBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -9,15 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 public class VccsBlock extends GroundedComponentBlock {
-	public static final MapCodec<VccsBlock> CODEC = simpleCodec(VccsBlock::new);
-
 	public VccsBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<VccsBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

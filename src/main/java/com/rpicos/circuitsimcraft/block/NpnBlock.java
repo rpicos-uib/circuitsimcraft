@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.NpnBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,15 +11,8 @@ import org.jspecify.annotations.Nullable;
  *  {@link OpAmpBlock} does for the same reason: a three-terminal component's block-side
  *  placement logic doesn't depend on how many leads its block entity actually has. */
 public class NpnBlock extends ComponentBlock {
-	public static final MapCodec<NpnBlock> CODEC = simpleCodec(NpnBlock::new);
-
 	public NpnBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<NpnBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

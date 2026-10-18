@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.WireBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
@@ -12,15 +11,8 @@ import org.jspecify.annotations.Nullable;
 
 /** A simple conductive block: connects to any neighbouring wire or component terminal on all six faces. */
 public class WireBlock extends Block implements EntityBlock {
-	public static final MapCodec<WireBlock> CODEC = simpleCodec(WireBlock::new);
-
 	public WireBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<WireBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

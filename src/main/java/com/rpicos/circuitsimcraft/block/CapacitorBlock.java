@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.CapacitorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -9,15 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 public class CapacitorBlock extends ComponentBlock {
-	public static final MapCodec<CapacitorBlock> CODEC = simpleCodec(CapacitorBlock::new);
-
 	public CapacitorBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<CapacitorBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

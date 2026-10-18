@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.VoltmeterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,15 +13,8 @@ import org.jspecify.annotations.Nullable;
  *  {@link VoltmeterBlockEntity#addToCircuit}), so it never completes a circuit path on its
  *  own the way a Wire or Ammeter would. */
 public class VoltmeterBlock extends ComponentBlock {
-	public static final MapCodec<VoltmeterBlock> CODEC = simpleCodec(VoltmeterBlock::new);
-
 	public VoltmeterBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<VoltmeterBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

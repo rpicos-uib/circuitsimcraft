@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.R2VConverterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,15 +15,8 @@ import org.jspecify.annotations.Nullable;
  *  B - and outputs V = A*16 + B (0-255V) on its up lead, referenced against the Ground block it
  *  must be placed directly on (its down lead, enforced by {@link GroundedComponentBlock}). */
 public class R2VConverterBlock extends GroundedComponentBlock {
-	public static final MapCodec<R2VConverterBlock> CODEC = simpleCodec(R2VConverterBlock::new);
-
 	public R2VConverterBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<R2VConverterBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.CurrentSourceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -14,15 +13,8 @@ import org.jspecify.annotations.Nullable;
 /** An ideal independent current source. Redstone-gated exactly like {@link PowerSupplyBlock} -
  *  an inactive source is an open circuit rather than a live 0A source, for the same reason. */
 public class CurrentSourceBlock extends ComponentBlock {
-	public static final MapCodec<CurrentSourceBlock> CODEC = simpleCodec(CurrentSourceBlock::new);
-
 	public CurrentSourceBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<CurrentSourceBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

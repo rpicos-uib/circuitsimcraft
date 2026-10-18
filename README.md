@@ -21,25 +21,25 @@ Resistor, each with their own color-coded trace and live V/I readout:
 
 ## Requirements
 
-- **Minecraft 26.2** — note this is Mojang's new `year.release` versioning, *not* the old `1.21.x`
+- **Minecraft 26.3** — note this is Mojang's new `year.release` versioning, *not* the old `1.21.x`
   line. The mod targets this specific version because it's what "latest" means as of build time.
-- **Fabric Loader** >= 0.19.3
-- **Fabric API** 0.155.2+26.2 (must match the Minecraft version)
-- **Java 25** — this is a Minecraft 26.2 requirement in general (it ships unobfuscated and needs a
+- **Fabric Loader** >= 0.19.5
+- **Fabric API** 0.163.0+26.3 (must match the Minecraft version)
+- **Java 25** — this is a Minecraft 26.3 requirement in general (it ships unobfuscated and needs a
   current JDK), not something specific to this mod.
 
 ## Installation
 
 ### Option A — prebuilt jar
 
-1. Install [Fabric Loader](https://fabricmc.net/use/installer/) for Minecraft 26.2.
-2. Download the **Fabric API** jar for 26.2 from [Modrinth](https://modrinth.com/mod/fabric-api) or
+1. Install [Fabric Loader](https://fabricmc.net/use/installer/) for Minecraft 26.3.
+2. Download the **Fabric API** jar for 26.3 from [Modrinth](https://modrinth.com/mod/fabric-api) or
    [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api) and drop it in your
    `mods` folder.
 3. Grab `circuitsimcraft-<version>.jar` from this repo's [Releases](../../releases) page and drop
    it in the same `mods` folder.
 4. Make sure the profile you launch with is on Java 25+ (recent launchers that auto-manage a JVM
-   per Minecraft version will already do this once you select 26.2).
+   per Minecraft version will already do this once you select 26.3).
 5. Launch with the Fabric profile.
 
 ### Option B — build from source

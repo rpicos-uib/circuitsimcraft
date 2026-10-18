@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.V2RConverterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,15 +15,8 @@ import org.jspecify.annotations.Nullable;
  *  A, South = B - the exact inverse of {@link R2VConverterBlock}'s V = A*16 + B encoding. Draws
  *  no current itself (an ideal voltmeter), so it never loads down whatever it's reading. */
 public class V2RConverterBlock extends GroundedComponentBlock {
-	public static final MapCodec<V2RConverterBlock> CODEC = simpleCodec(V2RConverterBlock::new);
-
 	public V2RConverterBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<V2RConverterBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

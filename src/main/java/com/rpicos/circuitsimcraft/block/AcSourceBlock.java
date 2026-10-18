@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.AcSourceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -12,15 +11,8 @@ import net.minecraft.world.level.redstone.Orientation;
 import org.jspecify.annotations.Nullable;
 
 public class AcSourceBlock extends ComponentBlock {
-	public static final MapCodec<AcSourceBlock> CODEC = simpleCodec(AcSourceBlock::new);
-
 	public AcSourceBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<AcSourceBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

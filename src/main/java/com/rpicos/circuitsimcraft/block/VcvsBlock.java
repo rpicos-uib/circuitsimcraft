@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.VcvsBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,15 +11,8 @@ import org.jspecify.annotations.Nullable;
  *  north (control) and up (output) faces are both referenced against that same required Ground
  *  block, exactly like {@code R2VConverterBlock}. */
 public class VcvsBlock extends GroundedComponentBlock {
-	public static final MapCodec<VcvsBlock> CODEC = simpleCodec(VcvsBlock::new);
-
 	public VcvsBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<VcvsBlock> codec() {
-		return CODEC;
 	}
 
 	@Override

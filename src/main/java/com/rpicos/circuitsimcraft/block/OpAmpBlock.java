@@ -1,6 +1,5 @@
 package com.rpicos.circuitsimcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import com.rpicos.circuitsimcraft.blockentity.OpAmpBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,15 +12,8 @@ import org.jspecify.annotations.Nullable;
  *  An ideal op-amp has no adjustable preset, so ComponentBlock's empty-hand cycle-preset click
  *  simply no-ops here (its instanceof check against ComponentBlockEntity never matches). */
 public class OpAmpBlock extends ComponentBlock {
-	public static final MapCodec<OpAmpBlock> CODEC = simpleCodec(OpAmpBlock::new);
-
 	public OpAmpBlock(BlockBehaviour.Properties properties) {
 		super(properties);
-	}
-
-	@Override
-	public MapCodec<OpAmpBlock> codec() {
-		return CODEC;
 	}
 
 	@Override
