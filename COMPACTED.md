@@ -24,12 +24,27 @@ length, that's a sign to cut, not to keep appending. **This is a standing remind
 future-Claude: re-check whether this file still matches reality at the start of any new
 session, and rewrite it (not just SESSION_NOTES.md) whenever something below goes stale.**
 
-**Conversation ID of the session that last updated this file**: `81f319ab-cfbe-40a4-8271-08bfc6ae45bd`
+**Conversation ID of the session that last updated this file**: `3ad3b4b1-6ba9-4257-a369-065c8e54a268`
 — must match `run_claude.bash`'s `SESSION_ID`; update both together whenever this changes,
 same rule `SESSION_NOTES.md` already follows for itself.
 
-## Current state (as of 2026-08-23)
+## Current state (as of 2026-10-18)
 
+- **v1.26.3** (2026-10-18): ported to **Minecraft 26.3** (Fabric Loader 0.19.5, Fabric API
+  0.163.0+26.3). **New version scheme**: mod version = `1.<mc-version>`, replacing `0.9.x`.
+  Gameplay unchanged. Only code break: 26.3 removed block codecs (`codec()`/`simpleCodec`),
+  boilerplate dropped from all 34 block classes. The pre-rename `circuitcraft` debris had
+  reappeared untracked in this checkout and polluted a non-clean jar - deleted again; **always
+  release from `./gradlew clean build`**. Verified: clean build + headless `runServer` (zero
+  warnings) + a full 26.3 Fabric server stack booted in scratch; **not yet seen in a real game
+  window**. Shipped: GitHub `main` `321466b`/Release `v1.26.3` (jar sha256 `326e7e24...`),
+  Modrinth `3vPDtvKK`, CurseForge file `9239953` (26.3's CurseForge game-version id is
+  **`17045`** - each MC release has its own type bucket; returned 200 but not yet visible
+  publicly, user to confirm after SSO login), `~/.minecraft` (new `fabric-loader-26.3` profile;
+  all 26.2 jars, incl. Sodium and the user's QuantumCraft which has no 26.3 build, moved to
+  `~/.minecraft/mods-26.2/`). **Live server NOT updated** - backed up to
+  `backup-26.2-2026-10-18/` on the server, but the swap was blocked by the auto-mode classifier
+  as a production deploy; awaiting the user. Detail in `SESSION_NOTES.md`'s 2026-10-18 entry.
 - **v0.9.4.1** (2026-08-23, patch): the Phase Bundler and Phase Unbundler had been shipped with
   the *exact same* shapeless recipe (`3x Wire + 1 iron ingot`) since v0.9 - indistinguishable at
   a real crafting table, so one of the two was effectively uncraftable normally (Minecraft can't
@@ -110,7 +125,7 @@ same rule `SESSION_NOTES.md` already follows for itself.
   project description (was two villagers / no three-phase mention / said "MIT" in its own License
   section despite the CC BY 4.0 change weeks earlier) - CurseForge's legacy upload-only API has no
   endpoint for this at all (confirmed by probing several guesses, all 404), so that one still
-  needs a manual dashboard edit by the user. **Current shipped version: v0.9.3** everywhere -
+  needs a manual dashboard edit by the user. v0.9.3 was shipped everywhere (since superseded) -
   GitHub `main`/tagged Release `v0.9.3` (jar sha256
   `d666dab0a28b419d3b5f50cdfc66e9b8e2a4543fe04962622d60a0519af65642`), Modrinth version
   `cJeGPwD6`, CurseForge file id `8611788`, live server, `~/.minecraft`. Full narrative (every
@@ -152,7 +167,8 @@ same rule `SESSION_NOTES.md` already follows for itself.
   directories have quietly diverged between the two repos, unlike `latex`/`latex_short` which
   are still genuinely identical. Caught via `git diff` before committing; fixed with targeted
   edits instead. Full detail in `SESSION_NOTES.md`'s second 2026-08-09 entry.
-- **CurseForge is now also live**: project id `1645342`, versions 0.8.5 (file id `8608170`) and
+- **CurseForge is now also live**: project id `1645525` (the `1645342` recorded here until
+  2026-08-23 was wrong - see the v0.9.4.1 bullet), versions 0.8.5 (file id `8608170`) and
   0.8.6 (file id `8608315`) uploaded. Token stored at `.claude/curseforge_token.local`
   (gitignored, same pattern as `modrinth_pat.local`) - no `$CURSEFORGE_TOKEN` export wired into
   `run_claude.bash` yet. **Gotcha**: uploading with `"featured": false` in the metadata 500'd
@@ -290,6 +306,11 @@ what changed and when.
 
 ## Immediate next steps
 
+- **Finish the 1.26.3 rollout**: deploy to the live server (26.3 `server.jar` + Fabric launcher +
+  libraries + mods; the verified stack is staged in the 2026-10-18 session's scratchpad
+  `srv263/`, which may be gone - regenerate with the Fabric installer if so); confirm the
+  CurseForge file shows up; launch the real client on the `fabric-loader-26.3` profile once.
+  QuantumCraft needs its own 26.3 port before it can go back into `~/.minecraft/mods`.
 - **CurseForge needs two manual dashboard edits** the API has no surface for (confirmed by
   probing, not assumed): the project-level license classification (Account -> project -> License
   tab, still says whatever it defaulted to, not CC BY 4.0), and the project description (still

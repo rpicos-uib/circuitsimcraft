@@ -1,4 +1,4 @@
-# CircuitSimCraft — session recap (last updated 2026-08-09)
+# CircuitSimCraft — session recap (last updated 2026-10-18)
 
 Read this alongside `CLAUDE.md` (toolchain/deployment/sync mechanics, which doesn't change
 much) and `MOD_ARCHITECTURE.md` (a technical map of the mod's code/package organization,
@@ -13,15 +13,16 @@ state or next steps, update `COMPACTED.md` too** — it's a compacted summary, n
 independent document, and will silently go stale/wrong if only this file gets touched.
 
 **Conversation/session ID of the session that most recently updated this recap**:
-`81f319ab-cfbe-40a4-8271-08bfc6ae45bd` (visible in this session's scratchpad path,
-`/tmp/claude-1000/-home-rodrigo-Desktop-gent-codex-mine-memristors/81f319ab-.../scratchpad`,
+`3ad3b4b1-6ba9-4257-a369-065c8e54a268` (visible in this session's scratchpad path,
+`/tmp/claude-1000/-home-rodrigo-Desktop-gent-codex-mine-memristors/3ad3b4b1-.../scratchpad`,
 and in the memory path `~/.claude/projects/-home-rodrigo-Desktop-gent-codex-mine-memristors/
-81f319ab-.../`) — useful if the full transcript ever needs to be located or resumed directly
+3ad3b4b1-.../`) — useful if the full transcript ever needs to be located or resumed directly
 rather than reconstructed from this summary. `run_claude.bash`'s `SESSION_ID` and
 `COMPACTED.md`'s own copy of this ID must both be kept equal to this value — update all
 three together whenever this recap changes, otherwise `--resume` silently targets a
 stale/pruned session and falls back to a fresh session primed only with `COMPACTED.md`'s
-text (no full prior transcript). (The previous session, 2026-07-28, was
+text (no full prior transcript). (The previous session, 2026-08-09/08-23, was
+`81f319ab-cfbe-40a4-8271-08bfc6ae45bd`; before that, 2026-07-28, was
 `1871aadc-3ffb-4cd1-ac22-38069d7c7b26`; the one before that, 2026-07-26, was
 `bfaac589-4f12-4f5d-9b3a-e9605c2d5abd`.)
 
@@ -2454,3 +2455,57 @@ client process was running at the time (checked narrowly via `pgrep -f KnotClien
 `ps aux` - see this file's earlier credential-exposure entry for why) - swapping the jar on disk
 is safe regardless, but it won't take effect until the user restarts. **Not deployed to the live
 server this round** - only GitHub/Modrinth/CurseForge/local-client were ever requested.
+
+## 2026-10-18 — Port to Minecraft 26.3, new version scheme (v1.26.3)
+
+User asked to update the mod to the newest Minecraft release, and to switch the mod version to
+track it: **`1.26.3`** (scheme `1.<mc-version>`, replacing `0.9.x`). Newest stable release on this
+date: **26.3** (2026-09-15; 26.4 is only at snapshot-4, not used). New targets: Fabric Loader
+**0.19.5** (stable), Fabric API **0.163.0+26.3**. Loom left at `1.17-SNAPSHOT` - it still works.
+
+**The only real code break**: 26.3 removed block codecs entirely - `Block`/`BlockBehaviour` no
+longer have `CODEC`, `codec()` or `simpleCodec()` (confirmed by `javap` on the 26.2 vs 26.3
+`minecraft-common-deobf` jars in `~/.gradle/caches/fabric-loom/minecraftMaven/`). Removed the
+`CODEC` field, the `@Override codec()` method, and the now-unused `MapCodec` import from all 34
+block classes with a strict-pattern script (exactly one field + one method per file, aborts-loud
+on any deviation - none found). Nothing else needed changing; payload `StreamCodec`s are
+unaffected.
+
+**The pre-rename `circuitcraft` debris was back in this checkout** (untracked, dated 2026-07-26,
+same five paths the 2026-08-23 entry above deleted - that session evidently worked in a
+different checkout). It doubled the compile errors and a non-clean build packed 367 stale
+`com/rpicos/circuitcraft/` classes into the jar. Verified every old file had a renamed
+`circuitsimcraft` counterpart before deleting, then `./gradlew clean build`. **Always build
+releases with `clean`** and check `unzip -l <jar> | grep -c circuitcraft/` is 0.
+
+Verified: clean build; headless `runServer` reached `Done` with zero error/exception/warn lines
+(this upgraded the `run/` dev world to 26.3); separately a full Fabric 26.3 *server* stack
+(installer `server -mcversion 26.3 -loader 0.19.5 -downloadMinecraft`, vanilla `server.jar` sha1
+`33680f5f...` matching Mojang's manifest) booted cleanly in scratch with the release mods.
+**Not yet looked at in a real game window.**
+
+Shipped: monorepo commit `a3d7ec3`; GitHub `main` `321466b`, tagged Release `v1.26.3` (jar sha256
+`326e7e24bc29ea6c40506b32e1fc6af0b510e19a31e4463b3d4cf33a1bd80b9f`, release asset re-downloaded
+and checksum-matched); Modrinth version **`3vPDtvKK`** (game version 26.3); CurseForge file id
+**`9239953`** (`gameVersions: [17045, 7499, 9638, 9639]` - **26.3's Minecraft id is `17045`**,
+version-type `88556`/`minecraft-26-3`; every MC release gets its own type bucket, so look the id
+up each time). CurseForge returned 200 but neither the public Files page nor the direct file URL
+showed it minutes later (same propagation/moderation delay seen 2026-08-23); the author dashboard
+needed an SSO re-login, left for the user - **confirm it appears**. Gotcha: the public repo
+doesn't carry `CLAUDE.md`, so copying all changed files into the worktree added it as a new file -
+caught via the insertion count, removed before pushing. Check `--name-status` for `A` lines.
+
+`~/.minecraft`: new Fabric profile `fabric-loader-26.3` (loader 0.19.5, installer 1.1.1; the 26.2
+profile is still there). `mods/` now holds `circuitsimcraft-1.26.3`, `fabric-api-0.163.0+26.3`,
+`lambdynamiclights-4.13.0+26.3` (sha512-verified against Modrinth). All 26.2 jars moved, not
+deleted, to `~/.minecraft/mods-26.2/` - including Sodium (only a 26.3 *beta* exists, not
+installed) and the user's own QuantumCraft (pinned `~26.2`, would block launch; porting it is
+probably the same codec fix).
+
+**Live server: NOT deployed yet.** Backups made first: `backup-26.2-2026-10-18/` on the server
+(world copy + old `server.jar`/`fabric-server-launch.jar`/properties) and a local world copy in this
+session's scratchpad. The actual swap (new `server.jar` + launcher + libraries + mods) was
+blocked by Claude Code's auto-mode classifier as a production deploy - needs the user's go-ahead
+/ a permission rule. Server state at the time: last log activity 2026-09-28, world created
+2026-09-03 (13 MB), mods were 0.9.4.1 (the user had deployed that themselves on Sep 1). Remember
+the world converts to 26.3 irreversibly on first boot - hence the backup.
