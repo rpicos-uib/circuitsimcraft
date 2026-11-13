@@ -46,7 +46,7 @@ Resistor, each with their own color-coded trace and live V/I readout:
 
 ```bash
 git clone https://github.com/rpicos-uib/circuitsimcraft.git
-cd mine-memristors
+cd circuitsimcraft
 ./gradlew build
 ```
 
