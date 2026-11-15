@@ -6,6 +6,7 @@ import com.rpicos.circuitsimcraft.sim.Vcvs;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class VcvsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Gain", "V/V", GAIN_MIN, GAIN_MAX, gain));
+		return List.of(new EditableField("field.circuitsimcraft.gain", "V/V", GAIN_MIN, GAIN_MAX, gain));
 	}
 
 	@Override
@@ -67,9 +68,9 @@ public class VcvsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	}
 
 	@Override
-	public String probeSummary() {
+	public Component probeSummary() {
 		double vControl = circuit == null ? 0 : circuit.getVoltage(nodeControl);
-		return "VCVS gain=%.2f, Vin=%.3f V, Vout=%.3f V".formatted(gain, vControl, probeVoltage());
+		return CircuitText.probe("vcvs", "%.2f".formatted(gain), "%.3f".formatted(vControl), "%.3f".formatted(probeVoltage()));
 	}
 
 	@Override

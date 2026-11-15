@@ -3,6 +3,8 @@ package com.rpicos.circuitsimcraft.network;
 import com.rpicos.circuitsimcraft.CircuitSimCraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -12,18 +14,18 @@ import java.util.List;
 /** Server -> client: both halves of an X-Y (Lissajous-style) oscilloscope channel pair, bundled
  *  into one packet so the client always has a matched set rather than two independently-arriving,
  *  possibly out-of-sync channels. */
-public record XyProbeDataPayload(BlockPos xPos, String xSummary, float xVoltage, List<Float> xHistory,
-		BlockPos yPos, String ySummary, float yVoltage, List<Float> yHistory) implements CustomPacketPayload {
+public record XyProbeDataPayload(BlockPos xPos, Component xSummary, float xVoltage, List<Float> xHistory,
+		BlockPos yPos, Component ySummary, float yVoltage, List<Float> yHistory) implements CustomPacketPayload {
 	public static final CustomPacketPayload.Type<XyProbeDataPayload> TYPE =
 			new CustomPacketPayload.Type<>(CircuitSimCraft.id("xy_probe_data"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, XyProbeDataPayload> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, XyProbeDataPayload::xPos,
-			ByteBufCodecs.STRING_UTF8, XyProbeDataPayload::xSummary,
+			ComponentSerialization.STREAM_CODEC, XyProbeDataPayload::xSummary,
 			ByteBufCodecs.FLOAT, XyProbeDataPayload::xVoltage,
 			ByteBufCodecs.FLOAT.apply(ByteBufCodecs.list()), XyProbeDataPayload::xHistory,
 			BlockPos.STREAM_CODEC, XyProbeDataPayload::yPos,
-			ByteBufCodecs.STRING_UTF8, XyProbeDataPayload::ySummary,
+			ComponentSerialization.STREAM_CODEC, XyProbeDataPayload::ySummary,
 			ByteBufCodecs.FLOAT, XyProbeDataPayload::yVoltage,
 			ByteBufCodecs.FLOAT.apply(ByteBufCodecs.list()), XyProbeDataPayload::yHistory,
 			XyProbeDataPayload::new

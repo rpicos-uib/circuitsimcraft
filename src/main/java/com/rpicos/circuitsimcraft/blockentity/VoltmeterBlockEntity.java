@@ -3,6 +3,7 @@ package com.rpicos.circuitsimcraft.blockentity;
 import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** An ideal voltmeter: infinite input impedance, stamps no element into the circuit at all -
@@ -32,7 +33,7 @@ public class VoltmeterBlockEntity extends ComponentBlockEntity {
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Voltmeter %.4f V".formatted(probeVoltage());
+	public Component probeSummary() {
+		return CircuitText.probe("voltmeter", "%.4f".formatted(probeVoltage()));
 	}
 }

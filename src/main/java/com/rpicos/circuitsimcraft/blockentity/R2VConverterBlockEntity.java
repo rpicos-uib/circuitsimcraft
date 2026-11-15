@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Stamps V = redstoneA*16 + redstoneB as a plain DC voltage source between its up lead (node A)
@@ -76,7 +77,7 @@ public class R2VConverterBlockEntity extends ComponentBlockEntity implements AcS
 	}
 
 	@Override
-	public String probeSummary() {
-		return "R2V Converter: A=%d B=%d -> V=%.1f V".formatted(redstoneA, redstoneB, voltageVolts());
+	public Component probeSummary() {
+		return CircuitText.probe("r2v_converter", String.valueOf(redstoneA), String.valueOf(redstoneB), "%.1f".formatted(voltageVolts()));
 	}
 }

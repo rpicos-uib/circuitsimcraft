@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class FunctionGeneratorBlockEntity extends ComponentBlockEntity implement
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Phase", "deg", MIN_PHASE_DEGREES, MAX_PHASE_DEGREES, phaseDegrees));
+		return List.of(new EditableField("field.circuitsimcraft.phase", "deg", MIN_PHASE_DEGREES, MAX_PHASE_DEGREES, phaseDegrees));
 	}
 
 	@Override
@@ -110,9 +111,8 @@ public class FunctionGeneratorBlockEntity extends ComponentBlockEntity implement
 	}
 
 	@Override
-	public String probeSummary() {
-		String base = String.format("Function Generator: %s %.1fV %.2fHz %.0fdeg",
-				KINDS[kindIndex].toString().toLowerCase(), amplitudeVolts, frequencyHz, phaseDegrees);
-		return redstonePowered ? base : base + " (off - needs redstone)";
+	public Component probeSummary() {
+		return CircuitText.powered(CircuitText.probe("function_generator", CircuitText.probe("waveform." + KINDS[kindIndex].toString().toLowerCase()),
+				"%.1f".formatted(amplitudeVolts), "%.2f".formatted(frequencyHz), "%.0f".formatted(phaseDegrees)), redstonePowered);
 	}
 }

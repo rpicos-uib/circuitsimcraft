@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.Bjt;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -82,7 +83,7 @@ public class NpnBlockEntity extends NetworkBlockEntity implements Probeable, Val
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Beta (current gain)", "", BETA_MIN, BETA_MAX, beta));
+		return List.of(new EditableField("field.circuitsimcraft.beta_current_gain", "", BETA_MIN, BETA_MAX, beta));
 	}
 
 	@Override
@@ -103,8 +104,8 @@ public class NpnBlockEntity extends NetworkBlockEntity implements Probeable, Val
 	}
 
 	@Override
-	public String probeSummary() {
-		return "%s beta=%.0f, Vce=%.3f V, Ic=%.4f A".formatted(deviceName(), beta, probeVoltage(), probeCurrent());
+	public Component probeSummary() {
+		return CircuitText.probe("bjt", deviceName(), "%.0f".formatted(beta), "%.3f".formatted(probeVoltage()), "%.4f".formatted(probeCurrent()));
 	}
 
 	@Override

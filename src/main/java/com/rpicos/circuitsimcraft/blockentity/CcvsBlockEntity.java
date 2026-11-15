@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class CcvsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Transresistance", "Ω", GAIN_MIN, GAIN_MAX, transresistanceOhms));
+		return List.of(new EditableField("field.circuitsimcraft.transresistance", "Ω", GAIN_MIN, GAIN_MAX, transresistanceOhms));
 	}
 
 	@Override
@@ -67,9 +68,9 @@ public class CcvsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	}
 
 	@Override
-	public String probeSummary() {
+	public Component probeSummary() {
 		double iControl = controlSense == null ? 0 : controlSense.current();
-		return "CCVS gain=%.1f Ω, Iin=%.4f A, Vout=%.3f V".formatted(transresistanceOhms, iControl, probeVoltage());
+		return CircuitText.probe("ccvs", "%.1f".formatted(transresistanceOhms), "%.4f".formatted(iControl), "%.3f".formatted(probeVoltage()));
 	}
 
 	@Override

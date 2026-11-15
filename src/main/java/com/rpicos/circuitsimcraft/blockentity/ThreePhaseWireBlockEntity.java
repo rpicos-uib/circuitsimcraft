@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.network.BundleParticipant;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -72,8 +73,8 @@ public class ThreePhaseWireBlockEntity extends NetworkBlockEntity implements Bun
 	}
 
 	@Override
-	public String probeSummary() {
-		return String.format("3-Phase Wire node: A=%.2f B=%.2f C=%.2f V",
-				phaseVoltage(0), phaseVoltage(1), phaseVoltage(2));
+	public Component probeSummary() {
+		return CircuitText.probe("three_phase_wire", "%.2f".formatted(phaseVoltage(0)), "%.2f".formatted(phaseVoltage(1)),
+				"%.2f".formatted(phaseVoltage(2)));
 	}
 }

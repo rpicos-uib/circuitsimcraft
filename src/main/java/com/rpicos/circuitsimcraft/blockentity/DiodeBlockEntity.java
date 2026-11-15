@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Diode;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** The lead facing the direction the player looked when placing it (terminal A) is the anode;
@@ -18,9 +19,9 @@ public class DiodeBlockEntity extends ComponentBlockEntity implements AcStampabl
 	// Saturation currents/ideality factors tuned to give roughly the textbook forward-voltage
 	// figure for each diode family at a typical few-milliamp forward current.
 	private static final Preset[] PRESETS = {
-			new Preset("silicon (~0.7V)", 1e-14, 1.0),
-			new Preset("germanium (~0.3V)", 1e-7, 1.0),
-			new Preset("LED red (~2V)", 1e-20, 2.0),
+			new Preset("silicon", 1e-14, 1.0),
+			new Preset("germanium", 1e-7, 1.0),
+			new Preset("led_red", 1e-20, 2.0),
 	};
 
 	private int presetIndex = 0;
@@ -58,7 +59,7 @@ public class DiodeBlockEntity extends ComponentBlockEntity implements AcStampabl
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Diode: " + PRESETS[presetIndex].name();
+	public Component probeSummary() {
+		return CircuitText.probe("diode", CircuitText.probe("diode." + PRESETS[presetIndex].name()));
 	}
 }

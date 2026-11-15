@@ -3,6 +3,7 @@ package com.rpicos.circuitsimcraft.blockentity;
 import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** The inverse of {@link R2VConverterBlockEntity}: reads the voltage across its up lead (node A)
@@ -37,8 +38,8 @@ public class V2RConverterBlockEntity extends ComponentBlockEntity {
 	}
 
 	@Override
-	public String probeSummary() {
-		return "V2R Converter: V=%.1f V -> A=%d B=%d".formatted(probeVoltage(), outputA, outputB);
+	public Component probeSummary() {
+		return CircuitText.probe("v2r_converter", "%.1f".formatted(probeVoltage()), String.valueOf(outputA), String.valueOf(outputB));
 	}
 
 	public int outputA() {

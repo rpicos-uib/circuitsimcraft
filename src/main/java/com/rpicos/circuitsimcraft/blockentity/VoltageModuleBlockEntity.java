@@ -29,6 +29,6 @@ public class VoltageModuleBlockEntity extends ModuleBlockEntity {
 
 	@Override
 	protected String fieldLabel() {
-		return "Voltage";
+		return "field.circuitsimcraft.voltage";
 	}
 }

@@ -1,5 +1,7 @@
 package com.rpicos.circuitsimcraft.blockentity;
 
+import net.minecraft.network.chat.Component;
+
 import java.util.List;
 
 /** The bundle equivalent of {@link Probeable}: three independent values (phase A/B/C) instead of
@@ -16,7 +18,7 @@ public interface ThreePhaseProbeable {
 	/** Phase 0/1/2 (A/B/C) current. */
 	double[] probeBundleCurrent();
 
-	String probeSummary();
+	Component probeSummary();
 
 	/** Phase 0/1/2 (A/B/C) history, oldest-to-newest each. */
 	List<List<Float>> historySnapshot();

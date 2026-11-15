@@ -29,6 +29,6 @@ public class FrequencyModuleBlockEntity extends ModuleBlockEntity {
 
 	@Override
 	protected String fieldLabel() {
-		return "Frequency";
+		return "field.circuitsimcraft.frequency";
 	}
 }

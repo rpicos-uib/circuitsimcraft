@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -45,7 +46,7 @@ public class ThreePhaseOscilloscopeHud implements HudElement {
 		if (channels.isEmpty()) {
 			int y0 = extractor.guiHeight() - HEIGHT - MARGIN;
 			drawFrame(extractor, MARGIN, y0);
-			extractor.text(font, "no signal", MARGIN + 6, y0 + HEIGHT / 2 - 4, 0xFF808080);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.no_signal"), MARGIN + 6, y0 + HEIGHT / 2 - 4, 0xFF808080);
 			return;
 		}
 
@@ -104,7 +105,7 @@ public class ThreePhaseOscilloscopeHud implements HudElement {
 		String currentReading = String.format("A%.3f B%.3f C%.3f A", data.currentA(), data.currentB(), data.currentC());
 		extractor.text(font, voltageReading, x0 + 4, graphY1 + 2, 0xFFDDDDDD, false);
 		extractor.text(font, currentReading, x0 + 4, graphY1 + 12, 0xFFDDDDDD, false);
-		String summary = data.willBeReplacedNext() ? data.summary() + " (next)" : data.summary();
+		Component summary = data.willBeReplacedNext() ? Component.translatable("hud.circuitsimcraft.next", data.summary()) : data.summary();
 		extractor.text(font, summary, x0 + 4, graphY1 + 22, 0xFFDDDDDD, false);
 	}
 

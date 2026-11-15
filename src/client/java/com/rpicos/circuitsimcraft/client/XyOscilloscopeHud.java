@@ -57,7 +57,7 @@ public class XyOscilloscopeHud implements HudElement {
 
 		XyProbeDataPayload data = XyProbeClientState.current();
 		if (data == null) {
-			extractor.text(font, "no X-Y signal", x0 + 6, y0 + HEIGHT / 2 - 4, 0xFF808080);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.no_xy_signal"), x0 + 6, y0 + HEIGHT / 2 - 4, 0xFF808080);
 			return;
 		}
 
@@ -100,10 +100,8 @@ public class XyOscilloscopeHud implements HudElement {
 		extractor.text(font, "-" + SiFormat.magnitude(maxAbsY), plotCenterX + 2, plotY0 + PLOT_SIZE - 9, axisColor, false);
 
 		int textY = plotY0 + PLOT_SIZE + 4;
-		Component xLabel = Component.literal(
-				String.format("X: %.2fV  %s", data.xVoltage(), data.xSummary()));
-		Component yLabel = Component.literal(
-				String.format("Y: %.2fV  %s", data.yVoltage(), data.ySummary()));
+		Component xLabel = Component.literal(String.format("X: %.2fV  ", data.xVoltage())).append(data.xSummary());
+		Component yLabel = Component.literal(String.format("Y: %.2fV  ", data.yVoltage())).append(data.ySummary());
 		extractor.text(font, xLabel, x0 + 4, textY, 0xFFDDDDDD, false);
 		extractor.text(font, yLabel, x0 + 4, textY + 10, 0xFFDDDDDD, false);
 	}

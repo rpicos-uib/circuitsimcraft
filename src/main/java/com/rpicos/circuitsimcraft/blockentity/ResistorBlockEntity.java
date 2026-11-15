@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Resistor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ResistorBlockEntity extends ComponentBlockEntity implements ValueEd
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Resistance", "ohm",
+		return List.of(new EditableField("field.circuitsimcraft.resistance", "ohm",
 				PRESETS_OHMS[0], PRESETS_OHMS[PRESETS_OHMS.length - 1], resistanceOhms));
 	}
 
@@ -56,7 +57,7 @@ public class ResistorBlockEntity extends ComponentBlockEntity implements ValueEd
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Resistor " + resistanceOhms + " ohm";
+	public Component probeSummary() {
+		return CircuitText.probe("resistor", String.valueOf(resistanceOhms));
 	}
 }

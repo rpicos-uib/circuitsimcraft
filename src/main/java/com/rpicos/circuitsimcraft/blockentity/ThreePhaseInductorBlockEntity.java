@@ -4,6 +4,7 @@ import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Inductor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ThreePhaseInductorBlockEntity extends ThreePhaseComponentBlockEntit
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Inductance", "H",
+		return List.of(new EditableField("field.circuitsimcraft.inductance", "H",
 				PRESETS_HENRIES[0], PRESETS_HENRIES[PRESETS_HENRIES.length - 1], inductanceHenries));
 	}
 
@@ -51,7 +52,7 @@ public class ThreePhaseInductorBlockEntity extends ThreePhaseComponentBlockEntit
 	}
 
 	@Override
-	public String probeSummary() {
-		return "3-Phase Inductor " + inductanceHenries + " H (x3)";
+	public Component probeSummary() {
+		return CircuitText.probe("three_phase_inductor", String.valueOf(inductanceHenries));
 	}
 }

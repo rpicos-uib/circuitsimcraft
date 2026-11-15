@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -47,21 +48,21 @@ public class AcOscilloscopeHud implements HudElement {
 
 		AcProbeClientState.Display display = AcProbeClientState.current();
 		if (display == null) {
-			extractor.text(font, "AC probe: no source pinned", x0 + 4, y0 + HEIGHT / 2 - 4, 0xFF808080, false);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.ac.no_source"), x0 + 4, y0 + HEIGHT / 2 - 4, 0xFF808080, false);
 			return;
 		}
 		if (display instanceof AcProbeClientState.Hint hint) {
-			extractor.text(font, "AC source pinned:", x0 + 4, y0 + 4, 0xFFDDDDDD, false);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.ac.source_pinned"), x0 + 4, y0 + 4, 0xFFDDDDDD, false);
 			extractor.text(font, hint.sourcePos().toShortString(), x0 + 4, y0 + 16, MAG_COLOR, false);
-			extractor.text(font, "Right-click a signal", x0 + 4, y0 + 30, 0xFFAAAAAA, false);
-			extractor.text(font, "point to run the sweep", x0 + 4, y0 + 40, 0xFFAAAAAA, false);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.ac.hint_line1"), x0 + 4, y0 + 30, 0xFFAAAAAA, false);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.ac.hint_line2"), x0 + 4, y0 + 40, 0xFFAAAAAA, false);
 			return;
 		}
 
 		AcBodePayload payload = ((AcProbeClientState.Result) display).payload();
 		List<Float> freqs = payload.freqsHz();
 		if (freqs.isEmpty()) {
-			extractor.text(font, "AC probe: empty sweep", x0 + 4, y0 + HEIGHT / 2 - 4, 0xFF808080, false);
+			extractor.text(font, Component.translatable("hud.circuitsimcraft.ac.empty_sweep"), x0 + 4, y0 + HEIGHT / 2 - 4, 0xFF808080, false);
 			return;
 		}
 
@@ -72,7 +73,8 @@ public class AcOscilloscopeHud implements HudElement {
 		drawTrace(extractor, font, graphX0, magY0, graphX1, magY0 + GRAPH_HEIGHT, payload.magnitudesDb(), MAG_COLOR, "dB");
 
 		int phaseY0 = magY0 + GRAPH_HEIGHT + GRAPH_GAP;
-		drawTrace(extractor, font, graphX0, phaseY0, graphX1, phaseY0 + GRAPH_HEIGHT, payload.phasesDeg(), PHASE_COLOR, "deg");
+		drawTrace(extractor, font, graphX0, phaseY0, graphX1, phaseY0 + GRAPH_HEIGHT, payload.phasesDeg(), PHASE_COLOR,
+				Component.translatable("unit.circuitsimcraft.deg").getString());
 
 		String freqRange = SiFormat.magnitude(freqs.get(0)) + "Hz - " + SiFormat.magnitude(freqs.get(freqs.size() - 1)) + "Hz";
 		extractor.text(font, freqRange, graphX0, phaseY0 + GRAPH_HEIGHT + 3, 0xFF9090A8, false);

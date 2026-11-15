@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class CccsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Current gain", "A/A", GAIN_MIN, GAIN_MAX, currentGain));
+		return List.of(new EditableField("field.circuitsimcraft.current_gain", "A/A", GAIN_MIN, GAIN_MAX, currentGain));
 	}
 
 	@Override
@@ -69,9 +70,9 @@ public class CccsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	}
 
 	@Override
-	public String probeSummary() {
+	public Component probeSummary() {
 		double iControl = controlSense == null ? 0 : controlSense.current();
-		return "CCCS gain=%.2f, Iin=%.4f A, Iout=%.4f A".formatted(currentGain, iControl, probeCurrent());
+		return CircuitText.probe("cccs", "%.2f".formatted(currentGain), "%.4f".formatted(iControl), "%.4f".formatted(probeCurrent()));
 	}
 
 	@Override

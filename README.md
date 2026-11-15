@@ -108,6 +108,13 @@ other, no wire needed in between.
 An unconnected lead doesn't crash anything — it's treated as a floating node, so you can build a
 circuit incrementally and it'll simulate (uselessly, but safely) at every intermediate stage.
 
+**Sources start switched off whenever their chunk loads.** The Power Supply, Current Source,
+Function Generator, AC Source and 3-Phase Source switch on when their redstone input *changes*,
+and that on/off state isn't saved. So after a server restart, a world reload, or a trip far
+enough away for the chunk to unload, every source is off again, even if its lever is still on.
+Flip the lever off and back on (or otherwise retrigger its redstone input) to restart the
+circuit. This is intentional.
+
 The R2V/V2R Converters and the four controlled sources (VCVS/VCCS/CCCS/CCVS, see
 [Advanced Components](#advanced-components)) are the exception to "leads follow the direction
 you were looking when placed": their orientation is always fixed (up = the wired electrical
@@ -530,6 +537,28 @@ sold by a new profession rather than an existing one.
 Issues and PRs welcome. If you're adding a component, please include a note on the physical model
 you used (a link to the equations is enough) — the goal of this mod is that in-game behavior is
 actually correct, not just plausible-looking.
+
+## Translations
+
+Available in **English**, **Spanish** (`es_es`), **Catalan** (`ca_es`) and **Greek** (`el_gr`) —
+Minecraft picks the one matching your game language automatically. Every player-visible string is translatable:
+block/item names, probe readouts, chat messages, the oscilloscope HUDs and the value editor.
+
+To add a language, you only need one file:
+
+1. Copy [`en_us.json`](src/main/resources/assets/circuitsimcraft/lang/en_us.json) and name it
+   after Minecraft's code for your language (e.g. `ru_ru.json` for Russian, `fr_fr.json` for
+   French).
+2. Translate the **values** (right-hand side) only. Keep every key exactly as it is.
+3. Keep every `%s` placeholder - each one is filled with a number or a name at runtime, in the
+   same order as in English. Write `%%` for a literal percent sign. To reorder placeholders,
+   use numbered ones: `%2$s ... %1$s`.
+4. Units are part of the text, so localize them if your language does (e.g. `ohm` -> `Ом`). The
+   value editor's units use the optional `unit.circuitsimcraft.*` keys; any unit without one
+   falls back to its symbol.
+5. Open a pull request adding the file to `src/main/resources/assets/circuitsimcraft/lang/`, or
+   just send the file to the maintainer. Any key you leave out falls back to English, so a
+   partial translation still works.
 
 ## Citation
 

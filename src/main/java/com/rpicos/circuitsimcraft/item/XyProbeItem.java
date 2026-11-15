@@ -32,13 +32,14 @@ public class XyProbeItem extends Item {
 		BlockPos pos = context.getClickedPos();
 		if (level.getBlockEntity(pos) instanceof Probeable component
 				&& context.getPlayer() instanceof ServerPlayer player) {
-			String readout = String.format("%s | V=%.2fV", component.probeSummary(), component.probeVoltage());
+			Component readout = Component.translatable("message.circuitsimcraft.xy_probe.readout", component.probeSummary(),
+					"%.2f".formatted(component.probeVoltage()));
 			if (player.isShiftKeyDown()) {
 				XyProbeManager.unpin(player, pos);
-				player.sendOverlayMessage(Component.literal("Unpinned (XY): " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.xy_probe.unpinned", readout));
 			} else {
 				XyProbeManager.pin(player, pos);
-				player.sendOverlayMessage(Component.literal("Pinned (XY): " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.xy_probe.pinned", readout));
 			}
 			return InteractionResult.SUCCESS_SERVER;
 		}

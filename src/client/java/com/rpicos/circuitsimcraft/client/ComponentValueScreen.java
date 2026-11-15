@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class ComponentValueScreen extends Screen {
 	private final List<EditBox> boxes = new ArrayList<>();
 
 	public ComponentValueScreen(BlockPos pos, List<EditableField> fields) {
-		super(Component.literal("Edit values"));
+		super(Component.translatable("screen.circuitsimcraft.edit_values"));
 		this.pos = pos;
 		this.fields = fields;
 	}
@@ -48,17 +49,17 @@ public class ComponentValueScreen extends Screen {
 		for (int i = 0; i < fields.size(); i++) {
 			EditableField field = fields.get(i);
 			int y = startY + i * ROW_SPACING + 12;
-			EditBox box = new EditBox(font, x, y, FIELD_WIDTH, FIELD_HEIGHT, Component.literal(field.label()));
+			EditBox box = new EditBox(font, x, y, FIELD_WIDTH, FIELD_HEIGHT, field.labelText());
 			box.setMaxLength(32);
 			box.setValue(formatValue(field.current()));
 			boxes.add(addRenderableWidget(box));
 		}
 
 		int buttonY = startY + fields.size() * ROW_SPACING + 12;
-		addRenderableWidget(Button.builder(Component.literal("Done"), button -> submit())
+		addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> submit())
 				.bounds(width / 2 - 104, buttonY, 100, 20)
 				.build());
-		addRenderableWidget(Button.builder(Component.literal("Cancel"), button -> onClose())
+		addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> onClose())
 				.bounds(width / 2 + 4, buttonY, 100, 20)
 				.build());
 
@@ -93,7 +94,7 @@ public class ComponentValueScreen extends Screen {
 		extractor.fill(0, 0, width, height, 0xC0101014);
 		super.extractRenderState(extractor, mouseX, mouseY, partialTick);
 
-		extractor.text(font, "Edit values", width / 2 - font.width("Edit values") / 2,
+		extractor.text(font, title, width / 2 - font.width(title) / 2,
 				(height / 2 - (fields.size() * ROW_SPACING) / 2) - 16, 0xFFFFFFFF, true);
 
 		int startY = height / 2 - (fields.size() * ROW_SPACING) / 2;
@@ -101,9 +102,10 @@ public class ComponentValueScreen extends Screen {
 		for (int i = 0; i < fields.size(); i++) {
 			EditableField field = fields.get(i);
 			int y = startY + i * ROW_SPACING;
-			String label = field.label() + " (" + field.unit() + ")";
+			Component label = field.labelText().copy().append(" (").append(field.unitText()).append(")");
 			extractor.text(font, label, x, y, 0xFFDDDDDD, false);
-			String hint = "Range: " + formatValue(field.min()) + " - " + formatValue(field.max()) + " " + field.unit();
+			Component hint = Component.translatable("screen.circuitsimcraft.range",
+					formatValue(field.min()), formatValue(field.max()), field.unitText());
 			extractor.text(font, hint, x, y + 12 + FIELD_HEIGHT + 2, HINT_COLOR, false);
 		}
 	}

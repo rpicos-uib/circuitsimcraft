@@ -4,6 +4,7 @@ import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.Capacitor;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ThreePhaseCapacitorBlockEntity extends ThreePhaseComponentBlockEnti
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Capacitance", "uF",
+		return List.of(new EditableField("field.circuitsimcraft.capacitance", "uF",
 				MIN_MICROFARADS, MAX_MICROFARADS, capacitanceFarads * 1e6));
 	}
 
@@ -53,7 +54,7 @@ public class ThreePhaseCapacitorBlockEntity extends ThreePhaseComponentBlockEnti
 	}
 
 	@Override
-	public String probeSummary() {
-		return "3-Phase Capacitor " + (capacitanceFarads * 1e6) + " uF (x3)";
+	public Component probeSummary() {
+		return CircuitText.probe("three_phase_capacitor", String.valueOf(capacitanceFarads * 1e6));
 	}
 }

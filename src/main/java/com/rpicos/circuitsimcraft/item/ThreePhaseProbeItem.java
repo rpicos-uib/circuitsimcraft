@@ -32,14 +32,15 @@ public class ThreePhaseProbeItem extends Item {
 				&& context.getPlayer() instanceof ServerPlayer player) {
 			double[] v = component.probeBundleVoltage();
 			double[] i = component.probeBundleCurrent();
-			String readout = String.format("%s | A: %.2fV %.4fA  B: %.2fV %.4fA  C: %.2fV %.4fA",
-					component.probeSummary(), v[0], i[0], v[1], i[1], v[2], i[2]);
+			Component readout = Component.translatable("message.circuitsimcraft.three_phase_probe.readout", component.probeSummary(),
+					"%.2f".formatted(v[0]), "%.4f".formatted(i[0]), "%.2f".formatted(v[1]), "%.4f".formatted(i[1]),
+					"%.2f".formatted(v[2]), "%.4f".formatted(i[2]));
 			if (player.isShiftKeyDown()) {
 				ThreePhaseProbeWatchManager.unpin(player, pos);
-				player.sendOverlayMessage(Component.literal("Unpinned: " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.probe.unpinned", readout));
 			} else {
 				ThreePhaseProbeWatchManager.pin(player, pos);
-				player.sendOverlayMessage(Component.literal("Pinned: " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.probe.pinned", readout));
 			}
 			return InteractionResult.SUCCESS_SERVER;
 		}

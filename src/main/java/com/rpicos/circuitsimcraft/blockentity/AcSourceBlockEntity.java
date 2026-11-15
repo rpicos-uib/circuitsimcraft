@@ -8,6 +8,7 @@ import com.rpicos.circuitsimcraft.sim.Complex;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -48,9 +49,9 @@ public class AcSourceBlockEntity extends ComponentBlockEntity implements ValueEd
 	@Override
 	public List<EditableField> editableFields() {
 		return List.of(
-				new EditableField("Amplitude", "V", MIN_AMPLITUDE_VOLTS, MAX_AMPLITUDE_VOLTS, amplitudeVolts),
-				new EditableField("Min frequency", "Hz", MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, minFrequencyHz),
-				new EditableField("Max frequency", "Hz", MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, maxFrequencyHz)
+				new EditableField("field.circuitsimcraft.amplitude", "V", MIN_AMPLITUDE_VOLTS, MAX_AMPLITUDE_VOLTS, amplitudeVolts),
+				new EditableField("field.circuitsimcraft.min_frequency", "Hz", MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, minFrequencyHz),
+				new EditableField("field.circuitsimcraft.max_frequency", "Hz", MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ, maxFrequencyHz)
 		);
 	}
 
@@ -115,8 +116,8 @@ public class AcSourceBlockEntity extends ComponentBlockEntity implements ValueEd
 	}
 
 	@Override
-	public String probeSummary() {
-		String base = String.format("AC Source %.2fV, %.1f-%.0f Hz sweep", amplitudeVolts, minFrequencyHz, maxFrequencyHz());
-		return redstonePowered ? base : base + " (off - needs redstone)";
+	public Component probeSummary() {
+		return CircuitText.powered(CircuitText.probe("ac_source", "%.2f".formatted(amplitudeVolts), "%.1f".formatted(minFrequencyHz),
+				"%.0f".formatted(maxFrequencyHz())), redstonePowered);
 	}
 }

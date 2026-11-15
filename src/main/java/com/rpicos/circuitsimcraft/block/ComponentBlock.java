@@ -75,7 +75,7 @@ public abstract class ComponentBlock extends Block implements EntityBlock {
 		if (blockEntity instanceof ComponentBlockEntity component) {
 			component.cyclePreset();
 			component.markNetworkDirty();
-			player.sendOverlayMessage(Component.literal(component.probeSummary()));
+			player.sendOverlayMessage(component.probeSummary());
 		}
 		return InteractionResult.SUCCESS_SERVER;
 	}

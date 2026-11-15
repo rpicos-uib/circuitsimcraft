@@ -31,14 +31,14 @@ public class ProbeItem extends Item {
 		BlockPos pos = context.getClickedPos();
 		if (level.getBlockEntity(pos) instanceof Probeable component
 				&& context.getPlayer() instanceof ServerPlayer player) {
-			String readout = String.format("%s | V=%.2fV  I=%.4fA",
-					component.probeSummary(), component.probeVoltage(), component.probeCurrent());
+			Component readout = Component.translatable("message.circuitsimcraft.probe.readout", component.probeSummary(),
+					"%.2f".formatted(component.probeVoltage()), "%.4f".formatted(component.probeCurrent()));
 			if (player.isShiftKeyDown()) {
 				ProbeWatchManager.unpin(player, pos);
-				player.sendOverlayMessage(Component.literal("Unpinned: " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.probe.unpinned", readout));
 			} else {
 				ProbeWatchManager.pin(player, pos);
-				player.sendOverlayMessage(Component.literal("Pinned: " + readout));
+				player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.probe.pinned", readout));
 			}
 			return InteractionResult.SUCCESS_SERVER;
 		}

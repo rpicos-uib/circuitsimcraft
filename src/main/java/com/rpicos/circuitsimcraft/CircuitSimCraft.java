@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 
@@ -62,14 +63,14 @@ public class CircuitSimCraft implements ModInitializer {
 				// component's current value when its network is actually rebuilt, not every tick.
 				networkEntity.markNetworkDirty();
 			}
-			StringBuilder message = new StringBuilder();
+			MutableComponent message = Component.empty();
 			for (var field : editable.editableFields()) {
-				if (!message.isEmpty()) {
+				if (!message.getSiblings().isEmpty()) {
 					message.append(", ");
 				}
-				message.append(field.label()).append("=").append(field.current()).append(field.unit());
+				message.append(field.labelText()).append("=" + field.current()).append(field.unitText());
 			}
-			context.player().sendSystemMessage(Component.literal(message.toString()));
+			context.player().sendSystemMessage(message);
 		});
 
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {

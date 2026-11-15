@@ -47,7 +47,7 @@ public class AcProbeItem extends Item {
 
 		if (player.isShiftKeyDown()) {
 			AcProbeManager.clearPending(player);
-			player.sendOverlayMessage(Component.literal("AC probe unpinned"));
+			player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.ac_probe.unpinned"));
 			return InteractionResult.SUCCESS_SERVER;
 		}
 
@@ -57,20 +57,20 @@ public class AcProbeItem extends Item {
 		if (level.getBlockEntity(pos) instanceof AcSourceBlockEntity) {
 			AcProbeManager.pinSource(player, pos);
 			ServerPlayNetworking.send(player, new AcHintPayload(pos.immutable()));
-			player.sendOverlayMessage(Component.literal("AC source pinned - now click a signal point"));
+			player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.ac_probe.source_pinned"));
 			return InteractionResult.SUCCESS_SERVER;
 		}
 
 		BlockPos sourcePos = AcProbeManager.pendingSource(player);
 		if (sourcePos == null) {
-			player.sendOverlayMessage(Component.literal("Right-click an AC Source block first"));
+			player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.ac_probe.no_source"));
 			return InteractionResult.SUCCESS_SERVER;
 		}
 
 		CircuitNetworkManager.AcSweepResult result =
 				CircuitNetworkManager.forLevel(serverLevel).computeAcSweep(sourcePos, pos);
 		if (result.warning() != null) {
-			player.sendOverlayMessage(Component.literal("AC probe: " + result.warning()));
+			player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.ac_probe.warning", result.warning()));
 			return InteractionResult.SUCCESS_SERVER;
 		}
 
@@ -79,7 +79,7 @@ public class AcProbeItem extends Item {
 		List<Float> phases = toFloatList(result.phasesDeg());
 		ServerPlayNetworking.send(player,
 				new AcBodePayload(sourcePos.immutable(), pos.immutable(), freqs, mags, phases, ""));
-		player.sendOverlayMessage(Component.literal("AC sweep complete"));
+		player.sendOverlayMessage(Component.translatable("message.circuitsimcraft.ac_probe.sweep_complete"));
 		return InteractionResult.SUCCESS_SERVER;
 	}
 

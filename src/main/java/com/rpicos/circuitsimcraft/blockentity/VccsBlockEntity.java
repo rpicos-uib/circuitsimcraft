@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Vccs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class VccsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Transconductance", "S", GM_MIN, GM_MAX, transconductanceSiemens));
+		return List.of(new EditableField("field.circuitsimcraft.transconductance", "S", GM_MIN, GM_MAX, transconductanceSiemens));
 	}
 
 	@Override
@@ -63,9 +64,9 @@ public class VccsBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	}
 
 	@Override
-	public String probeSummary() {
+	public Component probeSummary() {
 		double vControl = circuit == null ? 0 : circuit.getVoltage(nodeControl);
-		return "VCCS gm=%.4f S, Vin=%.3f V, Iout=%.4f A".formatted(transconductanceSiemens, vControl, probeCurrent());
+		return CircuitText.probe("vccs", "%.4f".formatted(transconductanceSiemens), "%.3f".formatted(vControl), "%.4f".formatted(probeCurrent()));
 	}
 
 	@Override

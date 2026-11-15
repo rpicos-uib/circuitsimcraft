@@ -3,6 +3,8 @@ package com.rpicos.circuitsimcraft.network;
 import com.rpicos.circuitsimcraft.CircuitSimCraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -11,7 +13,7 @@ import java.util.List;
 
 /** Server -> client: a bundled component's live readout and recent history, phase A/B/C each -
  *  the bundle analog of {@link ProbeDataPayload}. */
-public record ThreePhaseProbeDataPayload(BlockPos pos, String summary,
+public record ThreePhaseProbeDataPayload(BlockPos pos, Component summary,
 		float voltageA, float voltageB, float voltageC,
 		float currentA, float currentB, float currentC,
 		List<Float> historyA, List<Float> historyB, List<Float> historyC,
@@ -21,7 +23,7 @@ public record ThreePhaseProbeDataPayload(BlockPos pos, String summary,
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, ThreePhaseProbeDataPayload> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, ThreePhaseProbeDataPayload::pos,
-			ByteBufCodecs.STRING_UTF8, ThreePhaseProbeDataPayload::summary,
+			ComponentSerialization.STREAM_CODEC, ThreePhaseProbeDataPayload::summary,
 			ByteBufCodecs.FLOAT, ThreePhaseProbeDataPayload::voltageA,
 			ByteBufCodecs.FLOAT, ThreePhaseProbeDataPayload::voltageB,
 			ByteBufCodecs.FLOAT, ThreePhaseProbeDataPayload::voltageC,

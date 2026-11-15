@@ -8,6 +8,7 @@ import com.rpicos.circuitsimcraft.sim.Complex;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** A 0V voltage source in series - electrically an ideal wire, giving an exact branch-current
@@ -56,8 +57,8 @@ public class AmmeterBlockEntity extends ComponentBlockEntity implements AcStampa
 	}
 
 	@Override
-	public String probeSummary() {
-		return String.format("Ammeter %.4f A", probeCurrent());
+	public Component probeSummary() {
+		return CircuitText.probe("ammeter", "%.4f".formatted(probeCurrent()));
 	}
 
 	@Override

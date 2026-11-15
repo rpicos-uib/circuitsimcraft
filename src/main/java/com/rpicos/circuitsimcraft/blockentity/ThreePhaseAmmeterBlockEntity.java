@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Three independent 0V voltage sources in series, one per phase - the bundle equivalent of
@@ -44,8 +45,8 @@ public class ThreePhaseAmmeterBlockEntity extends ThreePhaseComponentBlockEntity
 	}
 
 	@Override
-	public String probeSummary() {
+	public Component probeSummary() {
 		double[] i = probeBundleCurrent();
-		return String.format("3-Phase Ammeter A=%.4f B=%.4f C=%.4f A", i[0], i[1], i[2]);
+		return CircuitText.probe("three_phase_ammeter", "%.4f".formatted(i[0]), "%.4f".formatted(i[1]), "%.4f".formatted(i[2]));
 	}
 }

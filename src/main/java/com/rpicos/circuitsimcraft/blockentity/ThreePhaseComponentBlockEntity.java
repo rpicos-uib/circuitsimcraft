@@ -4,6 +4,7 @@ import com.rpicos.circuitsimcraft.network.BundleParticipant;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -71,7 +72,7 @@ public abstract class ThreePhaseComponentBlockEntity extends NetworkBlockEntity 
 	public abstract double[] probeBundleCurrent();
 
 	@Override
-	public abstract String probeSummary();
+	public abstract Component probeSummary();
 
 	/** What the oscilloscope trace plots for this component - voltage for every normal component,
 	 *  mirroring {@link ComponentBlockEntity#sampleValue()}. */

@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.IdealOpAmp;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -83,8 +84,8 @@ public class OpAmpBlockEntity extends NetworkBlockEntity implements Probeable {
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Ideal Op-Amp";
+	public Component probeSummary() {
+		return Component.translatable("block.circuitsimcraft.op_amp");
 	}
 
 	@Override

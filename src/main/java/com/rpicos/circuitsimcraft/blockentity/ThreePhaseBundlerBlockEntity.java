@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.network.BundleBridge;
 import com.rpicos.circuitsimcraft.network.BundleParticipant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -55,7 +56,7 @@ public class ThreePhaseBundlerBlockEntity extends NetworkBlockEntity implements 
 		return "Bundler";
 	}
 
-	public String probeSummary() {
-		return deviceName() + ": phase A=north, B=east, C=south <-> bundle=up";
+	public Component probeSummary() {
+		return CircuitText.probe("bundle_ports", Component.translatable("block.circuitsimcraft.three_phase_" + deviceName().toLowerCase()));
 	}
 }

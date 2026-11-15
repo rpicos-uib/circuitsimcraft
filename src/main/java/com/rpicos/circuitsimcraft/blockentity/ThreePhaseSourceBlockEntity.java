@@ -7,6 +7,7 @@ import com.rpicos.circuitsimcraft.sim.VoltageSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -65,8 +66,8 @@ public class ThreePhaseSourceBlockEntity extends NetworkBlockEntity implements B
 	@Override
 	public List<EditableField> editableFields() {
 		return List.of(
-				new EditableField("Amplitude", "V", PRESETS_VOLTS[0], PRESETS_VOLTS[PRESETS_VOLTS.length - 1], amplitudeVolts),
-				new EditableField("Frequency", "Hz", PRESETS_HZ[0], PRESETS_HZ[PRESETS_HZ.length - 1], frequencyHz));
+				new EditableField("field.circuitsimcraft.amplitude", "V", PRESETS_VOLTS[0], PRESETS_VOLTS[PRESETS_VOLTS.length - 1], amplitudeVolts),
+				new EditableField("field.circuitsimcraft.frequency", "Hz", PRESETS_HZ[0], PRESETS_HZ[PRESETS_HZ.length - 1], frequencyHz));
 	}
 
 	@Override
@@ -126,8 +127,7 @@ public class ThreePhaseSourceBlockEntity extends NetworkBlockEntity implements B
 	}
 
 	@Override
-	public String probeSummary() {
-		String base = String.format("3-Phase Source %.0fV %.2fHz", amplitudeVolts, frequencyHz);
-		return redstonePowered ? base : base + " (off - needs redstone)";
+	public Component probeSummary() {
+		return CircuitText.powered(CircuitText.probe("three_phase_source", "%.0f".formatted(amplitudeVolts), "%.2f".formatted(frequencyHz)), redstonePowered);
 	}
 }

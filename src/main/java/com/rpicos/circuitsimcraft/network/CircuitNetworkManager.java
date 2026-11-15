@@ -26,6 +26,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Complex;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.ArrayList;
@@ -377,22 +378,22 @@ public class CircuitNetworkManager {
 	 *  configured range, each with the signal/source complex ratio's magnitude (dB) and phase
 	 *  (degrees). {@code warning} is non-null, and the three lists empty, if the sweep could not
 	 *  be performed at all (e.g. the pinned position wasn't actually an AC Source). */
-	public record AcSweepResult(List<Double> freqsHz, List<Double> magnitudesDb, List<Double> phasesDeg, String warning) {
-		public static AcSweepResult error(String warning) {
+	public record AcSweepResult(List<Double> freqsHz, List<Double> magnitudesDb, List<Double> phasesDeg, Component warning) {
+		public static AcSweepResult error(Component warning) {
 			return new AcSweepResult(List.of(), List.of(), List.of(), warning);
 		}
 	}
 
 	public AcSweepResult computeAcSweep(BlockPos sourcePos, BlockPos signalPos) {
 		if (!(participants.get(sourcePos) instanceof AcSourceBlockEntity acSource)) {
-			return AcSweepResult.error("Pinned position is not an AC Source block.");
+			return AcSweepResult.error(Component.translatable("message.circuitsimcraft.ac_probe.not_a_source"));
 		}
 		if (!acSource.isRedstonePowered()) {
-			return AcSweepResult.error("AC Source has no redstone power.");
+			return AcSweepResult.error(Component.translatable("message.circuitsimcraft.ac_probe.source_unpowered"));
 		}
 		NetworkBlockEntity signalEntity = participants.get(signalPos);
 		if (signalEntity == null) {
-			return AcSweepResult.error("No wired component at the signal position.");
+			return AcSweepResult.error(Component.translatable("message.circuitsimcraft.ac_probe.no_component"));
 		}
 
 		NodeAssignment assignment = computeNodeAssignment();
@@ -434,7 +435,7 @@ public class CircuitNetworkManager {
 			try {
 				acCircuit.solve(omega);
 			} catch (ArithmeticException e) {
-				return AcSweepResult.error("AC solver error: " + e.getMessage());
+				return AcSweepResult.error(Component.translatable("message.circuitsimcraft.ac_probe.solver_error", String.valueOf(e.getMessage())));
 			}
 
 			Complex signalVoltage = readAcVoltage(signalPos, signalEntity, assignment, acCircuit);

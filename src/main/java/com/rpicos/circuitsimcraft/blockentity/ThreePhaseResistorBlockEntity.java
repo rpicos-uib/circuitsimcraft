@@ -4,6 +4,7 @@ import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Resistor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ThreePhaseResistorBlockEntity extends ThreePhaseComponentBlockEntit
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Resistance", "ohm",
+		return List.of(new EditableField("field.circuitsimcraft.resistance", "ohm",
 				PRESETS_OHMS[0], PRESETS_OHMS[PRESETS_OHMS.length - 1], resistanceOhms));
 	}
 
@@ -52,7 +53,7 @@ public class ThreePhaseResistorBlockEntity extends ThreePhaseComponentBlockEntit
 	}
 
 	@Override
-	public String probeSummary() {
-		return "3-Phase Resistor " + resistanceOhms + " ohm (x3)";
+	public Component probeSummary() {
+		return CircuitText.probe("three_phase_resistor", String.valueOf(resistanceOhms));
 	}
 }

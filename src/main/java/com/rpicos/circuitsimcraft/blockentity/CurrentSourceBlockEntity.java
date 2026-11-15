@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.CurrentSource;
 import com.rpicos.circuitsimcraft.sim.Waveform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class CurrentSourceBlockEntity extends ComponentBlockEntity implements Va
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Current", "A",
+		return List.of(new EditableField("field.circuitsimcraft.current", "A",
 				PRESETS_AMPS[0], PRESETS_AMPS[PRESETS_AMPS.length - 1], currentAmps));
 	}
 
@@ -68,8 +69,7 @@ public class CurrentSourceBlockEntity extends ComponentBlockEntity implements Va
 	}
 
 	@Override
-	public String probeSummary() {
-		String base = "Current Source " + currentAmps + " A DC";
-		return redstonePowered ? base : base + " (off - needs redstone)";
+	public Component probeSummary() {
+		return CircuitText.powered(CircuitText.probe("current_source", String.valueOf(currentAmps)), redstonePowered);
 	}
 }

@@ -4,6 +4,7 @@ import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.network.BundleParticipant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Anchors whatever network it touches to the solver's real node 0 (see
@@ -27,7 +28,7 @@ public class GroundBlockEntity extends SingleNodeBlockEntity implements BundlePa
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Ground (0V reference)";
+	public Component probeSummary() {
+		return CircuitText.probe("ground");
 	}
 }

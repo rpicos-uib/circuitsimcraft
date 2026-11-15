@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Mosfet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -77,8 +78,8 @@ public class NmosBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	@Override
 	public List<EditableField> editableFields() {
 		return List.of(
-				new EditableField("Threshold voltage", "V", VTH_MIN, VTH_MAX, thresholdVolts),
-				new EditableField("Transconductance k", "A/V²", K_MIN, K_MAX, transconductanceParam));
+				new EditableField("field.circuitsimcraft.threshold_voltage", "V", VTH_MIN, VTH_MAX, thresholdVolts),
+				new EditableField("field.circuitsimcraft.transconductance_k", "A/V²", K_MIN, K_MAX, transconductanceParam));
 	}
 
 	@Override
@@ -98,9 +99,9 @@ public class NmosBlockEntity extends NetworkBlockEntity implements Probeable, Va
 	}
 
 	@Override
-	public String probeSummary() {
-		return "%s Vth=%.2f V k=%.4f, Vds=%.3f V, Id=%.4f A".formatted(
-				deviceName(), thresholdVolts, transconductanceParam, probeVoltage(), probeCurrent());
+	public Component probeSummary() {
+		return CircuitText.probe("mosfet", deviceName(), "%.2f".formatted(thresholdVolts), "%.4f".formatted(transconductanceParam),
+				"%.3f".formatted(probeVoltage()), "%.4f".formatted(probeCurrent()));
 	}
 
 	@Override

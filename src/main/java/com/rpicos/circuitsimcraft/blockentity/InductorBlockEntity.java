@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Inductor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class InductorBlockEntity extends ComponentBlockEntity implements ValueEd
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Inductance", "H",
+		return List.of(new EditableField("field.circuitsimcraft.inductance", "H",
 				PRESETS_HENRIES[0], PRESETS_HENRIES[PRESETS_HENRIES.length - 1], inductanceHenries));
 	}
 
@@ -58,7 +59,7 @@ public class InductorBlockEntity extends ComponentBlockEntity implements ValueEd
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Inductor " + inductanceHenries + " H";
+	public Component probeSummary() {
+		return CircuitText.probe("inductor", String.valueOf(inductanceHenries));
 	}
 }

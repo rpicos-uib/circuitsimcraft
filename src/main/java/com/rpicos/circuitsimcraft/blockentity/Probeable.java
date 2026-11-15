@@ -1,5 +1,7 @@
 package com.rpicos.circuitsimcraft.blockentity;
 
+import net.minecraft.network.chat.Component;
+
 import java.util.List;
 
 /** Anything the Probe item can pin as an oscilloscope channel: a two-terminal component (voltage
@@ -10,7 +12,7 @@ public interface Probeable {
 
 	double probeCurrent();
 
-	String probeSummary();
+	Component probeSummary();
 
 	List<Float> historySnapshot();
 

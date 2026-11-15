@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.Memristor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -44,9 +45,9 @@ public class MemristorBlockEntity extends ComponentBlockEntity implements ValueE
 	@Override
 	public List<EditableField> editableFields() {
 		return List.of(
-				new EditableField("R_on", "ohm", MIN_RON, MAX_RON, ronOhms),
-				new EditableField("R_off", "ohm", MIN_ROFF, MAX_ROFF, roffOhms),
-				new EditableField("Switching charge (q_max)", "C", MIN_Q_MAX, MAX_Q_MAX, qMax)
+				new EditableField("field.circuitsimcraft.r_on", "ohm", MIN_RON, MAX_RON, ronOhms),
+				new EditableField("field.circuitsimcraft.r_off", "ohm", MIN_ROFF, MAX_ROFF, roffOhms),
+				new EditableField("field.circuitsimcraft.switching_charge_q_max", "C", MIN_Q_MAX, MAX_Q_MAX, qMax)
 		);
 	}
 
@@ -83,8 +84,9 @@ public class MemristorBlockEntity extends ComponentBlockEntity implements ValueE
 	}
 
 	@Override
-	public String probeSummary() {
-		if (live == null) return "Memristor";
-		return "Memristor R=" + Math.round(live.resistance()) + " ohm (state " + Math.round(live.stateFraction() * 100) + "%)";
+	public Component probeSummary() {
+		if (live == null) return Component.translatable("block.circuitsimcraft.memristor");
+		return CircuitText.probe("memristor", String.valueOf(Math.round(live.resistance())),
+				String.valueOf(Math.round(live.stateFraction() * 100)));
 	}
 }

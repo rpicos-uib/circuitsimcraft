@@ -5,6 +5,7 @@ import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Capacitor;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class CapacitorBlockEntity extends ComponentBlockEntity implements ValueE
 
 	@Override
 	public List<EditableField> editableFields() {
-		return List.of(new EditableField("Capacitance", "uF",
+		return List.of(new EditableField("field.circuitsimcraft.capacitance", "uF",
 				MIN_MICROFARADS, MAX_MICROFARADS, capacitanceFarads * 1e6));
 	}
 
@@ -59,7 +60,7 @@ public class CapacitorBlockEntity extends ComponentBlockEntity implements ValueE
 	}
 
 	@Override
-	public String probeSummary() {
-		return "Capacitor " + (capacitanceFarads * 1e6) + " uF";
+	public Component probeSummary() {
+		return CircuitText.probe("capacitor", String.valueOf(capacitanceFarads * 1e6));
 	}
 }
