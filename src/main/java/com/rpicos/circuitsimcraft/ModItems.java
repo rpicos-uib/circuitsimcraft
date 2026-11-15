@@ -60,7 +60,9 @@ public final class ModItems {
 
 	private static Item registerBlockItem(String path, Block block) {
 		ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, CircuitSimCraft.id(path));
-		Item item = new BlockItem(block, new Item.Properties().setId(key));
+		// useBlockDescriptionPrefix: name the item with the block's "block.circuitsimcraft.*" key, as
+		// vanilla does - the default would look up an "item.*" key that the lang files don't define.
+		Item item = new BlockItem(block, new Item.Properties().setId(key).useBlockDescriptionPrefix());
 		return Registry.register(BuiltInRegistries.ITEM, key, item);
 	}
 

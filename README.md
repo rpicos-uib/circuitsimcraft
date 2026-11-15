@@ -540,8 +540,9 @@ actually correct, not just plausible-looking.
 
 ## Translations
 
-Available in **English**, **Spanish** (`es_es`), **Catalan** (`ca_es`) and **Greek** (`el_gr`) —
-Minecraft picks the one matching your game language automatically. Every player-visible string is translatable:
+Available in **English**, **Spanish** (`es_es`), **Catalan** (`ca_es`), **Greek** (`el_gr`) and
+**Russian** (`ru_ru`; block and item names so far, the rest shows in English) — Minecraft picks
+the one matching your game language automatically. Every player-visible string is translatable:
 block/item names, probe readouts, chat messages, the oscilloscope HUDs and the value editor.
 
 To add a language, you only need one file:
@@ -559,6 +560,9 @@ To add a language, you only need one file:
 5. Open a pull request adding the file to `src/main/resources/assets/circuitsimcraft/lang/`, or
    just send the file to the maintainer. Any key you leave out falls back to English, so a
    partial translation still works.
+
+Thanks to our translators: the **Russian** translation was contributed by CurseForge user
+**user_whgfaemh28tr34xm**.
 
 ## Citation
 
