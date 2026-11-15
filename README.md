@@ -540,9 +540,10 @@ actually correct, not just plausible-looking.
 
 ## Translations
 
-Available in **English**, **Spanish** (`es_es`), **Catalan** (`ca_es`), **Greek** (`el_gr`) and
-**Russian** (`ru_ru`; block and item names so far, the rest shows in English) — Minecraft picks
-the one matching your game language automatically. Every player-visible string is translatable:
+Available in **English**, **Spanish** (`es_es`), **Catalan** (`ca_es`), **German** (`de_de`),
+**French** (`fr_fr`), **Brazilian Portuguese** (`pt_br`), **Simplified Chinese** (`zh_cn`),
+**Greek** (`el_gr`) and **Russian** (`ru_ru`; block and item names so far, the rest shows in
+English) — Minecraft picks the one matching your game language automatically. Every player-visible string is translatable:
 block/item names, probe readouts, chat messages, the oscilloscope HUDs and the value editor.
 
 To add a language, you only need one file:
