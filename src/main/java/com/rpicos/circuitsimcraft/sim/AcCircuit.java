@@ -23,6 +23,7 @@ public class AcCircuit {
 	private final List<AcElement> elements = new ArrayList<>();
 	private final List<AcVoltageSource> sources = new ArrayList<>();
 	private final List<AcOpAmp> opAmps = new ArrayList<>();
+	private final List<IdealTransformer> transformers = new ArrayList<>();
 
 	private Complex[] nodeVoltages = new Complex[1];
 
@@ -42,6 +43,10 @@ public class AcCircuit {
 		opAmps.add(opAmp);
 	}
 
+	public void add(IdealTransformer transformer) {
+		transformers.add(transformer);
+	}
+
 	/** See {@link Circuit#assignBranchIndices} - the exact same fix, needed for the exact same
 	 *  reason: add() can't know the final branch numbering when op-amps and voltage sources are
 	 *  added in an unpredictable interleaved order. */
@@ -51,6 +56,9 @@ public class AcCircuit {
 		}
 		for (int i = 0; i < opAmps.size(); i++) {
 			opAmps.get(i).branchIndex = sources.size() + i;
+		}
+		for (int i = 0; i < transformers.size(); i++) {
+			transformers.get(i).branchIndex = sources.size() + opAmps.size() + i;
 		}
 	}
 
@@ -78,7 +86,7 @@ public class AcCircuit {
 		assignBranchIndices();
 
 		int n = nodeCount - 1;
-		int m = sources.size() + opAmps.size();
+		int m = sources.size() + opAmps.size() + transformers.size();
 		int size = n + m;
 
 		nodeVoltages = new Complex[nodeCount];
@@ -128,6 +136,15 @@ public class AcCircuit {
 			z[row] = Complex.ZERO;
 		}
 
+		// Ideal transformer: frequency-independent, same real stamp as in Circuit.
+		for (IdealTransformer t : transformers) {
+			int row = n + t.branchIndex;
+			stampTransformer(mat, row, t.primaryPlus, 1);
+			stampTransformer(mat, row, t.primaryMinus, -1);
+			stampTransformer(mat, row, t.secondaryPlus, -t.ratio);
+			stampTransformer(mat, row, t.secondaryMinus, t.ratio);
+		}
+
 		Complex[] x = solve(mat, z);
 		for (int i = 0; i < n; i++) {
 			nodeVoltages[i + 1] = x[i];
@@ -135,6 +152,12 @@ public class AcCircuit {
 		for (AcVoltageSource s : sources) {
 			s.setSolvedCurrent(x[n + s.branchIndex]);
 		}
+	}
+
+	private static void stampTransformer(Complex[][] mat, int row, int node, double coefficient) {
+		if (node == 0) return;
+		mat[node - 1][row] = mat[node - 1][row].add(Complex.real(coefficient));
+		mat[row][node - 1] = mat[row][node - 1].add(Complex.real(coefficient));
 	}
 
 	/** Complex Gaussian elimination with partial pivoting (by magnitude). */

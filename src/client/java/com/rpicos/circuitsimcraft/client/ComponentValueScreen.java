@@ -102,7 +102,9 @@ public class ComponentValueScreen extends Screen {
 		for (int i = 0; i < fields.size(); i++) {
 			EditableField field = fields.get(i);
 			int y = startY + i * ROW_SPACING;
-			Component label = field.labelText().copy().append(" (").append(field.unitText()).append(")");
+			// A dimensionless field (e.g. a transformer's turn counts) has no unit to show.
+			Component label = field.unit().isEmpty() ? field.labelText()
+					: field.labelText().copy().append(" (").append(field.unitText()).append(")");
 			extractor.text(font, label, x, y, 0xFFDDDDDD, false);
 			Component hint = Component.translatable("screen.circuitsimcraft.range",
 					formatValue(field.min()), formatValue(field.max()), field.unitText());

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "circuitsimcraft:block/transformer",
+    "north": "circuitsimcraft:block/transformer",
+    "south": "circuitsimcraft:block/transformer",
+    "east": "circuitsimcraft:block/transformer_in_plus",
+    "west": "circuitsimcraft:block/transformer_in_minus",
+    "up": "circuitsimcraft:block/transformer_out_plus",
+    "down": "circuitsimcraft:block/transformer_out_minus"
+  }
+}

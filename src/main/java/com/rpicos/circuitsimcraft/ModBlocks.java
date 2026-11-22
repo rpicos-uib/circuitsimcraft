@@ -30,6 +30,7 @@ import com.rpicos.circuitsimcraft.block.ThreePhaseUnbundlerBlock;
 import com.rpicos.circuitsimcraft.block.ThreePhaseWireBlock;
 import com.rpicos.circuitsimcraft.block.V2RConverterBlock;
 import com.rpicos.circuitsimcraft.block.VccsBlock;
+import com.rpicos.circuitsimcraft.block.TransformerBlock;
 import com.rpicos.circuitsimcraft.block.VcvsBlock;
 import com.rpicos.circuitsimcraft.block.VoltageModuleBlock;
 import com.rpicos.circuitsimcraft.block.VoltmeterBlock;
@@ -71,6 +72,7 @@ public final class ModBlocks {
 	public static final Block VCCS = register("vccs", VccsBlock::new, componentProperties());
 	public static final Block CCCS = register("cccs", CccsBlock::new, componentProperties());
 	public static final Block CCVS = register("ccvs", CcvsBlock::new, componentProperties());
+	public static final Block TRANSFORMER = register("transformer", TransformerBlock::new, componentProperties());
 
 	// Three-phase electricity (step 1: bundled-node network primitive verification slice - only
 	// the wire, source, and ammeter exist so far; resistor/inductor/capacitor/bundler/unbundler

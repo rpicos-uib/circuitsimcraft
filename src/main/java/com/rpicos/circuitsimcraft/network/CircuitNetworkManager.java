@@ -18,6 +18,7 @@ import com.rpicos.circuitsimcraft.blockentity.ThreePhaseComponentBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.ThreePhaseProbeable;
 import com.rpicos.circuitsimcraft.blockentity.ThreePhaseSourceBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.ThreePhaseWireBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.TransformerBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.V2RConverterBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VccsBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VcvsBlockEntity;
@@ -344,6 +345,9 @@ public class CircuitNetworkManager {
 				int nodeControlOut = assignment.nodeIdByKey().get(new NodeKey(pos, Direction.SOUTH));
 				int nodeOutput = assignment.nodeIdByKey().get(new NodeKey(pos, Direction.UP));
 				ccvs.addToCircuit(circuit, nodeControlIn, nodeControlOut, nodeOutput);
+			} else if (entity instanceof TransformerBlockEntity transformer) {
+				int[] nodes = transformerNodes(pos, transformer, assignment);
+				transformer.addToCircuit(circuit, nodes[0], nodes[1], nodes[2], nodes[3]);
 			} else if (entity instanceof ThreePhaseSourceBlockEntity source) {
 				int nodeNeutral = assignment.nodeIdByKey().get(new NodeKey(pos, source.getFacing().getOpposite()));
 				int[] nodesPhase = new int[3];
@@ -423,6 +427,9 @@ public class CircuitNetworkManager {
 					int nodeMinus = assignment.nodeIdByKey().get(new NodeKey(pos, opAmp.minusFace()));
 					int nodePlus = assignment.nodeIdByKey().get(new NodeKey(pos, opAmp.plusFace()));
 					opAmp.addToAcCircuit(acCircuit, nodeOut, nodeMinus, nodePlus);
+				} else if (entity instanceof TransformerBlockEntity transformer) {
+					int[] nodes = transformerNodes(pos, transformer, assignment);
+					transformer.addToAcCircuit(acCircuit, nodes[0], nodes[1], nodes[2], nodes[3]);
 				} else if (entity instanceof ComponentBlockEntity component && entity instanceof AcStampable stampable) {
 					int nodeA = assignment.nodeIdByKey().get(new NodeKey(pos, component.getFacing()));
 					int nodeB = assignment.nodeIdByKey().get(new NodeKey(pos, component.getFacing().getOpposite()));
@@ -464,6 +471,11 @@ public class CircuitNetworkManager {
 			int nodeOut = assignment.nodeIdByKey().get(new NodeKey(pos, opAmp.outputFace()));
 			return acCircuit.getVoltage(nodeOut);
 		}
+		if (entity instanceof TransformerBlockEntity transformer) {
+			// The secondary (output) voltage, top minus bottom - what its regular probe shows too.
+			int[] nodes = transformerNodes(pos, transformer, assignment);
+			return acCircuit.getVoltage(nodes[2]).subtract(acCircuit.getVoltage(nodes[3]));
+		}
 		if (entity instanceof ComponentBlockEntity component) {
 			int nodeA = assignment.nodeIdByKey().get(new NodeKey(pos, component.getFacing()));
 			int nodeB = assignment.nodeIdByKey().get(new NodeKey(pos, component.getFacing().getOpposite()));
@@ -473,6 +485,16 @@ public class CircuitNetworkManager {
 			return acCircuit.getVoltage(assignment.nodeIdByKey().get(pos));
 		}
 		return Complex.ZERO;
+	}
+
+	/** A transformer's four node ids: {in+, in-, out+, out-}. */
+	private static int[] transformerNodes(BlockPos pos, TransformerBlockEntity transformer, NodeAssignment assignment) {
+		return new int[] {
+				assignment.nodeIdByKey().get(new NodeKey(pos, transformer.inPlusFace())),
+				assignment.nodeIdByKey().get(new NodeKey(pos, transformer.inMinusFace())),
+				assignment.nodeIdByKey().get(new NodeKey(pos, transformer.outPlusFace())),
+				assignment.nodeIdByKey().get(new NodeKey(pos, transformer.outMinusFace()))
+		};
 	}
 
 	private static Object find(Map<Object, Object> parent, Object key) {

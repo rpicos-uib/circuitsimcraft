@@ -28,8 +28,27 @@ session, and rewrite it (not just SESSION_NOTES.md) whenever something below goe
 — must match `run_claude.bash`'s `SESSION_ID`; update both together whenever this changes,
 same rule `SESSION_NOTES.md` already follows for itself.
 
-## Current state (as of 2026-10-18)
+## Current state (as of 2026-11-22)
 
+- **v1.26.3.3** (2026-11-22): new **single-phase Transformer** (ideal, N:M editable 1-1000 each,
+  IN +/- on the left/right faces seen from the front, OUT +/- on top/bottom; recipe CIC x3,
+  craft-only) + the previously unreleased de/fr/pt_br/zh_cn/hi/ja/ko translations. Details in
+  `SESSION_NOTES.md` 2026-11-22. RELEASE_IDS_PLACEHOLDER
+- **v1.26.3.2** (2026-11-15): **Russian** (`ru_ru`, names only so far; contributed by CurseForge
+  user user_whgfaemh28tr34xm, credited in the README; "Верстак" -> "Рабочий стол" to avoid vanilla
+  Crafting Table clash) + **fix: block items showed raw `item.circuitsimcraft.*` keys** in every
+  language (`registerBlockItem` lacked `useBlockDescriptionPrefix()`). GitHub `ed07962`/Release
+  `v1.26.3.2` (sha256 `88812f8b...`), Modrinth `YeYC5qsg`, CurseForge `9625992` (awaiting listing).
+- **v1.26.3.1** (2026-11-15): Spanish (`es_es`), Catalan (`ca_es`) and Greek (`el_gr`)
+  translations, plus a full i18n pass - probe readouts (`probeSummary()` now returns a
+  `Component`), messages, HUDs and the value editor were all hard-coded English before. 131 keys,
+  placeholder-checked against `en_us`; checked in a real client in Spanish and Greek. README gained
+  a "Translations" contributor section (a Russian translation was offered) and a note that
+  **sources start off after every chunk load - intentional per the user, don't "fix" it**.
+  Shipped: GitHub `7b1d3dd`/Release `v1.26.3.1` (sha256 `6f607572...`), Modrinth `v1KcAWlo`,
+  CurseForge `9625861` (awaiting public listing). Not deployed to `~/.minecraft`/live server. Bump
+  `CITATION.cff` with every release (1.26.3 forgot). The old `circuitcraft` debris reappeared
+  again - moved to `.old_circuitcraft_debris/`, not deleted. Detail: `SESSION_NOTES.md` 2026-11-15.
 - **v1.26.3** (2026-10-18): ported to **Minecraft 26.3** (Fabric Loader 0.19.5, Fabric API
   0.163.0+26.3). **New version scheme**: mod version = `1.<mc-version>`, replacing `0.9.x`.
   Gameplay unchanged. Only code break: 26.3 removed block codecs (`codec()`/`simpleCodec`),
@@ -306,10 +325,12 @@ what changed and when.
 
 ## Immediate next steps
 
-- **Finish the 1.26.3 rollout**: deploy to the live server (26.3 `server.jar` + Fabric launcher +
-  libraries + mods; the verified stack is staged in the 2026-10-18 session's scratchpad
-  `srv263/`, which may be gone - regenerate with the Fabric installer if so); confirm the
-  CurseForge file shows up; launch the real client on the `fabric-loader-26.3` profile once.
+- **Finish the 26.3 rollout**: deploy to the live server (26.3 `server.jar` + Fabric launcher +
+  libraries + mods, now with `circuitsimcraft-1.26.3.2.jar`; the verified stack was staged in the
+  2026-10-18 session's scratchpad `srv263/`, which may be gone - regenerate with the Fabric
+  installer if so); confirm CurseForge file `9625992` (1.26.3.2) shows up publicly (1.26.3 and 1.26.3.1 did);
+  read the CurseForge project's 1 comment; put 1.26.3.2 in `~/.minecraft/mods` and launch the real
+  client on the `fabric-loader-26.3` profile once.
   QuantumCraft needs its own 26.3 port before it can go back into `~/.minecraft/mods`.
 - **CurseForge needs two manual dashboard edits** the API has no surface for (confirmed by
   probing, not assumed): the project-level license classification (Account -> project -> License

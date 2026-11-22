@@ -30,6 +30,7 @@ import com.rpicos.circuitsimcraft.blockentity.ThreePhaseUnbundlerBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.ThreePhaseWireBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.V2RConverterBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VccsBlockEntity;
+import com.rpicos.circuitsimcraft.blockentity.TransformerBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VcvsBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VoltageModuleBlockEntity;
 import com.rpicos.circuitsimcraft.blockentity.VoltmeterBlockEntity;
@@ -97,6 +98,8 @@ public final class ModBlockEntities {
 			register("cccs", CccsBlockEntity::new, ModBlocks.CCCS);
 	public static final BlockEntityType<CcvsBlockEntity> CCVS =
 			register("ccvs", CcvsBlockEntity::new, ModBlocks.CCVS);
+	public static final BlockEntityType<TransformerBlockEntity> TRANSFORMER =
+			register("transformer", TransformerBlockEntity::new, ModBlocks.TRANSFORMER);
 	public static final BlockEntityType<ThreePhaseWireBlockEntity> THREE_PHASE_WIRE =
 			register("three_phase_wire", ThreePhaseWireBlockEntity::new, ModBlocks.THREE_PHASE_WIRE);
 	public static final BlockEntityType<ThreePhaseSourceBlockEntity> THREE_PHASE_SOURCE =

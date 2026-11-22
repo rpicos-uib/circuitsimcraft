@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "circuitsimcraft:block/transformer"
+    },
+    "facing=east": {
+      "model": "circuitsimcraft:block/transformer",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "circuitsimcraft:block/transformer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "circuitsimcraft:block/transformer",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "circuitsimcraft:block/transformer"
+    },
+    "facing=down": {
+      "model": "circuitsimcraft:block/transformer"
+    }
+  }
+}

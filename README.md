@@ -128,11 +128,18 @@ and back are two of the three leads as usual, and the third (base/gate, or the o
 the block's top face — or its north face, if the block itself is oriented vertically (facing
 up or down).
 
+The **Transformer** is a **4-terminal** component and always sits upright: it turns to face you
+when you place it, and the face toward you shows the transformer symbol. Seen from that front,
+its **input** (primary) is the **left (IN +)** and **right (IN −)** faces, and its **output**
+(secondary) is the **top (OUT +)** and **bottom (OUT −)** faces. Each terminal face is labelled
+on the block itself. The back face is not a terminal.
+
 ## Advanced Components
 
-Transistors, the four classic dependent/controlled sources, and a couple of instrumentation
-pieces that round out a real bench — sold by the **Electronics Engineer** villager (see below),
-not the Electrician. All the "simplest model" parameters below (β, threshold voltage,
+Transistors, the four classic dependent/controlled sources, a single-phase transformer, and a
+couple of instrumentation pieces that round out a real bench — sold by the **Electronics
+Engineer** villager (see below), not the Electrician, except the transformer, which is
+craft-only for now. All the "simplest model" parameters below (β, threshold voltage,
 transconductance, gain) are editable via shift+right-click, the same value-editor convention as
 the basic components.
 
@@ -157,6 +164,7 @@ without any change to `Circuit`'s core solve loop (aside from one new stamping h
 | <img src="docs/icons/vccs.png" width="32"> **VCCS** (voltage-controlled current source) | Same shape as the VCVS, but drives a current (transconductance × control voltage) out its top face instead of a voltage - stamped as an exact transconductance term, no lag, since it's a purely linear relation. Shift+right-click edits the transconductance, 1e-4–1 S. |
 | <img src="docs/icons/cccs.png" width="32"> **CCCS** (current-controlled current source) | A 4-face component: north/south are the control-current sense leads (an internal 0V ammeter, like the Ammeter block), top drives the output current (current gain × sensed current) against the required Ground below. Shift+right-click edits the current gain, 0.1–100. |
 | <img src="docs/icons/ccvs.png" width="32"> **CCVS** (current-controlled voltage source) | Same 4-face shape as the CCCS, driving a voltage (transresistance × sensed current) instead of a current. Shift+right-click edits the transresistance, 1–1,000 Ω. |
+| <img src="docs/icons/transformer.png" width="32"> **Transformer** (single-phase) | An ideal transformer with turns ratio **N:M** (primary:secondary): V_out = (M/N)·V_in and I_out = (N/M)·I_in. Input on the left (+) and right (−) faces, output on the top (+) and bottom (−) faces, as seen from the front (see [Wiring rules](#wiring-rules)). Both sides behave as impedances, not as an ideal source: a load Z on the output looks like (N/M)²·Z from the input, and the output sees the input's source impedance scaled by (M/N)². The two windings are isolated, so the output doesn't need a Ground of its own. Right-click cycles 1:1 / 1:2 / 2:1 / 1:10 / 10:1; shift+right-click edits N and M separately, 1–1,000 turns each. Being ideal, it passes DC as well as AC (a real transformer only passes AC). The Probe reads the output voltage and current; the AC Probe works through it too. No villager sells it yet: craft it (see [Crafting recipes](#crafting-recipes)). |
 | <img src="docs/icons/workbench.png" width="32"> **Workbench** | Not a circuit component - it has no leads and takes no part in the solver. It's the **Electronics Engineer** villager's job site block (see below): place one, let an unemployed villager claim it, and it starts selling the rest of this table. |
 
 ## Three-Phase Components
@@ -233,6 +241,7 @@ same result, rather than merged into one image.
 | <img src="docs/recipes/vccs.png"> | **VCCS ×1** — 3×3 copper/iron shell around a Comparator core. |
 | <img src="docs/recipes/cccs.png"> | **CCCS ×1** — 3×3 gold/copper shell around a Comparator core. |
 | <img src="docs/recipes/ccvs.png"> | **CCVS ×1** — 3×3 gold/iron shell around a Comparator core. |
+| <img src="docs/recipes/transformer.png"> | **Transformer ×1** — a column of iron ingots (the core) between two columns of copper ingots (the windings), shaped. |
 | <img src="docs/recipes/workbench.png"> | **Workbench ×1** — 3×3, smooth stone frame around a redstone-and-iron-nugget core (the Breadboard's own job-site pattern, restyled in stone). |
 | <img src="docs/recipes/three_phase_wire.png"> | **3-Phase Wire ×1** — 3× Wire (shapeless). |
 | <img src="docs/recipes/three_phase_source.png"> | **3-Phase Source ×1** — 3× Power Supply (shapeless). |
@@ -456,6 +465,9 @@ is an integer you allocate with `addNode()`. `Element` implementations (`Resisto
 `Inductor`, `Memristor`, `CurrentSource`, `Vccs`, `Bjt`, `Mosfet`) stamp themselves into the
 conductance matrix each step; `VoltageSource` gets its own branch-current unknown, the standard
 MNA treatment for ideal sources — `Vcvs` and `Ccvs` are both thin factories that just build one.
+`IdealTransformer` also gets one branch-current unknown, with the primary/secondary voltage-ratio
+constraint stamped into that row; its coefficients are real, so the same element serves the AC
+solver unchanged.
 Reactive elements use trapezoidal-integration companion models (the same technique SPICE uses)
 rather than backward Euler, so LC-type behavior doesn't get artificially damped out; the BJT and
 MOSFET models reuse that same "linearize about last tick" spirit (the BJT's base-emitter junction

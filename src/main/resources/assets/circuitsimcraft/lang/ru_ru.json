@@ -25,6 +25,7 @@
   "block.circuitsimcraft.vccs": "ИТУН",
   "block.circuitsimcraft.cccs": "ИТУТ",
   "block.circuitsimcraft.ccvs": "ИНУТ",
+  "block.circuitsimcraft.transformer": "Трансформатор",
   "block.circuitsimcraft.three_phase_wire": "Трёхфазный провод",
   "block.circuitsimcraft.three_phase_source": "Трёхфазный источник",
   "block.circuitsimcraft.three_phase_ammeter": "Трёхфазный амперметр",
@@ -43,5 +44,8 @@
   "itemGroup.circuitsimcraft.components": "CircuitSimCraft",
   "entity.circuitsimcraft.villager.electrician": "Электрик",
   "entity.circuitsimcraft.villager.electronics_engineer": "Инженер-электронщик",
-  "entity.circuitsimcraft.villager.electrical_engineer": "Инженер-электротехник"
+  "entity.circuitsimcraft.villager.electrical_engineer": "Инженер-электротехник",
+  "probe.circuitsimcraft.transformer": "Трансформатор %s:%s, Vin=%s V, Vout=%s V",
+  "field.circuitsimcraft.primary_turns": "Витки первичной обмотки (N)",
+  "field.circuitsimcraft.secondary_turns": "Витки вторичной обмотки (M)"
 }

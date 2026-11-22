@@ -53,6 +53,7 @@ public final class ModCreativeTab {
 						output.accept(ModItems.VCCS);
 						output.accept(ModItems.CCCS);
 						output.accept(ModItems.CCVS);
+						output.accept(ModItems.TRANSFORMER);
 						output.accept(ModItems.WORKBENCH);
 						output.accept(ModItems.SWITCHBOARD);
 						// Three-phase electricity, work in progress (step 1 verification slice

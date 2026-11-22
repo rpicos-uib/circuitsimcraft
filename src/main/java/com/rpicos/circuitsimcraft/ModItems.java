@@ -41,6 +41,7 @@ public final class ModItems {
 	public static final Item VCCS = registerBlockItem("vccs", ModBlocks.VCCS);
 	public static final Item CCCS = registerBlockItem("cccs", ModBlocks.CCCS);
 	public static final Item CCVS = registerBlockItem("ccvs", ModBlocks.CCVS);
+	public static final Item TRANSFORMER = registerBlockItem("transformer", ModBlocks.TRANSFORMER);
 	public static final Item THREE_PHASE_WIRE = registerBlockItem("three_phase_wire", ModBlocks.THREE_PHASE_WIRE);
 	public static final Item THREE_PHASE_SOURCE = registerBlockItem("three_phase_source", ModBlocks.THREE_PHASE_SOURCE);
 	public static final Item THREE_PHASE_AMMETER = registerBlockItem("three_phase_ammeter", ModBlocks.THREE_PHASE_AMMETER);

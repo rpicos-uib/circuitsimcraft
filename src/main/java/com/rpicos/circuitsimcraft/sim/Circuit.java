@@ -19,6 +19,7 @@ public class Circuit {
 	private final List<Element> elements = new ArrayList<>();
 	private final List<VoltageSource> sources = new ArrayList<>();
 	private final List<IdealOpAmp> opAmps = new ArrayList<>();
+	private final List<IdealTransformer> transformers = new ArrayList<>();
 
 	private double[] nodeVoltages = new double[1];
 	private double time = 0;
@@ -39,6 +40,10 @@ public class Circuit {
 		opAmps.add(opAmp);
 	}
 
+	public void add(IdealTransformer transformer) {
+		transformers.add(transformer);
+	}
+
 	/** Assigns final branch-current row indices to every source/op-amp added so far: sources
 	 *  first (0..sources.size()-1), then op-amps continuing on from there. Done once per solve
 	 *  rather than at add() time, since add() only sees each list's size *at that moment* -
@@ -51,6 +56,9 @@ public class Circuit {
 		}
 		for (int i = 0; i < opAmps.size(); i++) {
 			opAmps.get(i).branchIndex = sources.size() + i;
+		}
+		for (int i = 0; i < transformers.size(); i++) {
+			transformers.get(i).branchIndex = sources.size() + opAmps.size() + i;
 		}
 	}
 
@@ -98,7 +106,7 @@ public class Circuit {
 		assignBranchIndices();
 
 		int n = nodeCount - 1;
-		int m = sources.size() + opAmps.size();
+		int m = sources.size() + opAmps.size() + transformers.size();
 		int size = n + m;
 
 		// Sized before solve() runs, so a component reading getVoltage() after a failed solve (an
@@ -145,6 +153,16 @@ public class Circuit {
 			if (op.out != 0) mat[op.out - 1][row] += 1;
 		}
 
+		// Ideal transformer - see IdealTransformer's doc comment for the stamp.
+		for (IdealTransformer t : transformers) {
+			int row = n + t.branchIndex;
+			stampTransformer(mat, row, t.primaryPlus, 1);
+			stampTransformer(mat, row, t.primaryMinus, -1);
+			stampTransformer(mat, row, t.secondaryPlus, -t.ratio);
+			stampTransformer(mat, row, t.secondaryMinus, t.ratio);
+			z[row] = 0;
+		}
+
 		double[] x = solve(mat, z);
 
 		for (int i = 0; i < n; i++) {
@@ -156,12 +174,24 @@ public class Circuit {
 		for (IdealOpAmp op : opAmps) {
 			op.setSolvedCurrent(x[n + op.branchIndex]);
 		}
+		for (IdealTransformer t : transformers) {
+			t.setSolvedCurrent(x[n + t.branchIndex]);
+		}
 
 		for (Element e : elements) {
 			e.updateState(this, dt);
 		}
 
 		time = newTime;
+	}
+
+	/** One terminal's share of a transformer stamp. The stamp is symmetric: the same coefficient
+	 *  multiplies the branch current in that node's KCL row and that node's voltage in the
+	 *  branch row. */
+	private static void stampTransformer(double[][] mat, int row, int node, double coefficient) {
+		if (node == 0) return;
+		mat[node - 1][row] += coefficient;
+		mat[row][node - 1] += coefficient;
 	}
 
 	/** Gaussian elimination with partial pivoting. */
