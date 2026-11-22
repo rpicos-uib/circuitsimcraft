@@ -524,8 +524,8 @@ sold by a new profession rather than an existing one.
   of a memristor. Making the others persist too is a good first contribution.
 - **No recipe-book unlock advancements** — recipes work but won't appear highlighted/toast when
   first available.
-- **AC analysis is small-signal only, and doesn't cover the Advanced Components or the
-  Three-Phase Components at all yet.** Every independent source other than the pinned AC Source
+- **AC analysis is small-signal only, and doesn't cover the Advanced Components (except the
+  Transformer) or the Three-Phase Components at all yet.** Every independent source other than the pinned AC Source
   is always stamped at 0V during a sweep, regardless of its own redstone-activated state; the
   op-amp's two-pole gain (100dB DC gain, poles at 20Hz/3MHz) is a fixed constant, not yet exposed
   through the value editor; and the memristor's AC case is simply a frozen resistor with no
