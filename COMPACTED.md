@@ -33,7 +33,7 @@ same rule `SESSION_NOTES.md` already follows for itself.
 - **v1.26.3.3** (2026-11-22): new **single-phase Transformer** (ideal, N:M editable 1-1000 each,
   IN +/- on the left/right faces seen from the front, OUT +/- on top/bottom; recipe CIC x3,
   craft-only) + the previously unreleased de/fr/pt_br/zh_cn/hi/ja/ko translations. Details in
-  `SESSION_NOTES.md` 2026-11-22. RELEASE_IDS_PLACEHOLDER
+  `SESSION_NOTES.md` 2026-11-22. Shipped: GitHub `ff06113`/Release `v1.26.3.3` (sha256 `58074c62...`) + README fix `d707403`, Modrinth `H1fIXWUN` (project body re-synced from README), CurseForge file `9759579` (awaiting listing; its project description is still the old 26.2-era README and needs a manual paste of `~/Downloads/circuitsimcraft_description_1.26.3.3.md`). Not deployed to `~/.minecraft`/live server.
 - **v1.26.3.2** (2026-11-15): **Russian** (`ru_ru`, names only so far; contributed by CurseForge
   user user_whgfaemh28tr34xm, credited in the README; "Верстак" -> "Рабочий стол" to avoid vanilla
   Crafting Table clash) + **fix: block items showed raw `item.circuitsimcraft.*` keys** in every
@@ -326,17 +326,17 @@ what changed and when.
 ## Immediate next steps
 
 - **Finish the 26.3 rollout**: deploy to the live server (26.3 `server.jar` + Fabric launcher +
-  libraries + mods, now with `circuitsimcraft-1.26.3.2.jar`; the verified stack was staged in the
+  libraries + mods, now with `circuitsimcraft-1.26.3.3.jar`; the verified stack was staged in the
   2026-10-18 session's scratchpad `srv263/`, which may be gone - regenerate with the Fabric
-  installer if so); confirm CurseForge file `9625992` (1.26.3.2) shows up publicly (1.26.3 and 1.26.3.1 did);
-  read the CurseForge project's 1 comment; put 1.26.3.2 in `~/.minecraft/mods` and launch the real
+  installer if so); confirm CurseForge files `9625992` (1.26.3.2) and `9759579` (1.26.3.3) show up publicly (1.26.3.2 did by 2026-11-22);
+  read the CurseForge project's 1 comment; put 1.26.3.3 in `~/.minecraft/mods` and launch the real
   client on the `fabric-loader-26.3` profile once.
   QuantumCraft needs its own 26.3 port before it can go back into `~/.minecraft/mods`.
 - **CurseForge needs two manual dashboard edits** the API has no surface for (confirmed by
   probing, not assumed): the project-level license classification (Account -> project -> License
   tab, still says whatever it defaulted to, not CC BY 4.0), and the project description (still
-  describes the pre-three-phase, two-villager feature set - the text to paste in was drafted this
-  session, offer to reproduce it if the user hasn't saved it).
+  an old 26.2-era README copy; paste `~/Downloads/circuitsimcraft_description_1.26.3.3.md`, the
+  current README with absolute image links, same text as Modrinth's body).
 - **Three-phase oscilloscope HUD rendering and Electrical Engineer trade offers still need a
   real connected client to confirm** - both were only verified structurally/via headless
   diagnostic logging, never actually looked at. Also, `docs/recipes/*.png` composite recipe

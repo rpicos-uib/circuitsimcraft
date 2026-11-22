@@ -4,6 +4,8 @@ import com.rpicos.circuitsimcraft.ModBlockEntities;
 import com.rpicos.circuitsimcraft.sim.AcCircuit;
 import com.rpicos.circuitsimcraft.sim.Circuit;
 import com.rpicos.circuitsimcraft.sim.IdealTransformer;
+import com.rpicos.circuitsimcraft.sim.Inductor;
+import com.rpicos.circuitsimcraft.sim.Resistor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -12,8 +14,20 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.List;
 
-/** A single-phase ideal transformer with an editable turns ratio N:M (see {@link
- *  IdealTransformer} for the model). Four electrical terminals, so like the op-amp it extends
+/** A single-phase transformer with an editable turns ratio N:M. Built from an {@link
+ *  IdealTransformer} plus the two non-idealities that stop it passing DC, as a real one does:
+ *  <pre>
+ *   IN+ --[R_w]--+--------+
+ *                |        |
+ *              [L_m]   ideal N:M primary      (secondary on OUT+/OUT-)
+ *                |        |
+ *   IN- ---------+--------+
+ *  </pre>
+ *  The magnetizing inductance L_m shorts a steady DC input, so the core flux, and with it the
+ *  output, dies away; the winding resistance R_w limits the DC current drawn to V/R_w. Together
+ *  they make a high-pass with time constant L_m/R_w (2 s when driven by an ideal source), so a
+ *  step of DC appears on the output only briefly and the mod's 0.5-10 Hz signals pass almost
+ *  unchanged. Four electrical terminals, so like the op-amp it extends
  *  {@link NetworkBlockEntity} directly rather than the two-lead {@link ComponentBlockEntity}.
  *
  *  <p>FACING is always horizontal (see {@code TransformerBlock}) and is the front face, the one
@@ -23,6 +37,8 @@ import java.util.List;
 public class TransformerBlockEntity extends NetworkBlockEntity implements Probeable, ValueEditable {
 
 	private static final double TURNS_MIN = 1, TURNS_MAX = 1000;
+	/** Primary winding resistance (ohms) and magnetizing inductance (henries) - see the class doc. */
+	private static final double WINDING_OHMS = 1, MAGNETIZING_HENRIES = 2;
 	/** Empty-hand presets, as {N, M} pairs: 1:1, step-up 1:2 and 1:10, step-down 2:1 and 10:1. */
 	private static final double[][] PRESETS = {{1, 1}, {1, 2}, {2, 1}, {1, 10}, {10, 1}};
 
@@ -89,12 +105,18 @@ public class TransformerBlockEntity extends NetworkBlockEntity implements Probea
 		this.nodeInMinus = nodeInMinus;
 		this.nodeOutPlus = nodeOutPlus;
 		this.nodeOutMinus = nodeOutMinus;
-		live = new IdealTransformer(nodeInPlus, nodeInMinus, nodeOutPlus, nodeOutMinus, ratio());
+		int core = circuit.addNode(); // between the winding resistance and the ideal primary
+		circuit.add(new Resistor(nodeInPlus, core, WINDING_OHMS));
+		circuit.add(new Inductor(core, nodeInMinus, MAGNETIZING_HENRIES));
+		live = new IdealTransformer(core, nodeInMinus, nodeOutPlus, nodeOutMinus, ratio());
 		circuit.add(live);
 	}
 
 	public void addToAcCircuit(AcCircuit circuit, int nodeInPlus, int nodeInMinus, int nodeOutPlus, int nodeOutMinus) {
-		circuit.add(new IdealTransformer(nodeInPlus, nodeInMinus, nodeOutPlus, nodeOutMinus, ratio()));
+		int core = circuit.addNode();
+		circuit.add(new Resistor(nodeInPlus, core, WINDING_OHMS));
+		circuit.add(new Inductor(core, nodeInMinus, MAGNETIZING_HENRIES));
+		circuit.add(new IdealTransformer(core, nodeInMinus, nodeOutPlus, nodeOutMinus, ratio()));
 	}
 
 	@Override

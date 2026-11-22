@@ -2666,3 +2666,9 @@ behaving as impedances, a non-overlapping recipe, then GitHub + Modrinth + Curse
   probe 25 V, 2.5 mA into 10 kohm). Known cosmetic: the right-click overlay prints the summary
   *before* the next solve, so its voltages lag one click (same as other components).
 - Release also carries the de/fr/pt_br/zh_cn/hi/ja/ko translations that were on `main` unreleased.
+- Shipped: GitHub `ff06113`/Release `v1.26.3.3` (sha256 `58074c62...`) + README fix `d707403`, Modrinth `H1fIXWUN` (project body re-synced from README), CurseForge file `9759579` (awaiting listing; its project description is still the old 26.2-era README and needs a manual paste of `~/Downloads/circuitsimcraft_description_1.26.3.3.md`). Not deployed to `~/.minecraft`/live server.
+- **Follow-up, same day: DC blocked** at the user's request ("Don't allow it to work in DC!").
+  Primary now has R_w = 1 ohm in series and L_m = 2 H across the ideal primary (extra internal
+  node per transformer, both solvers). Numeric check (5 V DC step, 1:2, 1 kohm): Vout 9.84 V at
+  0.05 s, 3.7 V at 2 s, 0.07 V at 10 s, ~0 at 20 s; supply then draws 5 A (V/R_w). 1 Hz and 0.5 Hz
+  sines: 9.90 / 9.84 V peak of the ideal 10 V; AC sweep corner ~0.08 Hz.
